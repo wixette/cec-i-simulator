@@ -298,7 +298,9 @@
     "flap_grey": {"v": ["#C8C7C0", "#D3C4A2"], "conf": "design", "src": "the slot flap yellows with the case"},
     "foot_white": {"v": ["#C9C3B2", "#CDBE98"], "conf": "design", "src": "the feet, case-coloured"},
     "key_tan": {"v": ["#C1B5A3", "#BFA780"], "conf": "design", "src": "the keycaps a shade darker with the case; as found, a browner yellow"},
-    "ink": {"v": "#2A2622", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler"}
+    "ink": {"v": "#2A2622", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler"},
+    "flat_case": {"v": ["#C6C3BB", "#CAC1A7"], "conf": "design", "src": "the 2D view's case [new, found]: the case's top as the 3D view renders it under its lights (the Keyboard view, sampled on the deck), so that 2D and 3D look alike"},
+    "flat_key": {"v": ["#BBB3A5", "#BAA885"], "conf": "design", "src": "the 2D view's keys [new, found]: the key tops as the 3D view renders them (sampled on the space bar and F3)"}
   },
   "take_apart": {
     "conf": "photo",

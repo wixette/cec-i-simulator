@@ -14,10 +14,11 @@ export const BAKE_PX_MM = 10;
 /**
  * @param {THREE.Object3D} keyboard the model's keyboard node: its keys are its children with
  *   userData.key_id, in its frame x = across (m), z = -(front to back) (m), y up from the plate
+ * @param {string} [keyColour] the keycaps' colour as the 3D view renders them (sRGB), else their material's
  * @returns {{ canvas: HTMLCanvasElement, pxPerMm: number, x0: number, y1: number }} the picture,
  *   and where its top-left corner is in the keyboard's flat frame (model/params/keyboard.json, mm)
  */
-export function bakeKeys(keyboard) {
+export function bakeKeys(keyboard, keyColour) {
   const scene = new THREE.Scene();
   const box = new THREE.Box3();
   for (const k of keyboard.children) {
@@ -27,7 +28,8 @@ export function bakeKeys(keyboard) {
       const m = /** @type {THREE.Mesh} */ (o);
       if (!m.isMesh) return;
       // a matte copy of each material in its colour now: even, no highlights
-      const flat = (/** @type {THREE.Material} */ mat) => new THREE.MeshLambertMaterial({ color: /** @type {THREE.MeshStandardMaterial} */ (mat).color });
+      // the keycaps in the colour given (as the 3D view shows them under its lights), the rest as they are
+      const flat = (/** @type {THREE.Material} */ mat) => new THREE.MeshLambertMaterial({ color: keyColour && mat.name === "key_tan" ? new THREE.Color(keyColour) : /** @type {THREE.MeshStandardMaterial} */ (mat).color });
       m.material = Array.isArray(m.material) ? m.material.map(flat) : flat(m.material);
     });
     scene.add(c);

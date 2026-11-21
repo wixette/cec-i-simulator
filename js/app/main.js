@@ -171,9 +171,11 @@ const strip = new HelperStrip($("helper-strip"), system);
 /** The case as found or as new, in 3D and in 2D. @param {boolean} found */
 const setFinish = (found) => {
   const c = machineParams.colours;
+  const i = found ? 1 : 0;
   model?.setFinish(found);
-  flat.setColours({ case: c.case_plastic.v[found ? 1 : 0], key: c.key_tan.v[found ? 1 : 0], sticker: found ? stickerTint(c.case_plastic.v) : "#FFFFFF" });
-  if (model) flat.setKeyArt(bakeKeys(model.keyboard));
+  // the 2D view in the colours the 3D view shows under its lights (flat_case, flat_key)
+  flat.setColours({ case: c.flat_case.v[i], key: c.flat_key.v[i], sticker: found ? stickerTint(c.case_plastic.v) : "#FFFFFF" });
+  if (model) flat.setKeyArt(bakeKeys(model.keyboard, c.flat_key.v[i]));
 };
 const topBar = new TopBar(system, { about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound: speaker, finish: setFinish, showComputer: () => stage.showComputer() });
 topBar.applyFinish();

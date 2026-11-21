@@ -88,6 +88,17 @@ describe("the model", () => {
     }
   });
 
+  it("the 2D view's case and keys, as new and as found, as the 3D view renders them (flat_case, flat_key)", () => {
+    for (const m of ["flat_case", "flat_key"]) {
+      const v = MACHINE.colours[m].v;
+      assert.ok(Array.isArray(v) && v.length === 2 && v.every((c) => /^#[0-9A-F]{6}$/i.test(c)), m);
+      // rendered under the 3D view's lights, a little darker than the material itself
+      const lum = (/** @type {string} */ h) => [1, 3, 5].reduce((s, i) => s + parseInt(h.slice(i, i + 2), 16), 0);
+      const base = MACHINE.colours[m === "flat_case" ? "case_plastic" : "key_tan"].v;
+      v.forEach((c, i) => assert.ok(lum(c) < lum(base[i]), `${m}[${i}] is darker than the material`));
+    }
+  });
+
   it("the model stays under 8 MB", () => {
     assert.ok(statSync(GLB).size < 8 * 1024 * 1024, `${statSync(GLB).size} bytes`);
   });
