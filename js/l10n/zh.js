@@ -332,6 +332,7 @@ export default {
   "kbd.lookup.plain": "无修饰键",
   "kbd.lookup.code": "U26 的 ${addr}：${code} = {dec} = {ch}",
   "hz.caveat": "真正的中华学习机没有这个视图：汉字系统怎样处理一个汉字，从运行中的机器上读出。按“中文”键，打印一些汉字就能看到。",
+  "hz.var.none": "无",
   "hz.var": "字符串变量",
   "hz.string": "字符串",
   "hz.string.note": "它的字节；127 加两个字节是一个汉字",

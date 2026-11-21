@@ -333,6 +333,7 @@ export default {
   "kbd.lookup.plain": "no modifier",
   "kbd.lookup.code": "U26 at ${addr}: ${code} = {dec} = {ch}",
   "hz.caveat": "A view the real CEC-I never had: what the Chinese system does with a character, read off the running machine. Press 中文 and print some Chinese to see it.",
+  "hz.var.none": "None",
   "hz.var": "The string variable",
   "hz.string": "The string",
   "hz.string.note": "Its bytes; 127 and two more make a character",

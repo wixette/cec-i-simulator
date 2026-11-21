@@ -79,7 +79,14 @@ export class HanziTool {
     if (key === this.shown.string) return;
     this.shown.string = key;
     const names = vars.map((v) => v.name);
-    if (this.varSel.options.length !== names.length || [...this.varSel.options].some((o, i) => o.value !== names[i])) this.varSel.replaceChildren(...names.map((n) => el("option", { value: n, text: n })));
+    if (!names.length) {
+      // no string variable: the menu says so, and cannot be opened
+      this.varSel.replaceChildren(el("option", { value: "", text: t("hz.var.none") }));
+      this.varSel.disabled = true;
+    } else if (this.varSel.disabled || this.varSel.options.length !== names.length || [...this.varSel.options].some((o, i) => o.value !== names[i])) {
+      this.varSel.replaceChildren(...names.map((n) => el("option", { value: n, text: n })));
+      this.varSel.disabled = false;
+    }
     const v = vars.find((x) => x.name === this.varName) ?? vars[0];
     if (v) this.varSel.value = v.name;
     if (!v) return void this.string.replaceChildren(el("p", { class: "empty", text: t("hz.string.none") }));

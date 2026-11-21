@@ -31,7 +31,7 @@ import { el, icon, setTip, showMenu } from "../ui/components.js";
  * The camera's views: the direction each looks from (towards its parts), the parts it frames
  * (the model's nodes, model/README.md), the share of the stage they fill; and a pose, in
  * metres, for before the model is in.
- * @type {Record<ViewName, { dir: Vec, nodes: string[], fill: number, pos: Vec, target: Vec }>}
+ * @type {Record<ViewName, { dir: Vec, nodes: string[], fill: number, back?: number, pos: Vec, target: Vec }>}
  */
 export const VIEWS = {
   // the way in: straight on from the front, 32 degrees above, the TV and the computer framed
@@ -41,7 +41,8 @@ export const VIEWS = {
   angle: { dir: [-0.55, 0.5, 0.75], nodes: ["tv", "case.base", "case.lid"], fill: 0.92, pos: [-0.6, 0.55, 0.8], target: [0, 0.12, -0.1] },
   // the keys from above and in front, as a typist looks down at them
   keyboard: { dir: [0, 0.82, 0.57], nodes: ["keyboard"], fill: 0.96, pos: [0, 0.36, 0.3], target: [0, 0.05, -0.01] },
-  screen: { dir: [0, 0.08, 1], nodes: ["tv.screen"], fill: 0.94, pos: [0, 0.2, 0.45], target: [0, 0.17, -0.26] },
+  // the glass filling the stage, and the camera then 10 cm further back: the TV's front in sight round it
+  screen: { dir: [0, 0.08, 1], nodes: ["tv.screen"], fill: 0.94, back: 0.1, pos: [0, 0.2, 0.45], target: [0, 0.17, -0.26] },
   // from behind, right and above, past the TV (glass while it stands in the way): the sockets
   back: { dir: [0.38, 0.42, -0.82], nodes: ["case.base", "case.lid"], fill: 0.88, pos: [0.3, 0.3, -0.6], target: [0, 0.04, 0] },
   // the lid and the keyboard as glass: the main board, the power supply, the speaker
@@ -206,7 +207,13 @@ export class Stage {
     const { width, height } = viewer.size();
     // the parts where they are going: taken apart, put back
     const boxes = this.model.boxSettled(view.nodes);
-    return frame(corners(boxes), view.dir, FOV, width, height, { top: GAP, right: GAP, bottom: GAP, left: GAP }, view.fill);
+    const pose = frame(corners(boxes), view.dir, FOV, width, height, { top: GAP, right: GAP, bottom: GAP, left: GAP }, view.fill);
+    const back = view.back;
+    if (!back) return pose;
+    // further back along the line of sight
+    const d = pose.pos.map((p, i) => p - pose.target[i]);
+    const len = Math.hypot(...d);
+    return { pos: /** @type {Vec} */ (pose.pos.map((p, i) => p + (d[i] / len) * back)), target: pose.target };
   }
 
   /** The state shown on the band's buttons: called each frame, and does the work only on a change. */
