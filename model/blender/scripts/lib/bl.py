@@ -33,9 +33,9 @@ def _lin(hex_srgb):
 MATERIALS = {
     # name: (base colour, linear RGB; metallic; roughness; texture kind or None)
     # Colours from model/params/machine.json "colours", and photographs of a real machine (a guide only).
-    "case_plastic": (_lin("#DFDACC"), 0.0, 0.62, None),      # the case as new: an off-white, matt-ish
-    "flap_grey": (_lin("#D2D1C9"), 0.0, 0.62, None),         # the slot flap, a little greyer
-    "key_tan": (_lin("#C9BDAB"), 0.0, 0.58, None),           # keycaps
+    "case_plastic": (_lin("#D3CEC1"), 0.0, 0.62, None),      # the case as new: an off-white, matt-ish, toned down so it does not glare
+    "flap_grey": (_lin("#C8C7C0"), 0.0, 0.62, None),         # the slot flap, a little greyer
+    "key_tan": (_lin("#C1B5A3"), 0.0, 0.58, None),           # keycaps
     "ink_dark": (_lin("#2A2622"), 0.0, 0.55, None),          # key legends
     "steel_black": (_lin("#141414"), 0.3, 0.30, None),       # the keyboard's painted steel plate
     "switch_dark": (_lin("#1E1E1E"), 0.0, 0.60, None),       # switch housings and stems
@@ -72,7 +72,7 @@ MATERIALS = {
     "wire_white": (_lin("#E8E6E0"), 0.0, 0.50, None),
     "wire_orange": (_lin("#E07A1E"), 0.0, 0.50, None),
     "rubber_black": ((0.012, 0.012, 0.012), 0.0, 0.85, None),  # the power switch, the grommet
-    "foot_white": (_lin("#D4CEBC"), 0.0, 0.70, None),        # the feet, case-coloured
+    "foot_white": (_lin("#C9C3B2"), 0.0, 0.70, None),        # the feet, case-coloured
     "hole_black": ((0.002, 0.002, 0.002), 0.0, 1.00, None),  # openings
     "led_red": ((0.11, 0.006, 0.004), 0.0, 0.22, None),      # unlit; the page lights it
     "shield_metal": (_lin("#A79F80"), 0.85, 0.45, None),     # the power supply's galvanised shield
@@ -93,8 +93,10 @@ MATERIALS = {
     "speaker_cone": (_lin("#2A2A2A"), 0.0, 0.85, None),
     "speaker_rim": (_lin("#8A6A4A"), 0.0, 0.70, None),
     "wire_brown": (_lin("#5A3A24"), 0.0, 0.50, None),
-    "tv_body": (_lin("#2E2E31"), 0.0, 0.55, None),            # the TV's cabinet, dark grey plastic
-    "tv_front": (_lin("#3B3B3F"), 0.0, 0.45, None),           # its front panel
+    "tv_body": (_lin("#A9ABAD"), 0.35, 0.42, None),           # the TV's cabinet: silver-grey, as colour sets of the late 1980s
+    "tv_front": (_lin("#4A4C50"), 0.0, 0.45, None),           # its control panel, a darker grey
+    "tv_surround": (_lin("#4A4C50"), 0.0, 0.50, None),        # the dark lip round the screen, framing the picture
+    "tv_back": (_lin("#7A7C80"), 0.2, 0.50, None),            # the tube's tapered back, a darker grey
     "tv_trim": ((0.72, 0.73, 0.75), 1.0, 0.30, None),          # the silver line round the screen
     "tv_tube": (_lin("#060606"), 0.0, 0.35, None),            # the tube's black mask behind the glass
     "tv_knob": (_lin("#18181A"), 0.0, 0.40, None),

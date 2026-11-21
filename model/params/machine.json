@@ -294,10 +294,10 @@
   },
   "colours": {
     "_note": "sRGB, as new and as found (yellowed). The case measured has yellowed beyond reading; new it was 'a clean off-white, perhaps faintly yellowish'. The model is built as new; the page swaps each material's colour for the as-found one. Each entry: [new, as found].",
-    "case_plastic": {"v": ["#DFDACC", "#DACAA4"], "conf": "design", "src": "the off-white a shade darker and less glossy than the first try (#E9E4D6), which looked too stark; as found, photographs of the case (a guide only)"},
-    "flap_grey": {"v": ["#D2D1C9", "#D3C4A2"], "conf": "design", "src": "the slot flap yellows with the case"},
-    "foot_white": {"v": ["#D4CEBC", "#CDBE98"], "conf": "design", "src": "the feet, case-coloured"},
-    "key_tan": {"v": ["#C9BDAB", "#BFA780"], "conf": "design", "src": "the keycaps a shade darker with the case; as found, a browner yellow"},
+    "case_plastic": {"v": ["#D3CEC1", "#DACAA4"], "conf": "design", "src": "the off-white a shade darker and less glossy than the first tries (#E9E4D6, #DFDACC), which glared beside the TV on the dark stage; as found, photographs of the case (a guide only)"},
+    "flap_grey": {"v": ["#C8C7C0", "#D3C4A2"], "conf": "design", "src": "the slot flap yellows with the case"},
+    "foot_white": {"v": ["#C9C3B2", "#CDBE98"], "conf": "design", "src": "the feet, case-coloured"},
+    "key_tan": {"v": ["#C1B5A3", "#BFA780"], "conf": "design", "src": "the keycaps a shade darker with the case; as found, a browner yellow"},
     "ink": {"v": "#2A2622", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler"}
   },
   "take_apart": {

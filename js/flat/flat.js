@@ -87,7 +87,7 @@ export class Flat {
     /** Whether the state has been shown once. */
     this.shown = false;
     /** The case's and keys' colours (model/params/machine.json, colours; as new or as found). */
-    this.colours = { case: "#DFDACC", key: "#C9BDAB", ink: "#2A2622", sticker: "#FFFFFF" };
+    this.colours = { case: "#D3CEC1", key: "#C1B5A3", ink: "#2A2622", sticker: "#FFFFFF" };
 
     // the design: the keyboard's width sets it
     this.KW = Math.round((CASE.x1 - CASE.x0) * SCALE);

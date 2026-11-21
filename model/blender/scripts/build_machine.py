@@ -1832,7 +1832,7 @@ def build_tv(p, col, root):
     sx0, sx1, sz0, sz1 = cx - ow / 2, cx + ow / 2, scz - oh / 2, scz + oh / 2
     # the opening, its lip bevelled as the other edges: the cutter flares 2 mm at the front
     cut = loft_obj("_tvso", [(fy - 1.0, sx0 - bv - 1.0, sz0 - bv - 1.0, sx1 + bv + 1.0, sz1 + bv + 1.0, orr + bv + 1.0),
-                             (fy + bv, sx0, sz0, sx1, sz1, orr), (fy + 70.0, sx0, sz0, sx1, sz1, orr)], "tv_body", col)
+                             (fy + bv, sx0, sz0, sx1, sz1, orr), (fy + 70.0, sx0, sz0, sx1, sz1, orr)], "tv_surround", col)
     boolean(cab, cut)
     # the surround round the screen, level with the front
     bw, bd = V(t["bezel"])
@@ -1866,7 +1866,7 @@ def build_tv(p, col, root):
         tun.verts.append((x, fb, z))
     for (x, z) in innr:
         tun.verts.append((x, on_glass(x, z) - 0.5, z))
-    mi = tun._mat("tv_body")                # in the cabinet's colour
+    mi = tun._mat("tv_surround")            # dark, framing the picture
     for i in range(nn):
         j = (i + 1) % nn
         tun._add([i, j, nn + j, nn + i], mi, False)
@@ -1883,12 +1883,12 @@ def build_tv(p, col, root):
     ez0 = rz0 + (rh - eh) * 0.35                       # the end a little low, as the tube's neck
     rear = loft_obj("_tvrear", [(fy + D - 1.0, cx - rw / 2, rz0, cx + rw / 2, rz0 + rh, 30.0),
                                 (fy + D + rd - bv, cx - ew / 2, ez0, cx + ew / 2, ez0 + eh, 20.0),
-                                (fy + D + rd, cx - ew / 2 + bv, ez0 + bv, cx + ew / 2 - bv, ez0 + eh - bv, 20.0 - bv)], "tv_body", col)
+                                (fy + D + rd, cx - ew / 2 + bv, ez0 + bv, cx + ew / 2 - bv, ez0 + eh - bv, 20.0 - bv)], "tv_back", col)
     mb = MeshBuilder()
     for fx in (x0 + 30, x1 - 30):
         for fyy in (fy + 30, fy + D - 30):
             box(mb, fx - 12, fyy - 12, 0.0, fx + 12, fyy + 12, foot + 1.0, "tv_knob", 2.0)
-    # the control panel on the right: a lighter plate, the channel window, two knobs, the slots
+    # the control panel on the right: a darker plate, the channel window, two knobs, the slots
     # the plate centred in the area right of the opening, 14 mm in from each side
     px0, px1 = sx1 + 14.0, x1 - 14.0
     px = (px0 + px1) / 2
