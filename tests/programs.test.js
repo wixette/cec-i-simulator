@@ -139,3 +139,80 @@ describe("our programs: Learn", () => {
     assert.ok(p.m.cycles > 0 && CLOCK_HZ > 0);
   });
 });
+
+/** A lo-res block's colour, x 0-39, y 0-39. @param {import("../js/sim/machine.js").Machine} m @param {number} x @param {number} y */
+const block = (m, x, y) => (m.ram[0x400 + textRowBase(y >> 1) + x] >> ((y & 1) * 4)) & 15;
+/** Where blocks of a colour are. @param {import("../js/sim/machine.js").Machine} m @param {number} c */
+function blocks(m, c) {
+  /** @type {{ x: number, y: number }[]} */
+  const at = [];
+  for (let y = 0; y < 40; y++) for (let x = 0; x < 40; x++) if (block(m, x, y) === c) at.push({ x, y });
+  return at;
+}
+
+describe("our programs: Games", () => {
+  it("Snake: steered on the arrows to a coin, it eats it and grows", () => {
+    const p = typed("snake");
+    p.keys(" ");
+    p.run(2);
+    let dir = "right";
+    for (let i = 0; i < 300 && !/COINS [1-9]/.test(p.screen()); i++) {
+      const head = blocks(p.m, 15)[0];
+      const coin = [...blocks(p.m, 13), ...blocks(p.m, 9), ...blocks(p.m, 11)][0];
+      if (head && coin) {
+        const want = head.x !== coin.x ? (head.x < coin.x ? "right" : "left") : head.y < coin.y ? "down" : "up";
+        const opposite = { left: "right", right: "left", up: "down", down: "up" }[dir];
+        const go = want === opposite ? (head.y < 20 ? "down" : "up") : want;
+        if (go !== dir) {
+          p.keys(`{${go}}`);
+          dir = go;
+        }
+      }
+      p.run(0.05);
+    }
+    assert.match(p.screen(), /COINS [1-9]\d* +LENGTH 5/);
+  });
+  it("Bricks: six rows of nine, pink, orange and yellow; the bat kept under the ball scores", () => {
+    const p = typed("bricks");
+    p.keys(" ");
+    p.run(1);
+    assert.deepEqual([block(p.m, 2, 4), block(p.m, 2, 6), block(p.m, 2, 8)], [11, 9, 13]);
+    for (let i = 0; i < 400 && !/SCORE [1-9]/.test(p.screen()); i++) {
+      const ball = blocks(p.m, 15).find((b) => b.y < 38);
+      const bat = blocks(p.m, 7)[0];
+      if (ball && bat && Math.abs(ball.x - (bat.x + 2.5)) > 1) p.keys(ball.x < bat.x + 2.5 ? "{left}" : "{right}");
+      else p.run(0.05);
+    }
+    assert.match(p.screen(), /SCORE [1-9]/);
+  });
+  it("Mine hunt: the first square safe and a field opened at once; a flag; a mine opened ends it", () => {
+    const p = typed("minehunt");
+    p.keys(" ");
+    p.run(2);
+    p.keys(" ");
+    assert.ok(p.until((t) => /OPEN +[1-9]\d*\/71/.test(t), 10));
+    const mine = [...p.m.ram.subarray(0x6200, 0x6200 + 81)];
+    assert.equal(mine.filter(Boolean).length, 10);
+    for (let x = 3; x <= 5; x++) for (let y = 3; y <= 5; y++) assert.equal(mine[y * 9 + x], 0, "none round the first square");
+    // every count the mines round it
+    for (let i = 0; i < 81; i++) {
+      const [x, y] = [i % 9, Math.floor(i / 9)];
+      let n = 0;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && x + dx >= 0 && x + dx < 9 && y + dy >= 0 && y + dy < 9) n += mine[(y + dy) * 9 + x + dx];
+      assert.equal(p.m.ram[0x6260 + i], n, `square ${i}`);
+    }
+    // to a mine, flag it, then open it
+    const target = mine.indexOf(1);
+    const [tx, ty] = [target % 9, Math.floor(target / 9)];
+    for (let i = 0; i < Math.abs(tx - 4); i++) p.keys(tx > 4 ? "{right}" : "{left}");
+    for (let i = 0; i < Math.abs(ty - 4); i++) p.keys(ty > 4 ? "{down}" : "{up}");
+    p.run(1);
+    p.keys("F");
+    assert.ok(p.until((t) => /FLAGS 1/.test(t), 3));
+    assert.equal(p.m.ram[0x62c0 + target], 2);
+    p.keys("F");
+    p.run(1);
+    p.keys(" ");
+    assert.ok(p.until((t) => /^BOOM!/m.test(t), 5));
+  });
+});

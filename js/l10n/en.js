@@ -377,4 +377,10 @@ export default {
   "sample.bigchar.about": "Give a character's 区位 code; its 16 × 16 dots are drawn large. A few bytes of machine code fetch its 32 bytes from the font chips, through the window the $C0B0 latch opens (the Chinese tab shows the same path).",
   "sample.versus.title": "BASIC against machine code",
   "sample.versus.about": "One picture drawn twice, side by side: the left half by BASIC, the right by machine code, with the same sums and the same PLOT routine in the ROM. Watch how long each takes.",
+  "sample.snake.title": "Snake",
+  "sample.snake.about": "Steer a snake round the lo-res screen with the arrows or the joystick. Coins of three colours are worth 1, 2 and 5, and every bite makes you longer; don't hit the wall or yourself.",
+  "sample.bricks.title": "Bricks",
+  "sample.bricks.about": "Keep the ball up with the bat, on the arrows or the joystick. A pink brick takes three hits, an orange two, a yellow one, and each changes colour as it weakens. Three balls.",
+  "sample.minehunt.title": "Mine hunt",
+  "sample.minehunt.about": "Ten mines under 81 green squares: open every other square. The pips on an open square count the mines round it, as on a die; flag the squares you think hide one. Its board is drawn and opened by machine code, so a field of empty squares opens at once.",
 };
