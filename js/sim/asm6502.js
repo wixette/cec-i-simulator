@@ -167,7 +167,7 @@ function statement(text, labels, pc, n, final, size) {
  * @returns {{ mode: Mode, expr: string }}
  */
 function addressing(operand, modes, n) {
-  const o = operand.replace(/\s+/g, "");
+  const o = operand.replace(/'.'|\s+/g, (m) => (m.startsWith("'") ? m : ""));
   if (!o) {
     if (modes.has("imp")) return { mode: "imp", expr: "" };
     if (modes.has("acc")) return { mode: "acc", expr: "" };
@@ -219,7 +219,8 @@ function byte(v, n, final) {
  * @returns {number | null}
  */
 export function evaluate(src, labels, pc, n, final) {
-  const s = src.replace(/\s+/g, "");
+  // spaces dropped, but for a character's own (' ')
+  const s = src.replace(/'.'|\s+/g, (m) => (m.startsWith("'") ? m : ""));
   let i = 0;
   let unknown = false;
   const fail = (/** @type {string} */ why) => {

@@ -185,35 +185,39 @@ describe("our programs: Games", () => {
     }
     assert.match(p.screen(), /SCORE [1-9]/);
   });
-  it("Mine hunt: the first square safe and a field opened at once; a flag; a mine opened ends it", () => {
+  it("Mine hunt: on the text screen; the first square safe and a field opened at once; a flag; a mine opened ends it", () => {
     const p = typed("minehunt");
     p.keys(" ");
     p.run(2);
     p.keys(" ");
-    assert.ok(p.until((t) => /OPEN +[1-9]\d*\/71/.test(t), 10));
-    const mine = [...p.m.ram.subarray(0x6200, 0x6200 + 81)];
-    assert.equal(mine.filter(Boolean).length, 10);
-    for (let x = 3; x <= 5; x++) for (let y = 3; y <= 5; y++) assert.equal(mine[y * 9 + x], 0, "none round the first square");
-    // every count the mines round it
-    for (let i = 0; i < 81; i++) {
-      const [x, y] = [i % 9, Math.floor(i / 9)];
+    assert.ok(p.until((t) => /OPEN +[1-9]\d*\/216/.test(t), 10));
+    assert.ok(p.m.text, "the text screen");
+    const mine = [...p.m.ram.subarray(0x6200, 0x6300)];
+    assert.equal(mine.filter(Boolean).length, 40);
+    for (let x = 7; x <= 9; x++) for (let y = 7; y <= 9; y++) assert.equal(mine[y * 16 + x], 0, "none round the first square");
+    // every count the mines round it, and every open square shows its count
+    const lines = p.m.screenText();
+    for (let i = 0; i < 256; i++) {
+      const [x, y] = [i % 16, Math.floor(i / 16)];
       let n = 0;
-      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && x + dx >= 0 && x + dx < 9 && y + dy >= 0 && y + dy < 9) n += mine[(y + dy) * 9 + x + dx];
-      assert.equal(p.m.ram[0x6260 + i], n, `square ${i}`);
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && x + dx >= 0 && x + dx < 16 && y + dy >= 0 && y + dy < 16) n += mine[(y + dy) * 16 + x + dx];
+      assert.equal(p.m.ram[0x6300 + i], n, `square ${i}`);
+      if (p.m.ram[0x6400 + i] === 1 && (x !== 8 || y !== 8)) assert.equal(lines[3 + y][4 + 2 * x] ?? " ", n ? String(n) : " ", `square ${i} shown`);
     }
     // to a mine, flag it, then open it
     const target = mine.indexOf(1);
-    const [tx, ty] = [target % 9, Math.floor(target / 9)];
-    for (let i = 0; i < Math.abs(tx - 4); i++) p.keys(tx > 4 ? "{right}" : "{left}");
-    for (let i = 0; i < Math.abs(ty - 4); i++) p.keys(ty > 4 ? "{down}" : "{up}");
+    const [tx, ty] = [target % 16, Math.floor(target / 16)];
+    for (let i = 0; i < Math.abs(tx - 8); i++) p.keys(tx > 8 ? "{right}" : "{left}");
+    for (let i = 0; i < Math.abs(ty - 8); i++) p.keys(ty > 8 ? "{down}" : "{up}");
     p.run(1);
     p.keys("F");
     assert.ok(p.until((t) => /FLAGS 1/.test(t), 3));
-    assert.equal(p.m.ram[0x62c0 + target], 2);
+    assert.equal(p.m.ram[0x6400 + target], 2);
     p.keys("F");
     p.run(1);
     p.keys(" ");
     assert.ok(p.until((t) => /^BOOM!/m.test(t), 5));
+    assert.equal(p.m.screenText()[3 + ty][4 + 2 * tx], "*", "the mines shown");
   });
 });
 

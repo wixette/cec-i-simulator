@@ -429,7 +429,8 @@ R3      CLC
         BNE ROW
         RTS
 ; where each hand's tip is, across and down from the centre, at each of its 60
-; places: the hour hand 38 dots long, the minute hand 60, the second hand 66
+; places: the hour hand 34 dots long, the minute hand 52, the second hand 58, all short
+; of the marks round the face (from 64 dots out), so that none is drawn over
 ; (a dot is narrower than it is high: across, 1.094 times as many)
 TIPX    ${tips((r, a) => r * Math.sin(a) * 1.094)}
 TIPY    ${tips((r, a) => -r * Math.cos(a))}`,
@@ -438,14 +439,14 @@ TIPY    ${tips((r, a) => -r * Math.cos(a))}`,
 ];
 
 /**
- * The clock's hand tables, as assembly: for each hand (38, 60 and 66 dots long) and each of its
+ * The clock's hand tables, as assembly: for each hand (34, 52 and 58 dots long) and each of its
  * 60 places, one coordinate of its tip, rounded, as .byte lines of 20.
  * @param {(r: number, a: number) => number} f the coordinate from the length and the angle
  */
 function tips(f) {
   /** @type {number[]} */
   const all = [];
-  for (const r of [38, 60, 66]) for (let i = 0; i < 60; i++) all.push(Math.round(f(r, (i * Math.PI) / 30)));
+  for (const r of [34, 52, 58]) for (let i = 0; i < 60; i++) all.push(Math.round(f(r, (i * Math.PI) / 30)));
   /** @type {string[]} */
   const lines = [];
   for (let i = 0; i < all.length; i += 20) lines.push(`.byte ${all.slice(i, i + 20).join(", ")}`);
