@@ -29,6 +29,17 @@ export const VISIBLE_LINES = 192;
 
 /** @typedef {{ u7: Uint8Array, u35: Uint8Array, u33: Uint8Array, u34: Uint8Array, u13: Uint8Array, u26: Uint8Array }} Roms */
 
+/**
+ * The memory traffic in a stretch of time, as counts of reads and writes: of main RAM by its
+ * 256-byte page ($00-$BF), of the language card's RAM, and by chip: U7 the system ROM, U35
+ * the Chinese ROM, the font ROMs U33 and U34 (through the window), the latch U32 (written),
+ * and the I/O page.
+ * @typedef {{ pages: Uint32Array, lc: number, u7: number, u35: number, font: number, latch: number, io: number }} Traffic
+ */
+
+/** @returns {Traffic} */
+const newTraffic = () => ({ pages: new Uint32Array(0xc0), lc: 0, u7: 0, u35: 0, font: 0, latch: 0, io: 0 });
+
 /** The font ROMs' bytes as the CPU reads them: U33 at even addresses, U34 at odd, each byte's bits reversed (their D7 is wired to MD0). @param {Uint8Array} u33 @param {Uint8Array} u34 */
 export function interleaveFont(u33, u34) {
   const rev = new Uint8Array(256);
@@ -50,6 +61,14 @@ export class Machine {
   constructor(roms) {
     this.roms = roms;
     this.font = interleaveFont(roms.u33, roms.u34);
+    /** The memory traffic since takeTraffic() last took it. */
+    this.traffic = newTraffic();
+    /**
+     * The instruments' hooks, called as the machine works, or null while none watches (the
+     * Chinese tool, js/sim/glyphs.js): the latch written, a byte read through the font window.
+     * @type {{ latch: (v: number) => void, font: (addr: number, value: number) => void } | null}
+     */
+    this.watch = null;
     this.ram = new Uint8Array(0x10000);
     /** The language card's RAM: $D000 bank 1, $D000 bank 2, $E000-$FFFF. */
     this.lc = new Uint8Array(0x4000);
@@ -166,17 +185,36 @@ export class Machine {
   }
 
   /**
-   * Run at least `n` cycles. @param {number} n
+   * Run at least `n` cycles; with stops, until the 6502 is about to run an instruction at one
+   * of them (Run to).
+   * @param {number} n
+   * @param {ReadonlySet<number>} [stops]
+   * @param {boolean} [leaving] the 6502 is at a stop now and is to leave it: its instruction runs
    * @returns {number} the cycles run
    */
-  run(n) {
+  run(n, stops, leaving = false) {
     if (!this.powered) return 0;
     const cpu = this.cpu;
     const end = cpu.cycles + n;
     const c0 = cpu.cycles;
     if (this.resetLow) cpu.cycles = end; // held in reset: the clock runs, the 6502 does not
-    while (cpu.cycles < end) cpu.step();
+    if (stops?.size) {
+      // Run to: before each instruction, whether the 6502 is at a stop (the first one excepted
+      // when leaving one)
+      let first = leaving;
+      while (cpu.cycles < end) {
+        if (!first && stops.has(cpu.pc)) break;
+        first = false;
+        cpu.step();
+      }
+    } else while (cpu.cycles < end) cpu.step();
     return cpu.cycles - c0;
+  }
+
+  /** One instruction (the CPU tool's Step), or none while held in reset. @returns {number} its cycles */
+  step() {
+    if (!this.powered || this.resetLow) return 0;
+    return this.cpu.step();
   }
 
   // --- the keyboard (the KB3600 and U26) ------------------------------------------------
@@ -196,40 +234,101 @@ export class Machine {
 
   /** @param {number} a */
   read(a) {
-    if (a < 0x0200) return this.ram[a]; // aux zero page and stack are main's (CEC)
+    const t = this.traffic;
+    if (a < 0x0200) {
+      t.pages[a >> 8]++;
+      return this.ram[a]; // aux zero page and stack are main's (CEC)
+    }
     if (a < 0xc000) {
       if (this.ramrd && a >= 0x4000) {
         if (a < 0x8000) {
-          return this.font[((this.c0b0 & 0x0f) << 14) + a - 0x4000];
+          t.font++;
+          const addr = ((this.c0b0 & 0x0f) << 14) + a - 0x4000;
+          this.watch?.font(addr, this.font[addr]);
+          return this.font[addr];
         }
+        if (this.c0b0 & 0x20) t.u7++;
+        else t.u35++;
         return (this.c0b0 & 0x20 ? this.roms.u7 : this.roms.u35)[a - 0x8000];
       }
+      t.pages[a >> 8]++;
       return this.ram[a];
     }
-    if (a < 0xc100) return this.io(a, false, 0);
+    if (a < 0xc100) {
+      t.io++;
+      return this.io(a, false, 0);
+    }
     if (a < 0xd000) return this.cx(a);
     // the Chinese ROM at aux $D000 needs ALTZP and LC read-RAM (the machine's page sums; U35 $C3AB)
-    if (this.lcread && this.altzp) return this.roms.u35[0x5000 + a - 0xd000];
+    if (this.lcread && this.altzp) {
+      t.u35++;
+      return this.roms.u35[0x5000 + a - 0xd000];
+    }
     if (this.lcread) {
+      t.lc++;
       if (a < 0xe000) return this.lc[(this.lcbank2 ? 0 : 0x1000) + a - 0xd000];
       return this.lc[0x2000 + a - 0xe000];
     }
+    t.u7++;
     return this.roms.u7[0x5000 + a - 0xd000];
+  }
+
+  /**
+   * A byte as the CPU would read it now, without what reading does (the instruments: the
+   * disassembler, the memory dump): the soft switches and the keyboard's strobe stay as they
+   * are, and the I/O page reads as the keyboard's latch ($C000-$C00F) or 0.
+   * @param {number} a
+   */
+  peek(a) {
+    a &= 0xffff;
+    if (a < 0xc000) {
+      if (a >= 0x4000 && this.ramrd) return a < 0x8000 ? this.font[((this.c0b0 & 0x0f) << 14) + a - 0x4000] : (this.c0b0 & 0x20 ? this.roms.u7 : this.roms.u35)[a - 0x8000];
+      return this.ram[a];
+    }
+    if (a < 0xc010) return this.kbd | (this.strobe ? 0x80 : 0);
+    if (a < 0xc100) return 0;
+    if (a < 0xd000) {
+      const u7 = this.roms.u7;
+      if (this.intcx) return u7[0x4000 + a - 0xc000];
+      if (a >= 0xc300 && a < 0xc400) return this.slotc3 ? this.roms.u35[0x4000 + a - 0xc000] : u7[0x4000 + a - 0xc000];
+      if (a >= 0xc800) return this.intc8 ? u7[0x4000 + a - 0xc000] : 0xff;
+      if (a >= 0xc600 && a < 0xc700) return this.roms.u35[0x4000 + a - 0xc000];
+      return 0xff;
+    }
+    if (this.lcread && this.altzp) return this.roms.u35[0x5000 + a - 0xd000];
+    if (this.lcread) return a < 0xe000 ? this.lc[(this.lcbank2 ? 0 : 0x1000) + a - 0xd000] : this.lc[0x2000 + a - 0xe000];
+    return this.roms.u7[0x5000 + a - 0xd000];
+  }
+
+  /**
+   * The memory traffic since the last call, by chip and by region, and counted again from 0
+   * (the CPU tool's memory map, Inside's lit chips).
+   * @returns {Traffic}
+   */
+  takeTraffic() {
+    const t = this.traffic;
+    this.traffic = newTraffic();
+    return t;
   }
 
   /** @param {number} a @param {number} v */
   write(a, v) {
+    const t = this.traffic;
     if (a < 0x0200) {
+      t.pages[a >> 8]++;
       this.ram[a] = v;
       return;
     }
     if (a < 0xc000) {
       // aux writes: $0200-$3FFF is main RAM again; above it, ROM (no write)
       if (this.ramwrt && a >= 0x4000) return;
+      t.pages[a >> 8]++;
       this.ram[a] = v;
       return;
     }
     if (a < 0xc100) {
+      t.io++;
+      if ((a & 0xf0) === 0xb0) t.latch++;
       this.io(a, true, v);
       return;
     }
@@ -238,6 +337,7 @@ export class Machine {
       return;
     }
     if (this.lcwrite && !this.altzp) {
+      t.lc++;
       if (a < 0xe000) this.lc[(this.lcbank2 ? 0 : 0x1000) + a - 0xd000] = v;
       else this.lc[0x2000 + a - 0xe000] = v;
     }
@@ -246,19 +346,29 @@ export class Machine {
   /** @private $C100-$CFFF @param {number} a */
   cx(a) {
     const u7 = this.roms.u7;
-    if (this.intcx) return u7[0x4000 + a - 0xc000];
+    const t = this.traffic;
+    if (this.intcx) {
+      t.u7++;
+      return u7[0x4000 + a - 0xc000];
+    }
     if (a >= 0xc300 && a < 0xc400) {
       if (!this.slotc3) {
         this.intc8 = true;
+        t.u7++;
         return u7[0x4000 + a - 0xc000];
       }
+      t.u35++;
       return this.roms.u35[0x4000 + a - 0xc000];
     }
     if (a >= 0xc800) {
       if (a === 0xcfff) this.intc8 = false;
+      if (this.intc8) t.u7++;
       return this.intc8 ? u7[0x4000 + a - 0xc000] : 0xff;
     }
-    if (a >= 0xc600 && a < 0xc700) return this.roms.u35[0x4000 + a - 0xc000];
+    if (a >= 0xc600 && a < 0xc700) {
+      t.u35++;
+      return this.roms.u35[0x4000 + a - 0xc000];
+    }
     return 0xff;
   }
 
@@ -356,7 +466,10 @@ export class Machine {
       return 0;
     }
     if (lo >= 0xb0 && lo < 0xc0) {
-      if (write) this.c0b0 = v & 0x3f;
+      if (write) {
+        this.c0b0 = v & 0x3f;
+        this.watch?.latch(this.c0b0);
+      }
       return 0xbf; // written only: a read sees the floating bus
     }
     return 0; // the empty slots and the disk controller (no drive)

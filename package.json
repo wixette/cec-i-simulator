@@ -1,6 +1,6 @@
 {
   "name": "cec-i-simulator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
   "description": "The CEC-I 中华学习机 (China Educational Computer, 1987) in 3D in your browser: switch it on, write Chinese in BASIC, and open it up.",

@@ -63,3 +63,7 @@ The lid, the keyboard and the main board come out in the real order (the lid's s
 ## D12. The 3D model in plain git
 
 `model/cec-i.glb` (about 5 MB) is committed as it is, not in Git LFS: GitHub Pages serves the repository as it is, and does not serve LFS files. It is rebuilt from the parameters by `pnpm build:model` (Blender); `tests/model.test.js` holds it to what the page needs.
+
+## D13. The instruments read the machine; only the clock is theirs to change
+
+*(v0.0.2)* The four instruments read the running machine through `Machine.peek` (no strobe cleared, no switch flipped), its traffic counters and a watch on the $C0B0 latch and the font window; they never write to it. The CPU tool alone changes something: the clock (Pause, Step, Run to, slower). Paused, the whole machine waits, the picture, the keys and typing with it, so what a visitor sees stays one consistent moment. There is no editing of memory or registers: a lesson can do that in a program, the visible way.

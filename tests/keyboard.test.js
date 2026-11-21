@@ -39,6 +39,21 @@ describe("the keys' codes, from U26, as GET reads them on a real machine", () =>
   });
 });
 
+describe("U26's lookup, for the Keyboard tool", () => {
+  it("G with Shift: X4 Y3, group 43, at $0AD with Caps Lock down, giving $47 (G)", () => {
+    const k = kb();
+    assert.deepEqual(k.lookup("g", { shift: true }), { id: "g", x: 4, y: 3, group: 43, shift: true, ctrl: false, caps: true, addr: 0xad, code: 0x47 });
+  });
+  it("Caps Lock up adds $200, Ctrl 2; the last key pressed is kept", () => {
+    const k = kb();
+    assert.equal(k.lookup("g", { caps: false, ctrl: true })?.addr, 0x200 + 4 * 43 + 2);
+    k.m.powerOn();
+    k.down("g");
+    assert.equal(k.last?.id, "g");
+    assert.equal(k.lookup("ctrl"), null);
+  });
+});
+
 describe("pressing keys", () => {
   it("a key's code goes into the latch with the strobe; held, it repeats after its delay", () => {
     const k = kb();

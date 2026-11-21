@@ -42,6 +42,19 @@ const LAMP_GLOW = 1.1;
 const BUTTON_S = 0.18;
 /** How long the slot's flap takes to swing, s. */
 const FLAP_S = 0.35;
+/**
+ * The chips Inside lights as they work (docs/ui-design.md, U12), and their colours: one colour
+ * a kind of chip, as the TRS-80 simulator's (the processor amber, RAM violet, ROM green).
+ */
+const GLOW = /** @type {const} */ ({
+  cpu: { parts: ["part.u1"], colour: "#ff8a3d" },
+  ram: { parts: ["part.u5", "part.u6"], colour: "#d16cff" },
+  u7: { parts: ["part.u7"], colour: "#55d18a" },
+  u35: { parts: ["part.u35"], colour: "#3ddcb8" },
+  font: { parts: ["part.u33", "part.u34"], colour: "#ffd24a" },
+  latch: { parts: ["part.u32"], colour: "#ff5a46" },
+  chargen: { parts: ["part.u13"], colour: "#4a7dff" },
+});
 
 /**
  * @typedef {object} Hover what the pointer is over, for the stage's label
@@ -200,6 +213,12 @@ export class Machine3D {
     /** Whether the lid and the keyboard are glass (the Inside view). */
     this.inside = false;
 
+    // the chips Inside lights: each one's materials its own, with an emissive colour at 0
+    /** @private @type {Record<keyof typeof GLOW, { mats: THREE.MeshStandardMaterial[], level: number }>} */
+    this.glow = /** @type {any} */ (Object.fromEntries(
+      Object.entries(GLOW).map(([k, g]) => [k, { mats: g.parts.flatMap((n) => this.glowMaterials(this.node(n), g.colour)), level: 0 }]),
+    ));
+
     this.bindPointer();
     viewer.onFrame.push((dt) => this.tick(dt));
   }
@@ -253,6 +272,65 @@ export class Machine3D {
     return out;
   }
 
+  /**
+   * @private Every material under a node, cloned, with an emissive colour at 0.
+   * @param {THREE.Object3D} node
+   * @param {string} colour
+   * @returns {THREE.MeshStandardMaterial[]}
+   */
+  glowMaterials(node, colour) {
+    /** @type {THREE.MeshStandardMaterial[]} */
+    const out = [];
+    node.traverse((o) => {
+      const mesh = /** @type {THREE.Mesh} */ (o);
+      if (!mesh.isMesh) return;
+      const list = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map((x) => {
+        const c = /** @type {THREE.MeshStandardMaterial} */ (x.clone());
+        c.emissive = new THREE.Color(colour);
+        c.emissiveIntensity = 0;
+        out.push(c);
+        return c;
+      });
+      mesh.material = Array.isArray(mesh.material) ? list : list[0];
+    });
+    return out;
+  }
+
+  /**
+   * @private The chips lit by their share of the frame's memory traffic, eased: the RAM, U7,
+   * U35 and the font ROMs; the latch flashing as it is written; the character ROM while text is
+   * shown; the 6502 while it runs. Only Inside shows them: the lid hides them otherwise.
+   * @param {number} dt
+   */
+  tickGlow(dt) {
+    const s = this.system;
+    const m = s.machine;
+    const t = s.traffic;
+    const run = m.powered && !s.paused;
+    let ramN = t.lc;
+    for (const n of t.pages) ramN += n;
+    const total = ramN + t.u7 + t.u35 + t.font;
+    const ease = Math.min(1, dt * 8);
+    /** @param {keyof typeof GLOW} k @param {number} target */
+    const set = (k, target) => {
+      const g = this.glow[k];
+      g.level += (target - g.level) * ease;
+      for (const x of g.mats) x.emissiveIntensity = g.level;
+    };
+    /** @param {number} n */
+    const share = (n) => (run && total && n ? 0.25 + 0.65 * Math.sqrt(n / total) : 0);
+    set("cpu", run ? 0.6 : 0);
+    set("ram", share(ramN));
+    set("u7", share(t.u7));
+    set("u35", share(t.u35));
+    set("font", share(t.font));
+    // the latch: a flash for each write, fading
+    const latch = this.glow.latch;
+    latch.level = run && t.latch ? 1 : Math.max(0, latch.level - dt * 3);
+    for (const x of latch.mats) x.emissiveIntensity = latch.level;
+    set("chargen", m.powered && (m.text || m.mixed) ? 0.5 : 0);
+  }
+
   // ---- each frame -------------------------------------------------------------------------------
 
   /** @private @param {number} dt */
@@ -296,6 +374,7 @@ export class Machine3D {
     this.placeUnits((u) => s.motion.get(u)?.f ?? 0);
     this.ribbon.update(s.motion.get("keyboard")?.f ?? 0);
     this.ghostTvInTheWay();
+    if (this.inside) this.tickGlow(dt);
   }
 
   /** Shows the machine's picture on the TV. @param {import("./tv.js").Picture} p */
@@ -329,6 +408,8 @@ export class Machine3D {
     if (on === this.inside) return;
     this.inside = on;
     ghost([this.lid, this.keyboard], on);
+    // out of Inside, the chips dark again
+    if (!on) for (const g of Object.values(this.glow)) for (const x of g.mats) x.emissiveIntensity = g.level = 0;
   }
 
   /** As found (the plastic yellowed) or as new. @param {boolean} found */

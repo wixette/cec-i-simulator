@@ -17,6 +17,7 @@ export const REPEAT_HZ = 8.3;
 
 /** @typedef {Record<string, [number, number] | string>} Matrix model/params/keyboard_matrix.json's keys */
 /** @typedef {{ id: string, shift: boolean, ctrl: boolean }} Stroke a key, and the modifiers held with it */
+/** @typedef {{ id: string, x: number, y: number, group: number, shift: boolean, ctrl: boolean, caps: boolean, addr: number, code: number }} Lookup a key's code as U26 gives it */
 
 /** Keys that act on the machine directly and give no code. */
 export const NO_CODE = new Set(["reset", "ctrl", "lshift", "rshift", "capslock"]);
@@ -35,6 +36,27 @@ export class Keyboard {
     this.caps = true;
     /** The key held, and when it repeats next (cycles). @type {{ id: string, next: number } | null} */
     this.held = null;
+    /** The last key's code, as U26 gave it (the Keyboard tool). @type {Lookup | null} */
+    this.last = null;
+  }
+
+  /**
+   * How U26 gives a key's code: the key's place in the matrix, its group (10 X + Y), the byte's
+   * address in the ROM (Caps Lock up adds $200; four bytes a group: plain, Shift, Ctrl, both),
+   * and the code there. Null for a key with no code.
+   * @param {string} id
+   * @param {{ shift?: boolean, ctrl?: boolean, caps?: boolean }} [mods] as now, unless given
+   * @returns {Lookup | null}
+   */
+  lookup(id, mods = {}) {
+    const at = this.matrix[id];
+    if (!Array.isArray(at)) return null;
+    const shift = mods.shift ?? this.shift;
+    const ctrl = mods.ctrl ?? this.ctrl;
+    const caps = mods.caps ?? this.caps;
+    const group = 10 * at[0] + at[1];
+    const addr = (caps ? 0 : 0x200) + 4 * group + (shift ? 1 : 0) + (ctrl ? 2 : 0);
+    return { id, x: at[0], y: at[1], group, shift, ctrl, caps, addr, code: this.m.roms.u26[addr] & 0x7f };
   }
 
   /**
@@ -43,13 +65,7 @@ export class Keyboard {
    * @param {{ shift?: boolean, ctrl?: boolean, caps?: boolean }} [mods] as now, unless given
    */
   code(id, mods = {}) {
-    const at = this.matrix[id];
-    if (!Array.isArray(at)) return null;
-    const g = 10 * at[0] + at[1];
-    const shift = mods.shift ?? this.shift;
-    const ctrl = mods.ctrl ?? this.ctrl;
-    const caps = mods.caps ?? this.caps;
-    return this.m.roms.u26[(caps ? 0 : 0x200) + 4 * g + (shift ? 1 : 0) + (ctrl ? 2 : 0)] & 0x7f;
+    return this.lookup(id, mods)?.code ?? null;
   }
 
   /**
@@ -82,9 +98,10 @@ export class Keyboard {
       if (this.ctrl) this.m.holdReset(true); // Ctrl-Reset: the line held low while both are down
       return;
     }
-    const c = this.code(id);
-    if (c === null) return;
-    this.m.keyPress(c);
+    const l = this.lookup(id);
+    if (!l) return;
+    this.last = l;
+    this.m.keyPress(l.code);
     this.held = { id, next: this.m.cycles + REPEAT_DELAY_S * CLOCK_HZ };
   }
 

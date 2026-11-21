@@ -536,3 +536,18 @@ for (const line of TABLE.trim().split("\n")) {
     DOCUMENTED[op] = true;
   }
 }
+
+/** The addressing modes' names, by their number in MODE. @type {Record<number, string>} */
+const MODE_NAME = Object.fromEntries(Object.entries(MODES).map(([k, v]) => [v, k]));
+
+/** @typedef {"imp" | "acc" | "imm" | "zp" | "zpx" | "zpy" | "abs" | "abx" | "aby" | "izx" | "izy" | "ind" | "rel"} Mode */
+
+/**
+ * What an opcode is, for the disassembler (js/sim/disasm.js): its name, its addressing mode,
+ * its cycles (the least: a page crossed or a branch taken adds), whether it is documented.
+ * @param {number} op
+ * @returns {{ name: string, mode: Mode, cycles: number, documented: boolean }}
+ */
+export function opInfo(op) {
+  return { name: DOCUMENTED[op] ? OPS[op] : "???", mode: /** @type {Mode} */ (MODE_NAME[MODE[op]]), cycles: CYCLES[op], documented: DOCUMENTED[op] };
+}
