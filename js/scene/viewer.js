@@ -78,7 +78,8 @@ export class Viewer {
     this.scene = new THREE.Scene();
     const pmrem = new THREE.PMREMGenerator(this.renderer);
     this.scene.environment = pmrem.fromScene(studioEnvironment(), 0.04).texture;
-    this.scene.environmentIntensity = 0.9;
+    // the studio's reflections kept low: a bright dome washed the yellowed case out to a pale cream
+    this.scene.environmentIntensity = 0.5;
     this.camera = new THREE.PerspectiveCamera(FOV, 1, 0.01, 20);
     this.controls = new OrbitControls(this.camera, this.canvas);
     this.controls.enableDamping = true;
@@ -88,9 +89,11 @@ export class Viewer {
     this.controls.maxPolarAngle = Math.PI;
     this.controls.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" };
     this.controls.listenToKeyEvents(this.canvas);
-    this.scene.add(new THREE.HemisphereLight(0xdfe6ee, 0x202326, 0.55));
-    const key = new THREE.DirectionalLight(0xffffff, 1.6);
-    key.position.set(-0.8, 1.6, 1.0);
+    // a faint warm sky, and the key light low from the front left: lit from high above, the
+    // case's top came out far lighter than its other faces, and no longer read as yellowed
+    this.scene.add(new THREE.HemisphereLight(0xefeae0, 0x202326, 0.3));
+    const key = new THREE.DirectionalLight(0xffffff, 1.15);
+    key.position.set(-0.9, 0.6, 1.6);
     key.castShadow = true;
     key.shadow.mapSize.set(2048, 2048);
     key.shadow.camera.left = -0.9;
