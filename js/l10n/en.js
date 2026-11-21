@@ -4,7 +4,10 @@
 // follows (tests/l10n.test.js). The machine's own words (its screen, its key legends, the TV's
 // printing) are not here: they stay as the machine has them (docs/ui-design.md, P5).
 
+import LESSONS from "./lessons.en.js";
+
 export default {
+  ...LESSONS,
   "app.name": "CEC-I Simulator",
   "app.title": "CEC-I Simulator: the China Educational Computer 中华学习机 of 1987, in 3D",
 
@@ -94,6 +97,22 @@ export default {
 
   // the dock
   "dock.start": "Start",
+  "dock.lessons": "Lessons",
+  "lessons.bar": "The lessons",
+  "lessons.of": "Lesson {n} of {of}",
+  "lessons.typeIt": "Type it",
+  "lessons.typeIt.tip": "Type this on the machine's keys for you",
+  "lessons.openProgram": "Open {title}",
+  "lessons.openProgram.tip": "Open the program, to see it and type it in",
+  "lessons.showMe": "Show me",
+  "lessons.showMe.tip": "Show what this step is about",
+  "lessons.more": "Going further",
+  "lessons.next": "Next: {title}",
+  "lessons.end": "That was the last lesson. Programs has more to try.",
+  "lessons.closeTool": "Close",
+  "lessons.typing": "Typing the step's line in…",
+  "lessons.toolAway": "This instrument is beside the lesson now.",
+  "start.lessons": "Begin the lessons",
   "dock.refs": "References",
   "dock.resize": "Drag to resize the dock",
   "dock.fold": "Fold the dock",

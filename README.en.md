@@ -10,7 +10,7 @@
 
 ![The simulator: the CEC-I and its TV in 3D, the screen showing a BASIC program's Chinese output, the Start tab below](screenshots/app.jpg)
 
-> A pre-release (v0.0.3). Sixteen programs of our own in Programs (games, Chinese, music, LOGO and more), and four instruments below the machine that show how it works. Lessons and the cassette recorder are still to come ([roadmap](design/roadmap.md)).
+> A pre-release (v0.0.4). Six short lessons, sixteen programs of our own in Programs (games, Chinese, music, LOGO and more), and four instruments below the machine that show how it works. The cassette recorder is still to come ([roadmap](design/roadmap.md)).
 
 ## What was the CEC-I?
 
@@ -37,7 +37,8 @@ This simulator is that machine, part for part:
 3. **Press 中文** (Page Up on your keyboard, or Alt-Z): the Chinese system starts. 西文 (Page Down, or Alt-X) goes back.
 4. **Write Chinese:** Programs ▸ Type in, paste a BASIC program with Chinese in it, and Type it in. The simulator types it on the machine's keys, the Chinese through its own 区位 input.
 5. **Play:** Programs ▸ Games ▸ Snake, and Type it in; steer with the arrows.
-6. **Open it up:** switch it off, and choose Taken apart from the 3D views.
+6. **Learn:** the Lessons tab under the machine has six short lessons, from switching on to the processor's own steps.
+7. **Open it up:** switch it off, and choose Taken apart from the 3D views.
 
 **Your keyboard is the CEC-I's.** Letters, digits and signs where they are; its own keys:
 

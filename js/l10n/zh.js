@@ -3,7 +3,10 @@
 // The page's words in Simplified Chinese: the same keys as js/l10n/en.js
 // (tests/l10n.test.js). The machine's own words stay as the machine has them (P5).
 
+import LESSONS from "./lessons.zh.js";
+
 export default {
+  ...LESSONS,
   "app.name": "中华学习机模拟器",
   "app.title": "中华学习机模拟器：1987 年的 CEC-I 中华学习机，3D 再现",
 
@@ -93,6 +96,22 @@ export default {
 
   // the dock
   "dock.start": "入门",
+  "dock.lessons": "课程",
+  "lessons.bar": "课程",
+  "lessons.of": "第 {n} 课，共 {of} 课",
+  "lessons.typeIt": "替我输入",
+  "lessons.typeIt.tip": "用学习机的键替你输入这一行",
+  "lessons.openProgram": "打开《{title}》",
+  "lessons.openProgram.tip": "打开这个程序，看看它，再输入它",
+  "lessons.showMe": "给我看",
+  "lessons.showMe.tip": "显示这一步讲的东西",
+  "lessons.more": "再多知道一点",
+  "lessons.next": "下一课：{title}",
+  "lessons.end": "这是最后一课了。“程序”菜单里还有更多可以试试。",
+  "lessons.closeTool": "关闭",
+  "lessons.typing": "正在输入这一步的内容…",
+  "lessons.toolAway": "这个仪表现在在课程旁边。",
+  "start.lessons": "开始上课",
   "dock.refs": "参考资料",
   "dock.resize": "拖动以调整面板高度",
   "dock.fold": "收起面板",

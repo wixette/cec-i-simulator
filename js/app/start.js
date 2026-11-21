@@ -8,7 +8,7 @@
 
 import { t } from "../l10n/l10n.js";
 import { LEGEND } from "../sim/host-keys.js";
-import { el } from "../ui/components.js";
+import { el, icon } from "../ui/components.js";
 
 /** The user manual, transcribed (the cec-i-docs repository). */
 const MANUAL = "https://github.com/wixette/cec-i-docs/tree/main/docs/01-user-manual";
@@ -27,8 +27,8 @@ export function rich(text) {
 }
 
 export class StartTool {
-  /** @param {HTMLElement} host */
-  constructor(host) {
+  /** @param {HTMLElement} host @param {() => void} [toLessons] opens the Lessons tab */
+  constructor(host, toLessons) {
     const p = (/** @type {string} */ key) => el("p", {}, rich(t(key)));
     const h = (/** @type {string} */ key) => el("h3", { text: t(key) });
     const list = (/** @type {"ol" | "ul"} */ tag, /** @type {string} */ prefix, /** @type {number} */ n) => el(tag, {}, Array.from({ length: n }, (_, i) => el("li", {}, rich(t(`${prefix}.${i + 1}`)))));
@@ -46,6 +46,7 @@ export class StartTool {
         p("start.what.2"),
         h("start.first.head"),
         list("ol", "start.first", 5),
+        toLessons ? lessonsButton(toLessons) : null,
         h("start.keys.head"),
         p("start.keys.intro"),
         keys,
@@ -57,4 +58,11 @@ export class StartTool {
       ]),
     );
   }
+}
+
+/** The button that opens the lessons, under the first minutes. @param {() => void} go */
+function lessonsButton(go) {
+  const b = el("button", { class: "btn tonal has-icon start-lessons", type: "button" }, [icon("auto_stories"), el("span", { text: t("start.lessons") })]);
+  b.addEventListener("click", go);
+  return el("p", {}, [b]);
 }

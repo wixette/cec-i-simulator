@@ -22,7 +22,7 @@ export async function selftest(system) {
       return text.includes("ZHONG HUA XUE XI JI");
     }],
     ["the 2D view has the machine's 69 keys", () => (/** @type {any} */ (document.getElementById("view2d"))?.querySelector("canvas.flat-keys") ?? null) !== null],
-    ["the dock has its tabs", () => document.querySelectorAll("#dock-tabs [role=tab]").length === 6],
+    ["the dock has its tabs", () => document.querySelectorAll("#dock-tabs [role=tab]").length === 7],
   ];
   /** @type {string[]} */
   const passed = [];

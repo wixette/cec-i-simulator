@@ -16,9 +16,10 @@ import { loadRoms, ROM_FILES } from "../sim/roms.js";
 import { Speaker } from "../sim/sound.js";
 import { System } from "../sim/system.js";
 import { HEIGHT, WIDTH } from "../sim/video.js";
-import { applyIcons, applyL10n, overlayOpen } from "../ui/components.js";
+import { applyIcons, applyL10n, el, overlayOpen } from "../ui/components.js";
 import { aboutBody } from "./about.js";
 import { Dock } from "./dock.js";
+import { LessonsTool } from "./lessons.js";
 import { readLink, writeLink } from "./link.js";
 import { ReferencesTool } from "./references.js";
 import { Stage } from "./stage.js";
@@ -166,12 +167,40 @@ if (viewer) viewer.jumpTo(stage.framed("front"));
 // strip take some of it and the drawings need the rest
 const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.round(window.innerHeight * 0.55) : window.innerHeight <= 520 ? Math.round(window.innerHeight * 0.65) : 300));
 dock.onResize = fitStatus;
-new StartTool($("pane-start"));
+new StartTool($("pane-start"), () => dock.show("lessons"));
 new ReferencesTool($("pane-refs"));
 const cpuTool = new CpuTool($("pane-cpu"), system);
 const screenTool = new ScreenTool($("pane-screen"), system);
 const keyboardTool = new KeyboardTool($("pane-keyboard"), system, keyboardParams.keys);
 const hanziTool = new HanziTool($("pane-hanzi"), system);
+/** The instrument shown beside a lesson (its tab's content moved there), if any. @type {import("./dock.js").ToolId | null} */
+let companion = null;
+// a lesson's Show me (U13): a view, or an instrument beside the lesson, moved from its own tab
+// and back when closed, so that each instrument is one, with one state
+const lessons = new LessonsTool(
+  $("pane-lessons"),
+  system,
+  (show) => {
+    if (show.mode) stage.setMode(show.mode);
+    if (show.view) {
+      if (stage.mode !== "3d") stage.setMode("3d");
+      stage.goTo(show.view);
+    }
+    if (show.tool && companion !== show.tool) {
+      lessons.setCompanion(null);
+      const tool = show.tool;
+      const pane = $(`pane-${tool}`);
+      const nodes = [...pane.childNodes];
+      pane.replaceChildren(el("p", { class: "dim", text: t("lessons.toolAway") }));
+      companion = tool;
+      lessons.setCompanion(/** @type {HTMLElement[]} */ (nodes), () => {
+        pane.replaceChildren(...nodes);
+        companion = null;
+      });
+    }
+  },
+  (id) => topBar.openProgram(id),
+);
 dock.start();
 
 // ---- the helper strip (U4) and the top bar (U8) -----------------------------------------------------
@@ -342,10 +371,14 @@ function frame() {
     flat.show({ on: system.machine.powered, pixels: system.video.pixels, border: [...system.video.border], display: system.video.display, colour: system.colourKnob });
     flat.setKeys(system.keysDown(), new Set(system.keyboard.caps ? ["capslock"] : []));
   }
-  if (dock.shows("cpu")) cpuTool.tick(dt);
-  if (dock.shows("screen")) screenTool.tick(dt);
-  if (dock.shows("keyboard")) keyboardTool.tick(dt);
-  if (dock.shows("hanzi")) hanziTool.tick(dt);
+  // the instrument beside a lesson goes back to its tab when its tab is chosen
+  if (companion && dock.current === companion) lessons.setCompanion(null);
+  const lessonsOpen = dock.shows("lessons");
+  if (dock.shows("cpu") || (lessonsOpen && companion === "cpu")) cpuTool.tick(dt);
+  if (dock.shows("screen") || (lessonsOpen && companion === "screen")) screenTool.tick(dt);
+  if (dock.shows("keyboard") || (lessonsOpen && companion === "keyboard")) keyboardTool.tick(dt);
+  if (dock.shows("hanzi") || (lessonsOpen && companion === "hanzi")) hanziTool.tick(dt);
+  if (lessonsOpen) lessons.tick();
   stage.refresh();
   strip.refresh();
 }

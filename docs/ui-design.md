@@ -8,7 +8,7 @@ This document holds the principles the simulator's page is laid out by, and the 
 
 The machine's own decisions (D1, D2, …) are in [../design/decisions.md](../design/decisions.md).
 
-**Status:** as built for v0.0.3 (first written for v0.0.1).
+**Status:** as built for v0.0.4 (first written for v0.0.1).
 
 ## Part 1. Principles
 
@@ -186,4 +186,10 @@ The page speaks 简体中文 and English (D9); v0.0.6 brings ten.
 - **Inside** (U2) lights the chips as they work, as the TRS-80's does: the 6502 while it runs; the RAM U5, U6; U7; U35; the font ROMs U33, U34; the latch U32 as it is written; U13 while text is shown.
 - **Layout:** the cards side by side while each fits at its own width (the main card as wide as its grid, the side cards 300 px at least), else one under another; on a phone, one column, each card the pane's width, a wide grid (the page's bytes, the matrix, the dump) scrolling inside its card.
 - A tab not shown does no work; a tab shown redraws a few times a second, and its cards only when what they show changes.
+
+### U13. The lessons
+
+*(v0.0.4; design/v0.0.4.md)* A Lessons tab of the dock, after Start, which opens it with *Begin the lessons*. A bar of six numbered lessons (on a narrow screen, numbers only but the open one), a tick-green number for a lesson done; a lesson: "Lesson 3 of 6", its title and lead, its steps. A step: its number, title, a few sentences (`code` the machine's text), perhaps a photograph at its right, the line it types as the machine's text, its chips, and a tick at its right, green once the machine shows it done; a "Going further" aside, folded.
+- **The chips:** *Type it* (the step's keys, on the machine's own, after Ctrl-Reset where the step starts afresh); *Open* a program (its dialog, as Programs); *Show me*: a 3D view, or an instrument beside the lesson. The instrument is the one of its tab, moved, working; its tab says so, and choosing its tab takes it back. On a narrow screen it stands above the lesson.
+- **Ticks** in order, remembered with the lesson open. *Next: …* at a lesson's foot.
 

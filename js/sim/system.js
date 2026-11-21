@@ -340,6 +340,17 @@ export class System {
     return true;
   }
 
+  /**
+   * Ctrl-Reset, then BASIC's prompt (afresh, from LOGO's monitor): whatever runs stops, so that
+   * what is typed next goes to BASIC (a lesson's step, design/v0.0.4.md).
+   */
+  typeFresh() {
+    const plan = typingPlan({ id: "", section: "learn", mode: "western", text: "" });
+    this.typist.clear();
+    this.typist.type(plan.before);
+    this.typist.ask((m) => plan.monitor(m.screenText()));
+  }
+
   /** The BASIC program in memory as text (Save the program), or "" for none. */
   listing() {
     if (!this.machine.powered) return "";

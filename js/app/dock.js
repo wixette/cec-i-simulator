@@ -9,9 +9,9 @@
 import { t } from "../l10n/l10n.js";
 import { icon, setTip, tabs } from "../ui/components.js";
 
-/** @typedef {"cpu" | "screen" | "keyboard" | "hanzi" | "start" | "refs"} ToolId */
+/** @typedef {"cpu" | "screen" | "keyboard" | "hanzi" | "start" | "lessons" | "refs"} ToolId */
 /** In the bar's order: the instruments, the CPU first, then the two of the picture (the screen, and Chinese on it), then the keyboard; then the reading, Start (the default) and References. */
-export const TOOLS = /** @type {ToolId[]} */ (["cpu", "screen", "hanzi", "keyboard", "start", "refs"]);
+export const TOOLS = /** @type {ToolId[]} */ (["cpu", "screen", "hanzi", "keyboard", "start", "lessons", "refs"]);
 
 /** The dock's least open height, px. */
 const DOCK_MIN = 140;
