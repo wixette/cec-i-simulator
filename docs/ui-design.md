@@ -122,6 +122,7 @@ The page is a fixed frame of top bar, stage, dock and status line, and never scr
 - **Inside** turns the lid and the keyboard to glass: the main board, the power supply and the speaker. The machine keeps running.
 - **Taken apart** takes the computer apart in the real order (U3). While the computer is on, it is greyed in the menu with "switch off first" beside it (P6).
 - **The camera:** drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and limited. Reached by Tab, the view shows the amber focus ring, and the arrows pan, + and − zoom and Home goes home; otherwise it has no focus, and every key is the machine's. A click on the view never focuses it.
+- **Double-click:** on the TV's body, the Screen view; on the computer's case (not on a key, a switch, the flap, or between the keys), the Keyboard view; on the TV's glass, the 2D view; on a knob, the knob back where it starts. Not in Inside or Taken apart, which are about the parts.
 - **Labels:** hovering a part shows its name and what it does, after 400 ms (a part a click does nothing to, after 1 s), beside the pointer, in the page's language (the model carries every label in English and Chinese); a tap writes it in the status line. Between the keys (the keyboard's plate or the lid's surround within about half a key of a key) no label shows: the pointer is aiming at the keys there.
 
 ### U3. Taking it apart
@@ -154,7 +155,7 @@ All three need the computer on, and say so.
 ### U8. The top bar
 
 - **Left (the machine):** the logo and the title; **Programs** (U7).
-- **Display**, not in the top bar but at the band's left, beside the views, as it changes what is seen: the set the computer is plugged into (a colour TV, a black-and-white TV, a green monitor, D6), and the case as found today (the plastic, the keys and the stickers yellowed together: the default, as the machine looks to today's visitors) or as new. Both remembered. A finish chosen while the computer is out of sight brings it into sight (the 2D view's keyboard drawer opened; in 3D, the front view if the screen's was on show), so that the choice is seen to do something.
+- **Display**, not in the top bar but at the band's left, beside the views, as it changes what is seen: the set the computer is plugged into (a colour TV, a black-and-white TV, a green monitor, D6), **Reset the knobs** (greyed while they are where they start; not in the helper strip, which holds the machine's own controls), and the case as found today (the plastic, the keys and the stickers yellowed together: the default, as the machine looks to today's visitors) or as new. Both remembered. A finish chosen while the computer is out of sight brings it into sight (the 2D view's keyboard drawer opened; in 3D, the front view if the screen's was on show), so that the choice is seen to do something.
 
 *Found in v0.0.1's check:* Display in the top bar read as one of the machine's programs' menus, and the finish chosen in 2D, the drawer closed, changed nothing visible.
 - **Right (the app):** **Sound** (a speaker icon, crossed out while off; remembered), the **language** (U11), then **About**.

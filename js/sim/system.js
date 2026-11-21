@@ -184,6 +184,19 @@ export class System {
     this.setKnob(which, KNOB_START[which]);
   }
 
+  /** Whether both knobs are where they start. */
+  get knobsAtStart() {
+    return this.tv.brightness === KNOB_START.brightness && this.tv.colour === KNOB_START.colour;
+  }
+
+  /** Both knobs back to where they start: Display's Reset the knobs. */
+  resetKnobs() {
+    this.tv.brightness = KNOB_START.brightness;
+    this.tv.colour = KNOB_START.colour;
+    this.say({ key: "knobs.reset" });
+    this.changed();
+  }
+
   /** The set the computer is plugged into (D6). @param {Display} d */
   setDisplay(d) {
     if (d === this.video.display) return;

@@ -183,6 +183,11 @@ export class Stage {
     m.on.hover = (h, x, y) => this.hover(h, x, y);
     m.on.info = (label) => this.system.say({ key: "part.said", params: { label } });
     m.on.screenDoubleClick = () => this.setMode("2d");
+    // the TV or the computer brought close; not from Inside or Taken apart, which are about the parts
+    m.on.partDoubleClick = (part) => {
+      if (this.view === "inside" || this.view === "apart") return;
+      this.goTo(part === "tv" ? "screen" : "keyboard");
+    };
     m.on.heldModifier = (id) => this.system.say({ key: "key.held", params: { key: id === "test" ? "Test" : id === "ctrl" ? "Ctrl" : "Shift" } });
     m.setInside(this.view === "inside");
     if (this.fitted && this.mode === "3d" && this.viewer) this.viewer.jumpTo(this.framed(this.fitted));

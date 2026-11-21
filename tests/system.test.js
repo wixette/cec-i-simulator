@@ -54,6 +54,16 @@ describe("power and the TV", () => {
     s.resetKnob("brightness");
     assert.equal(s.tv.brightness, KNOB_START.brightness);
   });
+  it("Reset the knobs: both back where they start, and it says so", () => {
+    const { s, said } = rig();
+    assert.ok(s.knobsAtStart);
+    s.setKnob("brightness", 0.1);
+    s.setKnob("colour", 0.2);
+    assert.ok(!s.knobsAtStart);
+    s.resetKnobs();
+    assert.ok(s.knobsAtStart);
+    assert.equal(said.at(-1), "knobs.reset");
+  });
   it("on a black-and-white TV or a green monitor, the colour knob turns but does nothing, and says so (D6)", () => {
     const { s, said } = rig();
     s.setKnob("colour", 0.2);

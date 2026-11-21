@@ -71,6 +71,8 @@ const GLOW = /** @type {const} */ ({
  * @property {(h: Hover | null, x: number, y: number) => void} [hover]
  * @property {(label: string) => void} [info] a click on a part that does nothing else: its label, to say
  * @property {() => void} [screenDoubleClick] a double-click on the TV's screen: the 2D view
+ * @property {(part: "tv" | "computer") => void} [partDoubleClick] a double-click on the TV's
+ *   body or the computer's case: that one brought close (the Screen view, the Keyboard view)
  * @property {(id: string) => void} [heldModifier] Ctrl, Shift or TEST clicked: held for the next key
  */
 
@@ -576,7 +578,15 @@ export class Machine3D {
       const o = this.pick(e);
       const knob = knobAt(o);
       if (knob) return void s.resetKnob(knob);
-      if (this.under(o, "tv.screen")) this.on.screenDoubleClick?.();
+      if (this.under(o, "tv.screen")) return void this.on.screenDoubleClick?.();
+      // not on what a click works (a key, a switch, the flap, a unit that comes out while the
+      // computer is off): there the two clicks have already done their work
+      if (!o || this.describe(o)?.action !== "none") return;
+      // nor between the keys, where a double-click is two missed keys
+      const at = this.hit(e.clientX, e.clientY);
+      if (at && this.amongKeys(e.clientX, e.clientY, at)) return;
+      if (this.under(o, "tv")) this.on.partDoubleClick?.("tv");
+      else if (this.under(o, "keyboard") || this.up(o, (x) => x.name.startsWith(nodeName("case.")))) this.on.partDoubleClick?.("computer");
     });
   }
 

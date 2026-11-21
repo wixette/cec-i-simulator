@@ -183,6 +183,12 @@ export class TopBar {
         store(DISPLAY_STORE, d);
       },
     }));
+    items.push({
+      label: t("menu.knobs.reset"),
+      icon: "restart_alt",
+      disabled: s.knobsAtStart ? t("menu.knobs.atStart") : undefined,
+      run: () => s.resetKnobs(),
+    });
     for (const [i, found] of [false, true].entries()) {
       items.push({
         label: t(found ? "menu.finish.found" : "menu.finish.new"),
