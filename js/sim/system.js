@@ -16,6 +16,7 @@
 
 import { listProgram, tokenNames } from "./basic.js";
 import { planTyping } from "./chinese.js";
+import { typingPlan } from "./samples.js";
 import { Joystick } from "./joystick.js";
 import { KeyHolds, RESET_HOLD_MS } from "./key-holds.js";
 import { Keyboard, Typist } from "./keyboard.js";
@@ -319,6 +320,27 @@ export class System {
     if (plan.chinese && !this.chineseOn) keys = `{zhongwen}{wait:${CHINESE_START_S}}${keys}`;
     this.typist.type(keys);
     this.say({ key: plan.chinese && !this.chineseOn ? "type.chinese" : "type.typing" });
+    return true;
+  }
+
+  /**
+   * Types one of our programs in and runs it (design/v0.0.3.md, P1): from whatever the machine
+   * is doing, into the program's mode (Western BASIC, the Chinese system, LOGO), then its listing.
+   * @param {import("./samples.js").Sample} sample
+   * @param {string} title its title, for what is said
+   * @returns {boolean} whether it was taken
+   */
+  typeProgram(sample, title) {
+    if (!this.machine.powered) {
+      this.say({ key: "type.off" });
+      return false;
+    }
+    const plan = typingPlan(sample);
+    this.typist.clear();
+    this.typist.type(plan.before);
+    this.typist.ask((m) => plan.monitor(m.screenText()));
+    this.typist.type(plan.after);
+    this.say({ key: "program.typing", params: { title } });
     return true;
   }
 

@@ -361,6 +361,7 @@ kbd { display: inline-block; min-width: 1.6em; padding: 0 6px; border: 1px solid
 
 /* ---- Type in: the text box in its dialog ---- */
 .typein-box { display: block; width: 100%; min-height: 12em; max-height: 50dvh; margin: 4px 0 0; padding: 8px 10px; border: 1px solid var(--md-outline); border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface); font-family: var(--mono); font-size: 13px; line-height: 1.45; resize: vertical; user-select: text; -webkit-user-select: text; }
+.program-listing { max-height: 40dvh; overflow: auto; margin: 6px 0 0; padding: 8px 10px; border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface-variant); font-family: var(--mono); font-size: 12px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; user-select: text; -webkit-user-select: text; }
 .typein-box:focus { outline: 2px solid var(--md-primary); outline-offset: -1px; }
 .typein-faster { margin: 10px 0 0 -4px; }
 .dialog.wide { width: min(640px, calc(100vw - 24px)); }
