@@ -1,7 +1,20 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// The TV's two knobs as functions on colour, with no three.js: for the 3D tube
-// (js/scene/tv.js) and the 2D view (js/flat/flat.js).
+// The TV's two knobs as functions on colour, and the tube's glass for each set, with no
+// three.js: for the 3D tube (js/scene/tv.js) and the 2D view (js/flat/flat.js).
+
+/**
+ * The tube's glass, unlit and lit, sRGB, for each set (design/decisions.md, D6): a colour TV's
+ * and a green monitor's a dark grey-green, as the tubes' glass was; a black-and-white TV's a
+ * neutral grey, so that the set reads as black and white at a glance. Lit, the glass reads
+ * darker: the eye adapts to the picture.
+ * @type {Record<import("../sim/video.js").Display, { off: [number, number, number], lit: [number, number, number] }>}
+ */
+export const GLASS = {
+  colour: { off: [0x4b, 0x58, 0x56], lit: [0x16, 0x24, 0x21] },
+  bw: { off: [0x55, 0x55, 0x55], lit: [0x1e, 0x1e, 0x1e] },
+  green: { off: [0x4b, 0x58, 0x56], lit: [0x16, 0x24, 0x21] },
+};
 
 /**
  * The knobs as a function on a colour. Colour (0..1, 0.75 as set up): the saturation, scaled

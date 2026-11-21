@@ -7,7 +7,7 @@
 // computer off), the lit glass alone. Drawn again only when the picture or a knob changed.
 
 import * as THREE from "three";
-import { knobTable } from "./knobs.js";
+import { GLASS, knobTable } from "./knobs.js";
 
 /** The canvas: 640 x 480, the screen's 4:3. */
 const W = 640;
@@ -23,15 +23,14 @@ const PIC = { x: 48, y: 36, w: 544, h: 408 };
  * @property {number} width @property {number} height its size
  * @property {readonly number[]} border the colour round the picture
  * @property {number} brightness @property {number} colour the knobs, 0..1
+ * @property {import("../sim/video.js").Display} display the set: its glass (knobs.js, GLASS)
  */
 
 export class TvScreen {
   /**
    * @param {THREE.Object3D} glass the model's tv.screen (a mesh, or a group holding it)
-   * @param {{ glassOff: string, glassOn: string }} colours the glass unlit and lit (css/theme.css)
    */
-  constructor(glass, colours) {
-    this.colours = colours;
+  constructor(glass) {
     this.canvas = document.createElement("canvas");
     this.canvas.width = W;
     this.canvas.height = H;
@@ -41,7 +40,7 @@ export class TvScreen {
     this.texture.flipY = false;
     this.texture.anisotropy = 4;
     this.material = new THREE.MeshPhysicalMaterial({
-      color: colours.glassOff,
+      color: rgb(GLASS.colour.off),
       roughness: 0.32,
       metalness: 0,
       clearcoat: 0.5,
@@ -67,7 +66,10 @@ export class TvScreen {
   /** Shows a picture, if anything changed. @param {Picture} s */
   show(s) {
     const m = this.material;
-    m.color.set(s.on ? this.colours.glassOn : this.colours.glassOff);
+    // the material's colour under the 3D lights: the lit glass a little lighter than the
+    // flat view's, which shows it as it is
+    const g = GLASS[s.display];
+    m.color.set(s.on ? rgb(g.lit.map((v) => Math.min(255, v + 20))) : rgb(g.off));
     m.emissiveIntensity = s.on ? 1.6 : 0;
     // lit, the glass's reflections are turned down: their grey sheen would wash over the text
     m.clearcoat = s.on ? 0.15 : 0.5;
@@ -76,7 +78,7 @@ export class TvScreen {
       this.last = null;
       return;
     }
-    const key = `${s.signal}|${s.brightness}|${s.colour}|${s.border.join(",")}`;
+    const key = `${s.signal}|${s.display}|${s.brightness}|${s.colour}|${s.border.join(",")}`;
     if (this.last && this.lastKey === key && (!s.signal || samePixels(this.last, s.pixels))) return;
     this.lastKey = key;
     if (!this.last || this.last.length !== s.pixels.length) this.last = new Uint8ClampedArray(s.pixels.length);
@@ -113,6 +115,9 @@ export class TvScreen {
     this.texture.needsUpdate = true;
   }
 }
+
+/** A colour for three.js from sRGB bytes. @param {readonly number[]} c */
+const rgb = (c) => `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
 
 /** Whether two pictures are the same, 32 bits at a time. @param {Uint8ClampedArray} a @param {Uint8ClampedArray} b */
 export function samePixels(a, b) {

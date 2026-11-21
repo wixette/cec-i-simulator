@@ -2,8 +2,8 @@
 /* The theme's tokens (docs/ui-design.md, P11): Material 3's roles in a dark scheme, the TRS-80
    and Altair 8800 simulators' own: neutral greys round an amber primary. The brightest thing on
    the page is the TV's picture; the interface round it is quiet. One colour, one meaning: amber
-   what to press, green on and done, blue the story, red refused. The canvases and the 3D scene
-   read these tokens (js/ui/theme.js). */
+   what to press, green on and done, blue the story, red refused. The TV's glass, which the 3D
+   and 2D views draw, is with its knobs (js/scene/knobs.js, GLASS). */
 
 :root {
   color-scheme: dark;
@@ -44,10 +44,6 @@
   --stage-glow: radial-gradient(ellipse at 50% 42%, #2e3646 0%, #1d222b 55%, #15181e 100%);
   --state-hover: 0.08;
   --state-press: 0.14;
-
-  /* the TV's glass, unlit and lit (the eye adapts to the picture: lit, it reads darker) */
-  --glass-off: #4b5856;
-  --glass-on: #2a3d39;
 
   /* Latin text in Roboto Flex; Chinese in the system's own fonts, which every Chinese system has */
   --font: "Roboto Flex", system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;

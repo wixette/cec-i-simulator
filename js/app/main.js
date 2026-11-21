@@ -17,7 +17,6 @@ import { Speaker } from "../sim/sound.js";
 import { System } from "../sim/system.js";
 import { HEIGHT, WIDTH } from "../sim/video.js";
 import { applyIcons, applyL10n, overlayOpen } from "../ui/components.js";
-import { tokens } from "../ui/theme.js";
 import { aboutBody } from "./about.js";
 import { Dock } from "./dock.js";
 import { readLink, writeLink } from "./link.js";
@@ -67,7 +66,7 @@ document.title = t("app.title");
 applyIcons(document);
 applyL10n(document);
 // a button whose words a narrow window hides keeps them as its name
-for (const b of document.querySelectorAll("#programs, #display, .dock-tab")) {
+for (const b of document.querySelectorAll("#programs, .dock-tab")) {
   const words = b.querySelector(".label, span[data-l10n]")?.textContent;
   if (words) b.setAttribute("aria-label", words);
 }
@@ -76,7 +75,6 @@ const [romResult, machineParams, keyboardParams, matrixParams] = await Promise.a
 // without the ROMs, blank chips: the page works, the computer will not switch on
 const roms = romResult.roms ?? /** @type {import("../sim/machine.js").Roms} */ (Object.fromEntries(Object.entries(ROM_FILES).map(([c, f]) => [c, new Uint8Array(f.size)])));
 const system = new System({ roms, matrix: matrixParams.keys, takeApart: machineParams.take_apart.order, hasRoms: !!romResult.roms });
-const colours = tokens();
 
 // ---- the status line (P7) ----------------------------------------------------------------------
 // One line's height in the page, whatever it says: a longer message rises over the foot of the
@@ -177,13 +175,13 @@ const setFinish = (found) => {
   flat.setColours({ case: c.case_plastic.v[found ? 1 : 0], key: c.key_tan.v[found ? 1 : 0], sticker: found ? stickerTint(c.case_plastic.v) : "#FFFFFF" });
   if (model) flat.setKeyArt(bakeKeys(model.keyboard));
 };
-const topBar = new TopBar(system, { about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound: speaker, finish: setFinish });
+const topBar = new TopBar(system, { about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound: speaker, finish: setFinish, showComputer: () => stage.showComputer() });
 topBar.applyFinish();
 
 // ---- the 3D model, loaded in the background ---------------------------------------------------------
 if (viewer) {
   stage.progress(0);
-  Machine3D.load(viewer, system, asset("model/cec-i.glb"), machineParams, colours, lang, (f) => stage.progress(f))
+  Machine3D.load(viewer, system, asset("model/cec-i.glb"), machineParams, lang, (f) => stage.progress(f))
     .then((m) => {
       model = m;
       stage.bindModel(m);
@@ -326,12 +324,12 @@ function frame() {
   speaker.frame(system.machine, t0, !system.racing);
   const tvShows = system.tv.on;
   if (tvShows) system.video.draw(system.machine);
-  const pic = { on: tvShows, signal: system.machine.powered, pixels: system.video.pixels, width: WIDTH, height: HEIGHT, border: system.video.border, brightness: system.tv.brightness, colour: system.tv.colour };
+  const pic = { on: tvShows, signal: system.machine.powered, pixels: system.video.pixels, width: WIDTH, height: HEIGHT, border: system.video.border, brightness: system.tv.brightness, colour: system.tv.colour, display: system.video.display };
   // the tube is drawn while the 3D view is, the flight to 2D included
   if (model && viewer?.active) model.showPicture(pic);
   if (stage.mode === "2d") {
     flat.setState({ power: system.machine.powered, tv: system.tv.on, brightness: system.tv.brightness, colour: system.tv.colour });
-    flat.show({ on: system.machine.powered, pixels: system.video.pixels, border: [...system.video.border] });
+    flat.show({ on: system.machine.powered, pixels: system.video.pixels, border: [...system.video.border], display: system.video.display });
     flat.setKeys(system.keysDown(), new Set(system.keyboard.caps ? ["capslock"] : []));
   }
   stage.refresh();

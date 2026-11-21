@@ -73,13 +73,12 @@ export class Machine3D {
    * @param {System} system
    * @param {URL} model the .glb
    * @param {any} params model/params/machine.json
-   * @param {{ glassOff: string, glassOn: string }} colours
    * @param {"en" | "zh"} lang the labels' language
    * @param {(f: number) => void} [progress] 0..1 while it loads
    */
-  static async load(viewer, system, model, params, colours, lang, progress) {
+  static async load(viewer, system, model, params, lang, progress) {
     const gltf = await new GLTFLoader().loadAsync(model.href, (e) => e.total && progress?.(e.loaded / e.total));
-    return new Machine3D(viewer, system, gltf.scene, params, colours, lang);
+    return new Machine3D(viewer, system, gltf.scene, params, lang);
   }
 
   /**
@@ -87,10 +86,9 @@ export class Machine3D {
    * @param {System} system
    * @param {THREE.Object3D} root
    * @param {any} params
-   * @param {{ glassOff: string, glassOn: string }} colours
    * @param {"en" | "zh"} lang
    */
-  constructor(viewer, system, root, params, colours, lang) {
+  constructor(viewer, system, root, params, lang) {
     this.viewer = viewer;
     this.system = system;
     this.root = root;
@@ -123,7 +121,7 @@ export class Machine3D {
     this.lampMats = this.ownMaterials(this.node("led.power"), (m) => m.name === "led_red");
     /** @private */
     this.tvLampMats = this.ownMaterials(this.node("tv.lamp"), () => true);
-    this.tv = new TvScreen(this.node("tv.screen"), colours);
+    this.tv = new TvScreen(this.node("tv.screen"));
     /** @private */
     this.tvButton = this.node("tv.power");
     /** @private */

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// The top bar (docs/ui-design.md, U8): what you do to the machine on the left (Programs,
-// Display), what you do with the app on the right (Sound, the language, About). Each is a menu
-// or a dialog (P4, P10).
+// The top bar (docs/ui-design.md, U8): what you do to the machine on the left (Programs), what
+// you do with the app on the right (Sound, the language, About), and the Display menu, whose
+// button stands in the stage's band with the views. Each is a menu or a dialog (P4, P10).
 //
 // - Programs: Type in (a dialog with a text box: anything pasted or written there is typed on
 //   the machine's own keys, Chinese through its 区位 input, D8); Open a BASIC file (typed in the
@@ -82,7 +82,7 @@ export function decodeText(bytes) {
 export class TopBar {
   /**
    * @param {System} system
-   * @param {{ about: () => Node[], references: () => void, sound: { muted: boolean, setMuted: (m: boolean) => void }, finish: (found: boolean) => void }} o
+   * @param {{ about: () => Node[], references: () => void, sound: { muted: boolean, setMuted: (m: boolean) => void }, finish: (found: boolean) => void, showComputer: () => void }} o
    */
   constructor(system, o) {
     this.system = system;
@@ -192,6 +192,8 @@ export class TopBar {
           this.found = found;
           store(FINISH_STORE, found ? "found" : "new");
           this.applyFinish();
+          // the change is the computer's: in sight, so that it is seen
+          this.o.showComputer();
           s.say({ key: found ? "finish.found" : "finish.new" });
         },
       });

@@ -9,6 +9,10 @@ export default async function (h) {
   await h.viewport(1440, 900);
   await h.open();
   await h.until("app.model() !== null", 30000);
+  await h.press(".menu-btn:not(.display-btn)");
+  await h.sleep(200);
+  h.verify("the Views menu: Front, then Screen", (await h.js("[...document.querySelectorAll('.menu [role^=menuitem]')].slice(0, 2).map((b) => b.textContent).join(',')")) === "Front,Screen");
+  await h.key("Escape");
   for (const v of ["angle", "keyboard", "screen", "back", "inside", "front"]) {
     await h.js(`app.stage.goTo("${v}")`);
     await h.until("!app.viewer.isFlying()", 5000);
@@ -16,10 +20,10 @@ export default async function (h) {
   }
   await h.js(`app.stage.goTo("inside")`);
   h.verify("Inside: the lid and the keyboard are glass", await h.js("app.model().inside"));
-  await h.choose(".menu-btn", "Taken apart");
+  await h.choose(".menu-btn:not(.display-btn)", "Taken apart");
   h.verify("Taken apart is refused while the computer is on, and says why", (await h.js("cec.whole")) && /off/i.test(await h.status()), await h.status());
   await h.pressText("#helper-strip button", "Computer");
-  await h.choose(".menu-btn", "Taken apart");
+  await h.choose(".menu-btn:not(.display-btn)", "Taken apart");
   h.verify("with the computer off, Taken apart takes it all out", await h.until("[...cec.motion.values()].every((m) => m.f === 1)", 10000));
   h.verify("Put it all back stands on the stage", !(await h.js("document.querySelector('.put-back').hidden")));
   await h.pressText("#helper-strip button", "Computer");

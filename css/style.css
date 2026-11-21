@@ -303,7 +303,7 @@ kbd { display: inline-block; min-width: 1.6em; padding: 0 6px; border: 1px solid
   .tools3d .joined, .tools3d .home-btn { display: none; }
   .segmented.mode .icon { display: none; }
   .segmented.mode button { padding: 0 10px; }
-  .drawers .btn span { display: none; }
+  .drawers .btn span, .display-btn span { display: none; }
   .drawers .btn.small.has-icon { padding: 0 10px; }
   .dock-pane { padding: 4px 10px calc(12px + var(--status-rise, 0px)); }
   .put-back span { display: none; }

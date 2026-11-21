@@ -9,6 +9,8 @@
 //   while anything is out. Inside turns the lid and the keyboard to glass; Taken apart takes
 //   the computer apart, and choosing another view puts it back.
 // - In 2D the band holds the keyboard drawer's toggle (U10).
+// - In both, Display: the set the computer is plugged into, and the case's finish (U8); its
+//   menu is the top bar's (js/app/topbar.js), the button here, with what it changes.
 // - A part's label shows after the pointer rests on it, beside the pointer.
 // As the TRS-80 simulator's stage (https://github.com/wixette/trs-80-simulator, Apache-2.0, by
 // the same author).
@@ -47,7 +49,8 @@ export const VIEWS = {
   // the computer's parts out, three-quarter on from the front left and above
   apart: { dir: [-0.42, 0.55, 0.72], nodes: ["case.base", "case.lid", "keyboard", "board.main"], fill: 0.92, pos: [-0.5, 0.55, 0.7], target: [-0.1, 0.06, 0.05] },
 };
-const VIEW_ORDER = /** @type {ViewName[]} */ (["front", "angle", "keyboard", "screen", "back", "inside", "apart"]);
+/** In the menu's order: the way in, then the screen, the view most often wanted, then the rest. */
+const VIEW_ORDER = /** @type {ViewName[]} */ (["front", "screen", "keyboard", "angle", "back", "inside", "apart"]);
 /** What a framed view keeps clear of the stage's edges, px. */
 const GAP = 8;
 /** How long a label waits under a resting pointer, ms. */
@@ -127,7 +130,11 @@ export class Stage {
     setTip(this.drawerBtn, t("stage.drawer.tip"));
     this.drawerBtn.addEventListener("click", () => this.setDrawer(!this.flat.drawerOpen));
     this.drawers = el("div", { class: "band-group drawers" }, [this.drawerBtn]);
-    band.append(el("span", { class: "spacer" }), this.drawers, this.tools3d, this.toggle);
+    // Display: what is seen, so beside the views (U8); the top bar gives it its menu
+    const display = el("button", { id: "display", class: "btn small menu-btn has-icon display-btn", type: "button", "aria-haspopup": "menu", "aria-expanded": "false" }, [icon("tv"), el("span", { text: t("bar.display") }), icon("keyboard_arrow_down")]);
+    display.setAttribute("data-tip-describes", "");
+    display.setAttribute("aria-label", t("bar.display"));
+    band.append(el("span", { class: "spacer" }), el("div", { class: "band-group" }, [display]), this.drawers, this.tools3d, this.toggle);
     // Put it all back (U3)
     this.putBack = el("button", { class: "btn filled has-icon put-back", type: "button", hidden: true }, [icon("construction"), el("span", { text: t("stage.putBack") })]);
     this.putBack.addEventListener("click", () => this.system.putAllBack());
@@ -136,9 +143,8 @@ export class Stage {
     this.area.append(this.loading);
     this.label = el("div", { class: "part-label", role: "tooltip", hidden: true });
     this.area.append(this.label);
-    // the drawer as the visitor left it; at first open only where there is no other way to type:
-    // a touch screen held upright
-    let drawer = matchMedia("(pointer: coarse) and (orientation: portrait)").matches;
+    // the drawer as the visitor left it; at first open: the keys to type at, beside the picture
+    let drawer = true;
     try {
       const saved = localStorage.getItem(DRAWER_STORE);
       if (saved) drawer = saved === "open";
@@ -226,6 +232,16 @@ export class Stage {
       // not remembered
     }
     this.refresh();
+  }
+
+  /**
+   * Brings the computer into sight, for a change to it (the case's finish): in 2D, the
+   * keyboard's drawer opened; in 3D, the front view if the screen's hides it.
+   */
+  showComputer() {
+    if (this.mode === "2d") {
+      if (!this.flat.drawerOpen) this.setDrawer(true);
+    } else if (this.view === "screen") this.goTo("front");
   }
 
   /** Shows the load's progress, 0..1, or hides it (null). @param {number | null} f */

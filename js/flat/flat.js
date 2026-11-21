@@ -15,7 +15,7 @@
 //
 // The whole is laid out at a design size and scaled to fit its host.
 
-import { knobTable } from "../scene/knobs.js";
+import { GLASS, knobTable } from "../scene/knobs.js";
 
 /** @typedef {{ id: string, x: number, y: number, w: number, d: number, legends: string[], outline?: number[][], arrow?: string, latching?: boolean }} KeyDef */
 /** @typedef {"brightness" | "colour"} Knob */
@@ -41,9 +41,6 @@ const NAMEPLATE = { x0: 15, x1: 113, y0: 120.56, y1: 142.56 };
 const LAMP = { x: 146.15, y: 133.4, r: 1.6 };
 /** The power rocker's centre front to back: its hole's rear edge 36 mm from the back wall, 26 long (model/params/machine.json, base.left_side.power_switch). */
 const POWER_Y = CASE.y1 - 36 - 13;
-/** The glass under the picture, lit and unlit, as the 3D tube renders (sampled from it). */
-const GLASS_LIT = [22, 36, 33];
-const GLASS_DARK = [44, 54, 52];
 /** The screen's canvas: 4:3, the picture (560 x 192, each dot 2 x 4) inside the tube's overscan. */
 const SW = 1200;
 const SH = 900;
@@ -566,24 +563,25 @@ export class Flat {
   /**
    * The picture on the tube: each dot sharp, the colour round it in the overscan, the TV's
    * knobs applied, over the lit glass. With the TV off, the glass; with no signal, the glass lit.
-   * @param {{ on: boolean, pixels: Uint8ClampedArray, border: number[] }} s on: the computer's signal
+   * @param {{ on: boolean, pixels: Uint8ClampedArray, border: number[], display: import("../sim/video.js").Display }} s on: the computer's signal; display: the set, for its glass
    */
   show(s) {
     const tvOn = this.state.tv;
-    const key = `${tvOn}|${s.on}|${this.state.brightness}|${this.state.colour}|${s.border.join(",")}`;
+    const glass = GLASS[s.display];
+    const key = `${tvOn}|${s.on}|${s.display}|${this.state.brightness}|${this.state.colour}|${s.border.join(",")}`;
     if (this.lastPixels && this.lastKey === key && (!s.on || samePixels(this.lastPixels, s.pixels))) return;
     this.lastKey = key;
     this.lastPixels = this.lastPixels ?? new Uint8ClampedArray(s.pixels.length);
     this.lastPixels.set(s.pixels);
     const c = this.sctx;
     if (!tvOn) {
-      c.fillStyle = `rgb(${GLASS_DARK.join(",")})`;
+      c.fillStyle = `rgb(${glass.off.map((v) => Math.round(v * 0.8)).join(",")})`;
       c.fillRect(0, 0, SW, SH);
       return;
     }
     const t = knobTable(this.state.brightness, this.state.colour);
     // the glass under the light: out = glass + light x (1 - glass), per channel
-    const g = GLASS_LIT;
+    const g = glass.lit;
     const over = (/** @type {number} */ r, /** @type {number} */ gg, /** @type {number} */ b) => {
       const [x, y, z] = t(r, gg, b);
       return [g[0] + x * (1 - g[0] / 255), g[1] + y * (1 - g[1] / 255), g[2] + z * (1 - g[2] / 255)];

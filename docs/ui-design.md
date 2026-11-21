@@ -88,9 +88,9 @@ Every control takes its colours, corners, type and states from one set of design
 ## Part 2. The layout
 
 ```
-┌ [logo] CEC-I Simulator   [▤ Programs ▾] [▭ Display ▾]                 [🔊] [文A 简 ▾] [ⓘ] ┐  top bar
+┌ [logo] CEC-I Simulator   [▤ Programs ▾]                                [🔊] [文A 简 ▾] [ⓘ] ┐  top bar
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                       [Keyboard] [⌂] [− +] [Front ▾]  [2D | 3D]           │  stage band
+│                         [▭ Display ▾] [Keyboard] [⌂] [− +] [Front ▾]  [2D | 3D]           │  stage band
 │ ╭─────────────────────────────────────────────────────────────────────────────────────╮ │
 │ │            THE STAGE: the computer and its TV in 3D, or the TV and keyboard flat     │ │
 │ │                                                                  [Put it all back]  │ │
@@ -113,11 +113,11 @@ The page is a fixed frame of top bar, stage, dock and status line, and never scr
 - **3D is the default** on a first visit. After that the choice is remembered, and a link can carry it (`#view=3d`, `#view=2d`). A link's view wins over the remembered one.
 - **Going to 2D, the camera flies** to the TV's screen, then the flat view cross-fades in. Going back, it fades out and the camera flies back. With `prefers-reduced-motion`, both are a cut. A double-click on the TV's screen in 3D goes to 2D.
 - **Under 2D the 3D scene stops rendering.** The machine keeps running.
-- **The band** holds the 3D view's own tools (⌂, zoom, Views) in 3D, and the Keyboard drawer's toggle in 2D; the 2D | 3D toggle in both. The helper strip is under the stage in both.
+- **The band** holds **Display** (U8) and the 2D | 3D toggle in both views, the 3D view's own tools (⌂, zoom, Views) in 3D, and the Keyboard drawer's toggle in 2D: everything that changes what is seen. The helper strip is under the stage in both.
 
 ### U2. The 3D views
 
-- **Views** (a menu naming the view on show): Front (the way in: straight on from 32 degrees above, the TV and the computer framed together, the whole screen over the computer, ready to type), Three-quarter, Keyboard, Screen, Back (the sockets, past the TV), **Inside** and **Taken apart**. ⌂ goes to Front, with every part back. Each view frames its parts on the stage as it is now (`js/scene/framing.js`).
+- **Views** (a menu naming the view on show): Front (the way in: straight on from 32 degrees above, the TV and the computer framed together, the whole screen over the computer, ready to type), Screen (next, as the view most often wanted), Keyboard, Three-quarter, Back (the sockets, past the TV), **Inside** and **Taken apart**. ⌂ goes to Front, with every part back. Each view frames its parts on the stage as it is now (`js/scene/framing.js`).
 - **The TV turns to glass** whenever it stands between the camera and the computer, so that nothing hides the machine.
 - **Inside** turns the lid and the keyboard to glass: the main board, the power supply and the speaker. The machine keeps running.
 - **Taken apart** takes the computer apart in the real order (U3). While the computer is on, it is greyed in the menu with "switch off first" beside it (P6).
@@ -153,7 +153,10 @@ All three need the computer on, and say so.
 
 ### U8. The top bar
 
-- **Left (the machine):** the logo and the title; **Programs** (U7); **Display**: the set the computer is plugged into (a colour TV, a black-and-white TV, a green monitor, D6), and the case as new or as found (the plastic, the keys and the stickers yellowed together). Both remembered.
+- **Left (the machine):** the logo and the title; **Programs** (U7).
+- **Display**, not in the top bar but at the band's left, beside the views, as it changes what is seen: the set the computer is plugged into (a colour TV, a black-and-white TV, a green monitor, D6), and the case as new or as found (the plastic, the keys and the stickers yellowed together). Both remembered. A finish chosen while the computer is out of sight brings it into sight (the 2D view's keyboard drawer opened; in 3D, the front view if the screen's was on show), so that the choice is seen to do something.
+
+*Found in v0.0.1's check:* Display in the top bar read as one of the machine's programs' menus, and the finish chosen in 2D, the drawer closed, changed nothing visible.
 - **Right (the app):** **Sound** (a speaker icon, crossed out while off; remembered), the **language** (U11), then **About**.
 - On a phone the menus keep their icons and lose their names.
 
@@ -163,7 +166,7 @@ A short dialog: the logo, the version and what the simulator is (and, before 1.0
 
 ### U10. In 2D, the keyboard is a drawer
 
-The TV takes the stage, its picture large and sharp on the tube's lit glass, its knobs, button and lamp working. The computer, its keys drawn from the 3D model's own (`js/flat/bake-keys.js`) and its power rocker at its left, is a drawer under the TV, opened by *Keyboard* on the band: closed, the picture gets the stage. It is remembered; at first it is open only on a touch screen held upright, where there is no other way to type.
+The TV takes the stage, its picture large and sharp on the tube's lit glass, its knobs, button and lamp working. The computer, its keys drawn from the 3D model's own (`js/flat/bake-keys.js`) and its power rocker at its left, is a drawer under the TV, opened by *Keyboard* on the band: closed, the picture gets the stage. It is open at first, so that the keys are at hand, and then remembered.
 
 ### U11. Two languages
 
