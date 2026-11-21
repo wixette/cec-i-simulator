@@ -122,7 +122,7 @@ The page is a fixed frame of top bar, stage, dock and status line, and never scr
 - **Inside** turns the lid and the keyboard to glass: the main board, the power supply and the speaker. The machine keeps running.
 - **Taken apart** takes the computer apart in the real order (U3). While the computer is on, it is greyed in the menu with "switch off first" beside it (P6).
 - **The camera:** drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and limited. Reached by Tab, the view shows the amber focus ring, and the arrows pan, + and − zoom and Home goes home; otherwise it has no focus, and every key is the machine's. A click on the view never focuses it.
-- **Labels:** hovering a part shows its name and what it does, after 400 ms, beside the pointer, in the page's language (the model carries every label in English and Chinese); a tap writes it in the status line.
+- **Labels:** hovering a part shows its name and what it does, after 400 ms (a part a click does nothing to, after 1 s), beside the pointer, in the page's language (the model carries every label in English and Chinese); a tap writes it in the status line. Between the keys (the keyboard's plate or the lid's surround within about half a key of a key) no label shows: the pointer is aiming at the keys there.
 
 ### U3. Taking it apart
 

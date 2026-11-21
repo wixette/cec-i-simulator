@@ -10,6 +10,7 @@ Instruments that show how it works ([design/v0.0.2.md](design/v0.0.2.md)): four 
 - **Chinese:** a string's bytes (127 and two more a character), the latch at $C0B0 and the font bank in its 16 KB window, the last character's 32 bytes as 16 × 16 dots with its glyph number and place in the font, and where its dots landed on the hi-res page.
 - **Inside** lights the chips as they work: the 6502, the RAM, U7, U35, the font ROMs, the latch U32, the character ROM.
 - A new logo and favicon: the CEC-I from the front, in flat shapes.
+- Fewer labels in the way: none between the keys, and a part a click does nothing to waits a second before saying what it is. The 3D key light no longer shows in the TV's glass.
 
 ## v0.0.1 (pre-release)
 
