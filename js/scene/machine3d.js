@@ -186,6 +186,10 @@ export class Machine3D {
     // the TV turned to glass while it stands between the camera and the computer
     /** @private */
     this.tvParts = TV_PARTS.map((n) => this.node(n));
+    // the TV takes no shadows: the key light comes low from the front, and the computer in front
+    // of the set cast its shadow on the cabinet's foot; raising the light instead would light
+    // the case's top harder again
+    for (const o of this.tvParts) o.traverse((x) => (x.receiveShadow = false));
     /** @private */
     this.tvBox = new THREE.Box3();
     for (const o of this.tvParts) this.tvBox.expandByObject(o);
