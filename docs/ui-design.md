@@ -131,7 +131,7 @@ With the computer off, a click on the lid, the keyboard or the main board takes 
 
 ### U4. The helper strip
 
-A strip of its own, centred at the stage's foot, just above the dock: *Computer* (the power switch, lit green while on), *Ctrl-Reset* (Ctrl and RESET held together a moment, then let go), *TV* (its power, lit green while on), *Joystick* (plugged in or out, lit while in; design/v0.0.3.md, P2: the arrows move its stick and are the machine's no more, Space is button 0 and Ctrl button 1, both still typing too). On a touch screen, while the joystick is plugged in, a row under the picture holds its four arrows on the left and its buttons A and B on the right. The machine's own controls stay clickable where they are too: the rocker on the computer's left side, the TV's button and knobs (a drag sideways or the wheel turns a knob, a double-click puts it back). A tab on the strip's top edge folds it away; the choice is remembered, and in a short window (a phone on its side) it starts folded. In a narrow window the buttons keep their icons and lose their names.
+A strip of its own, centred at the stage's foot, just above the dock: *Computer* (the power switch, lit green while on), *Ctrl-Reset* (Ctrl and RESET held together a moment, then let go), *TV* (its power, lit green while on). The machine's own controls stay clickable where they are too: the rocker on the computer's left side, the TV's button and knobs (a drag sideways or the wheel turns a knob, a double-click puts it back). A tab on the strip's top edge folds it away; the choice is remembered, and in a short window (a phone on its side) it starts folded. In a narrow window the buttons keep their icons and lose their names.
 
 ### U5. Typing
 

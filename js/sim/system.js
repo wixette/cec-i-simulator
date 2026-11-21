@@ -17,7 +17,6 @@
 import { listProgram, tokenNames } from "./basic.js";
 import { planTyping } from "./chinese.js";
 import { typingPlan } from "./samples.js";
-import { Joystick } from "./joystick.js";
 import { KeyHolds, RESET_HOLD_MS } from "./key-holds.js";
 import { Keyboard, Typist } from "./keyboard.js";
 import { CLOCK_HZ, Machine } from "./machine.js";
@@ -74,8 +73,6 @@ export class System {
     this.motion = new Map(o.takeApart.map((s) => [s.unit, { f: 0, target: 0, rate: 1 / OUT_S }]));
     /** The TV: its power and its two knobs, 0..1. @type {{ on: boolean } & Record<Knob, number>} */
     this.tv = { on: false, brightness: KNOB_START.brightness, colour: KNOB_START.colour };
-    /** The joystick on the game port, played on the visitor's keys (design/v0.0.3.md, P2). */
-    this.joystick = new Joystick();
     /** Whether typing in runs the machine faster (FAST_TYPING). */
     this.fastTyping = true;
     /** The longest a frame may spend running the machine, ms (FRAME_BUDGET_MS; the tests lift it, so that they do not depend on the computer they run on). */
@@ -255,19 +252,9 @@ export class System {
     return true;
   }
 
-  /** The page lost the keyboard: every key the visitor's keyboard held goes up, and the joystick's arrows and buttons. */
+  /** The page lost the keyboard: every key the visitor's keyboard held goes up. */
   releaseKeys() {
     this.holds.blur();
-    if (this.joystick.on) this.joystick.release();
-  }
-
-  /** Plugs the joystick in, or pulls it out (the helper strip's Joystick). @param {boolean} on */
-  setJoystick(on) {
-    if (on === this.joystick.on) return;
-    this.joystick.plug(on);
-    this.joystick.apply(this.machine);
-    this.say({ key: on ? "joystick.on" : "joystick.off" });
-    this.changed();
   }
 
   /**
@@ -475,8 +462,6 @@ export class System {
     for (const [id, until] of this.typed) if (until <= now) this.typed.delete(id);
     this.stepMotion(dt);
     const m = this.machine;
-    this.joystick.step(Math.min(dt, MAX_DT));
-    this.joystick.apply(m);
     this.traffic = m.takeTraffic();
     if (!m.powered || this.paused) return 0;
     const boost = this.typist.busy && this.fastTyping ? FAST_TYPING : 1;

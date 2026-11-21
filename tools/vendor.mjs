@@ -52,7 +52,6 @@ export const ICONS = [
   "grid_on",
   "home",
   "info",
-  "joystick",
   "keyboard",
   "keyboard_arrow_down",
   "keyboard_arrow_up",

@@ -116,17 +116,6 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 /* ---- the stage ---- */
 /* the stage: its band, a row of its own, then the machine in a card under it (U1) */
 #stage { display: flex; flex-direction: column; overflow: hidden; min-height: 0; padding: 0 12px 10px; background: var(--md-surface); }
-/* the joystick's pad on a touch screen (design/v0.0.3.md, P2): a row under the picture */
-.joypad { flex: none; display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 520px; margin: 6px auto 0; padding: 0 4px; }
-.joypad[hidden] { display: none; }
-.joypad-arrows { display: grid; grid-template: ". u ." 38px "l . r" 38px ". d ." 38px / 46px 46px 46px; gap: 2px; }
-.joypad-buttons { display: flex; gap: 16px; align-items: center; }
-.joypad-key { touch-action: none; user-select: none; -webkit-user-select: none; display: grid; place-items: center; border: 1px solid var(--md-outline-variant); background: var(--md-surface-mid); color: var(--md-on-surface); font: 600 16px var(--font); }
-.joypad-key.arrow { border-radius: var(--radius-s); font-size: 13px; }
-.joypad-key.up { grid-area: u; } .joypad-key.left { grid-area: l; } .joypad-key.right { grid-area: r; } .joypad-key.down { grid-area: d; }
-.joypad-key.a, .joypad-key.b { width: 60px; height: 60px; border-radius: 50%; font-size: 18px; }
-.joypad-key.b { transform: translateY(14px); }
-.joypad-key.held { background: var(--md-primary); color: var(--md-on-primary); border-color: transparent; }
 #stage-view { position: relative; flex: 1 1 0; min-height: 0; overflow: hidden; border-radius: var(--radius-m); background: var(--md-surface-low); }
 /* both views on one dark blue glow: the 3D view draws on a clear canvas over it, with no floor,
    so nothing is brighter than the machine; the 2D view's drawings sit on the same */
