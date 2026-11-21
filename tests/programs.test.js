@@ -6,8 +6,8 @@
 
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { planTyping } from "../js/sim/chinese.js";
-import { findOnScreen, glyphPlace } from "../js/sim/glyphs.js";
+import { decodeBytes, planTyping } from "../js/sim/chinese.js";
+import { glyphPlace } from "../js/sim/glyphs.js";
 import { CLOCK_HZ } from "../js/sim/machine.js";
 import { listing, machineCode, SAMPLES, SECTIONS, typingPlan } from "../js/sim/samples.js";
 import { System } from "../js/sim/system.js";
@@ -265,6 +265,35 @@ describe("our programs: Utilities", () => {
   });
 });
 
+describe("our programs: Text editor", () => {
+  it("typing, a new line, editing in the middle; a long text wraps at 40 and scrolls; Quit back to BASIC", () => {
+    const p = typed("editor");
+    for (let i = 0; i < 50 && line(p.m) !== 90; i++) p.run(0.1);
+    p.keys(" ");
+    p.run(0.5);
+    const word = (/** @type {number} */ a) => p.m.ram[a] | (p.m.ram[a + 1] << 8);
+    const text = () => String.fromCharCode(...p.m.ram.subarray(0x6800, word(0x6604))).replace(/\r/g, "\n");
+    p.keys("HELLO, CEC-I\rOK");
+    p.run(0.5);
+    assert.equal(text(), "HELLO, CEC-I\nOK");
+    assert.equal(word(0x6606), 14, "14 characters, the new line not counted");
+    assert.equal(p.m.screenText()[0], "HELLO, CEC-I");
+    assert.match(p.m.screenText()[23], /^LINE 2 COL 3 CHARS 14/);
+    p.keys("{up}{f2}X");
+    p.run(0.5);
+    assert.equal(text(), "HXLLO, CEC-I\nOK");
+    p.keys("{down}{down}" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".repeat(40));
+    p.run(1);
+    assert.equal(text(), `HXLLO, CEC-I\nOK${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".repeat(40)}`, "down to the end of OK, then typed on");
+    assert.ok(word(0x6602) > 0x6800, "the top of the screen moved down the text");
+    assert.ok(p.m.ram[0x6680] < 23, "the cursor on the screen");
+    assert.equal(p.m.screenText()[0].length, 40, "a full line of 40");
+    p.keys("\x03");
+    for (let i = 0; i < 30 && line(p.m) !== 100; i++) p.run(0.1);
+    assert.equal(line(p.m), 100, "Quit: back to BASIC, which asks to edit again");
+  });
+});
+
 describe("our programs: Music", () => {
   it("Music box: Twinkle, Twinkle starts on do (C4, 262 Hz), its notes shown as they play", () => {
     const p = typed("musicbox");
@@ -333,6 +362,50 @@ function basicVar(m, name) {
 /** The line CEC-BASIC is running (CURLIN, $75). @param {import("../js/sim/machine.js").Machine} m */
 const line = (m) => m.ram[0x75] | (m.ram[0x76] << 8);
 
+/**
+ * A BASIC program's string variable, its text (Chinese decoded), read from its memory: string
+ * variables' names carry bit 7 on their second letter; their value a length and an address.
+ * @param {import("../js/sim/machine.js").Machine} m @param {string} name
+ */
+function basicStr(m, name) {
+  const r = m.ram;
+  const want = [name.charCodeAt(0), (name.length > 1 ? name.charCodeAt(1) : 0) | 0x80];
+  for (let a = r[0x69] | (r[0x6a] << 8), end = r[0x6b] | (r[0x6c] << 8); a < end; a += 7) {
+    if (r[a] !== want[0] || r[a + 1] !== want[1]) continue;
+    const at = r[a + 3] | (r[a + 4] << 8);
+    return decodeBytes([...r.subarray(at, at + r[a + 2])]);
+  }
+  return null;
+}
+
+/** A number read in Chinese, as the program should: 万 and 亿 groups, one 零 for a run of zeros, 一十 at the start 十. @param {string} n */
+function chineseNumber(n) {
+  const digits = "零一二三四五六七八九";
+  const [int, frac] = n.split(".");
+  let out = "";
+  if (/^0*$/.test(int)) out = "零";
+  else {
+    const s = int.replace(/^0+/, "");
+    let zero = false;
+    for (let k = 0; k < s.length; k++) {
+      const g = Number(s[k]);
+      const p = s.length - 1 - k;
+      if (g === 0) zero ||= out !== "";
+      else {
+        if (zero) out += "零";
+        zero = false;
+        out += digits[g] + ["", "十", "百", "千"][p % 4];
+      }
+      if (p % 4 === 0 && p > 0 && Number(s.slice(Math.max(0, k - 3), k + 1)) > 0) {
+        out += p === 4 ? "万" : "亿";
+        zero = false;
+      }
+    }
+    if (out.startsWith("一十")) out = out.slice(1);
+  }
+  return frac === undefined ? out : `${out}点${[...frac].map((d) => digits[Number(d)]).join("")}`;
+}
+
 describe("our programs: Chinese", () => {
   it("Idiom quiz: typed in through 区位 in the Chinese system; ten right answers, full marks", () => {
     const p = typed("idioms");
@@ -350,45 +423,29 @@ describe("our programs: Chinese", () => {
     assert.equal(basicVar(p.m, "S"), 10);
     assert.equal(line(p.m), 250, "asks to play again");
   });
-  it("Word processor: letters full width, Chinese by 区位, new lines; editing in the middle; a long text wraps and scrolls", () => {
-    const p = typed("wordproc");
-    assert.ok(p.s.chineseOn);
-    for (let i = 0; i < 100 && line(p.m) !== 90; i++) p.run(0.1);
-    p.keys(" ");
-    p.run(1);
-    const word = (/** @type {number} */ a) => p.m.ram[a] | (p.m.ram[a + 1] << 8);
-    const text = () => {
-      /** @type {string[]} */
-      const out = [];
-      for (let a = 0x7000; a < word(0x6c04); a += 2) out.push(p.m.ram[a] === 0 ? "\n" : p.m.ram[a] === 3 ? String.fromCharCode(p.m.ram[a + 1] + 32) : p.m.ram[a] === 1 && p.m.ram[a + 1] === 1 ? " " : `[${p.m.ram[a]}-${p.m.ram[a + 1]}]`);
-      return out.join("");
+});
+
+describe("our programs: Number reading", () => {
+  it("reads numbers in Chinese as they are said, and says what is wrong with what is not a number", () => {
+    const p = typed("numread");
+    const read = (/** @type {string} */ n) => {
+      for (let i = 0; i < 50 && line(p.m) !== 100; i++) p.run(0.1);
+      p.keys(`${n}\n`);
+      p.run(0.5);
+      for (let i = 0; i < 80 && line(p.m) !== 100; i++) p.run(0.1);
+      return { r: basicStr(p.m, "R"), e: basicStr(p.m, "E") };
     };
-    p.keys("HELLO, CEC-I{f3}54482710{f1}\nOK");
-    p.run(1);
-    assert.equal(text(), "HELLO, CEC-I[54-48][27-10]\nOK");
-    assert.equal(word(0x6c06), 16, "16 characters, the new line not counted");
-    // 中 on the screen: the first line's 13th cell, as the font has it
-    const place = glyphPlace(4721);
-    const zhong = [...p.m.font.subarray(place.bank * 0x4000 + place.window - 0x4000, place.bank * 0x4000 + place.window - 0x4000 + 32)];
-    const at = findOnScreen(p.m.ram, 2, zhong);
-    assert.deepEqual(at && [at.x, at.y], [12 * 16, 0]);
-    // three to the left, delete, a letter in its place
-    p.keys("{left}{left}{left}{f2}X");
-    p.run(1);
-    assert.equal(text(), "HELLO, CEC-I[54-48]X\nOK");
-    // down to the second line's end (column 2), up to the first line's column 2, Return splits it there
-    p.keys("{down}{up}\n");
-    p.run(1);
-    assert.equal(text(), "HE\nLLO, CEC-I[54-48]X\nOK");
-    // a long text before OK: lines of 17 wrap, and the screen scrolls to keep the cursor on it
-    p.keys("{down}{down}" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".repeat(8));
-    p.run(2);
-    assert.equal(text(), `HE\nLLO, CEC-I[54-48]X\n${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".repeat(8)}OK`);
-    assert.ok(word(0x6c02) > 0x7000, "the top of the screen moved down the text");
-    assert.equal(word(0x6c00), word(0x6c04) - 4, "the cursor before OK");
-    assert.ok(p.m.ram[0x6c2a] < 10, "the cursor on the screen");
-    p.keys("\x03");
-    for (let i = 0; i < 30 && line(p.m) !== 100; i++) p.run(0.1);
-    assert.equal(line(p.m), 100, "Quit: back to BASIC, which asks to edit again");
+    assert.equal(read("12345").r, "一万二千三百四十五");
+    assert.equal(read("123.45").r, "一百二十三点四五");
+    for (const n of ["0", "7", "10", "15", "110", "1010", "10010", "100500", "105000", "100000001", "200000000000", "999999999999", "0.5", "000120", "3.14159265", "20.01"]) {
+      const got = read(n);
+      assert.equal(got.e, "", `${n}: taken`);
+      assert.equal(got.r, chineseNumber(n), n);
+    }
+    assert.equal(read("12A").e, "只能用数字和小数点。");
+    assert.equal(read("1.2.3").e, "小数点只能有一个。");
+    assert.equal(read("5.").e, "小数点后面要有数字。");
+    assert.equal(read("1234567890123").e, "整数最多十二位。");
+    assert.equal(read("1.123456789").e, "小数最多八位。");
   });
 });

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// Utilities (design/v0.0.3.md, P1): a calendar for any month of any year, and a clock. Western
-// BASIC, in English.
+// Utilities (design/v0.0.3.md, P1): a calendar for any month of any year, a clock, and a text
+// editor. Western BASIC, in English.
 
 /** @typedef {import("../sim/samples.js").Sample} Sample */
 
@@ -436,6 +436,594 @@ TIPX    ${tips((r, a) => r * Math.sin(a) * 1.094)}
 TIPY    ${tips((r, a) => -r * Math.cos(a))}`,
     },
   },
+  {
+    id: "editor",
+    section: "utilities",
+    mode: "western",
+    text: `10 HIMEM:24576:A=24576
+20 READ B:IF B>=0 THEN POKE A,B:A=A+1:GOTO 20
+30 TEXT:HOME:PRINT "TEXT EDITOR":PRINT
+40 PRINT "A WHOLE SCREEN OF TEXT, EDITED ANYWHERE."
+50 PRINT:PRINT "ARROWS: MOVE THE CURSOR"
+60 PRINT "F2: DELETE THE CHARACTER BEFORE IT"
+70 PRINT "RETURN: A NEW LINE"
+80 PRINT "QUIT: STOP"
+90 PRINT:PRINT "PRESS A KEY TO START";:GET A$:HOME:CALL 24576
+100 HOME:PRINT "EDIT THE SAME TEXT AGAIN (Y/N)? ";:GET A$:IF A$="Y" THEN HOME:CALL 24579:GOTO 100
+110 HOME:END`,
+    code: {
+      org: 24576,
+      line: 1000,
+      source: `; The text editor: a whole screen of text, edited anywhere, in the manner of
+; WordStar; in machine code, so that every key shows at once. 23 lines of 40
+; on the text screen, a line of status under them, the cursor in inverse. The
+; text is a byte a character, a new line 13. Keys: the arrows; F2 deletes the
+; character before the cursor; Return a new line; Quit ends.
+PTR = $06           ; a line of the screen
+SRC = $08           ; for walking and moving the text
+DST = $1A
+START = $6800       ; the text, up to $9600 (BASIC's HIMEM)
+LIMIT = $9600
+COLS = 40
+ROWS = 23
+CUR = $6600         ; the cursor's place in the text
+TOP = $6602         ; the text at the top of the screen
+ENDP = $6604        ; the text's end
+CHARS = $6606       ; how many characters (not counting new lines)
+ROWST = $6608       ; where each of the 23 lines starts, and the 24th (48 bytes)
+ROWN = $6640        ; how many characters each line shows (23)
+ROWE = $6660        ; 1 for each line with text, or room for it (24)
+CROW = $6680        ; the cursor on the screen
+CCOL = $6681
+WALK = $6682
+LIVE = $6683
+CNT = $6684
+SAVEZP = $6685      ; the zero page borrowed, 6 bytes
+NUML = $668B
+NUMH = $668C
+LINEL = $668D
+LINEH = $668E
+COLL = $668F
+COLH = $6690
+TL = $6691
+SHOWN = $6692
+SAVEX = $6693
+CH = $6694
+        * = $6000
+        JMP NEW         ; 24576: a new text
+        JMP AGAIN       ; 24579: the same text again
+NEW     LDA #<START
+        STA CUR
+        STA TOP
+        STA ENDP
+        LDA #>START
+        STA CUR+1
+        STA TOP+1
+        STA ENDP+1
+        LDA #0
+        STA CHARS
+        STA CHARS+1
+AGAIN   LDX #1          ; borrow the zero page
+SAVE1   LDA PTR,X
+        STA SAVEZP,X
+        LDA SRC,X
+        STA SAVEZP+2,X
+        LDA DST,X
+        STA SAVEZP+4,X
+        DEX
+        BPL SAVE1
+LOOP    JSR SHOW
+KEY     LDA $C000
+        BPL KEY
+        STA $C010
+        AND #$7F
+        JSR DOKEY
+        BCC LOOP
+        LDX #1          ; Quit: the zero page back, and to BASIC
+REST1   LDA SAVEZP,X
+        STA PTR,X
+        LDA SAVEZP+2,X
+        STA SRC,X
+        LDA SAVEZP+4,X
+        STA DST,X
+        DEX
+        BPL REST1
+        RTS
+; a key: carry set to quit
+DOKEY   CMP #3          ; Quit
+        BNE K2
+        SEC
+        RTS
+K2      CMP #12         ; F2: delete
+        BNE K3
+        JMP DELETE
+K3      CMP #8
+        BNE K4
+        JMP LEFT
+K4      CMP #21
+        BNE K5
+        JMP RIGHT
+K5      CMP #11
+        BNE K6
+        JMP UP
+K6      CMP #10
+        BNE K7
+        JMP DOWN
+K7      CMP #13         ; Return, and every character that prints
+        BEQ INSERT
+        CMP #32
+        BCC KDONE
+        CMP #127
+        BCC INSERT
+KDONE   CLC
+        RTS
+; A into the text at the cursor
+INSERT  STA CH
+        LDA ENDP+1
+        CMP #>LIMIT-1
+        BCC ROOM
+        LDA $C030       ; full: a click, no more
+        CLC
+        RTS
+ROOM    LDA ENDP        ; everything from the cursor up a byte, from the end down
+        STA SRC
+        LDA ENDP+1
+        STA SRC+1
+IMOVE   LDA SRC
+        CMP CUR
+        BNE IM1
+        LDA SRC+1
+        CMP CUR+1
+        BEQ IPUT
+IM1     LDA SRC
+        BNE IM2
+        DEC SRC+1
+IM2     DEC SRC
+        LDY #0
+        LDA (SRC),Y
+        INY
+        STA (SRC),Y
+        JMP IMOVE
+IPUT    LDY #0
+        LDA CH
+        STA (SRC),Y
+        INC ENDP
+        BNE IP1
+        INC ENDP+1
+IP1     JSR CURUP
+        LDA CH
+        CMP #13
+        BEQ IDONE
+        INC CHARS
+        BNE IDONE
+        INC CHARS+1
+IDONE   CLC
+        RTS
+; the character before the cursor out
+DELETE  LDA CUR
+        CMP #<START
+        BNE DEL1
+        LDA CUR+1
+        CMP #>START
+        BEQ KDONE
+DEL1    JSR CURDOWN
+        LDA CUR
+        STA DST
+        LDA CUR+1
+        STA DST+1
+        LDY #0
+        LDA (DST),Y
+        CMP #13
+        BEQ DMOVE
+        LDA CHARS
+        BNE DM0
+        DEC CHARS+1
+DM0     DEC CHARS
+DMOVE   LDA DST         ; everything after it down a byte
+        CLC
+        ADC #1
+        STA SRC
+        LDA DST+1
+        ADC #0
+        STA SRC+1
+DM1     LDA SRC
+        CMP ENDP
+        BNE DM2
+        LDA SRC+1
+        CMP ENDP+1
+        BEQ DM3
+DM2     LDY #0
+        LDA (SRC),Y
+        STA (DST),Y
+        INC SRC
+        BNE DM4
+        INC SRC+1
+DM4     INC DST
+        BNE DM1
+        INC DST+1
+        BNE DM1
+DM3     LDA ENDP
+        BNE DM5
+        DEC ENDP+1
+DM5     DEC ENDP
+        CLC
+        RTS
+LEFT    LDA CUR
+        CMP #<START
+        BNE L1
+        LDA CUR+1
+        CMP #>START
+        BEQ L2
+L1      JSR CURDOWN
+L2      CLC
+        RTS
+RIGHT   LDA CUR
+        CMP ENDP
+        BNE R1
+        LDA CUR+1
+        CMP ENDP+1
+        BEQ R2
+R1      JSR CURUP
+R2      CLC
+        RTS
+; up a line: the same column on the line above (scrolling if at the top)
+UP      LDA CROW
+        BNE U1
+        LDA TOP
+        CMP #<START
+        BNE U0
+        LDA TOP+1
+        CMP #>START
+        BEQ R2
+U0      JSR PREVROW
+        JSR LAYOUT
+U1      LDX CROW
+        DEX
+        JMP TOROW
+; down a line (scrolling if at the bottom), if there is one
+DOWN    LDX CROW
+        INX
+        CPX #ROWS
+        BCC D1
+        LDA ROWE+ROWS   ; at the bottom: the screen moves up a line, if there is more
+        BEQ D2
+        LDA ROWST+2
+        STA TOP
+        LDA ROWST+3
+        STA TOP+1
+        JSR LAYOUT
+        LDX CROW
+        INX
+D1      LDA ROWE,X
+        BNE TOROW
+D2      CLC
+        RTS
+; to line X of the screen, the cursor's column or the line's end
+TOROW   TXA
+        ASL A
+        TAY
+        LDA CCOL
+        CMP ROWN,X
+        BCC TR1
+        LDA ROWN,X
+        CMP #COLS       ; a full line: its last character, not past it
+        BCC TR1
+        LDA #COLS-1
+TR1     CLC
+        ADC ROWST,Y
+        STA CUR
+        LDA ROWST+1,Y
+        ADC #0
+        STA CUR+1
+        CLC
+        RTS
+CURUP   INC CUR
+        BNE CU1
+        INC CUR+1
+CU1     RTS
+CURDOWN LDA CUR
+        BNE CD1
+        DEC CUR+1
+CD1     DEC CUR
+        RTS
+FWD1    INC SRC
+        BNE F11
+        INC SRC+1
+F11     RTS
+BACK1   LDA SRC
+        BNE B11
+        DEC SRC+1
+B11     DEC SRC
+        RTS
+; TOP up one line of the screen: back to its paragraph's start, then forward
+PREVROW LDA TOP
+        STA SRC
+        LDA TOP+1
+        STA SRC+1
+        JSR BACK1       ; the character before TOP, perhaps its paragraph's new line
+PR1     LDA SRC
+        CMP #<START
+        BNE PR2
+        LDA SRC+1
+        CMP #>START
+        BEQ PR4
+PR2     JSR BACK1
+        LDY #0
+        LDA (SRC),Y
+        CMP #13
+        BNE PR1
+        JSR FWD1        ; just after a new line: the paragraph starts here
+PR4     LDA SRC         ; forward a line at a time to the one before TOP
+        STA DST
+        LDA SRC+1
+        STA DST+1
+        JSR ROWEND
+        LDA SRC+1
+        CMP TOP+1
+        BCC PR4
+        BNE PR5
+        LDA SRC
+        CMP TOP
+        BCC PR4
+PR5     LDA DST
+        STA TOP
+        LDA DST+1
+        STA TOP+1
+        RTS
+; SRC on to the next line's start: 40 characters, or past a new line
+ROWEND  LDA #COLS
+        STA CNT
+RE1     LDA SRC
+        CMP ENDP
+        BNE RE2
+        LDA SRC+1
+        CMP ENDP+1
+        BEQ RE3
+RE2     LDY #0
+        LDA (SRC),Y
+        PHA
+        JSR FWD1
+        PLA
+        CMP #13
+        BEQ RE3
+        DEC CNT
+        BNE RE1
+RE3     RTS
+; the screen: the cursor kept on it, the text, the cursor, the status
+SHOW    JSR LAYOUT
+        LDA CROW
+        CMP #$FF
+        BNE SH2
+        LDA CUR+1       ; off the screen: above, or below?
+        CMP TOP+1
+        BCC SH1
+        BNE SHD
+        LDA CUR
+        CMP TOP
+        BCC SH1
+SHD     LDA ROWST+2
+        STA TOP
+        LDA ROWST+3
+        STA TOP+1
+        JMP SHOW
+SH1     JSR PREVROW
+        JMP SHOW
+SH2     LDY CROW        ; the cursor: its cell in inverse
+        LDA LINELO,Y
+        STA PTR
+        LDA LINEHI,Y
+        STA PTR+1
+        LDY CCOL
+        LDA (PTR),Y
+        CMP #$E0
+        BCC SH3
+        AND #$1F        ; a small letter: the capital's inverse
+        BPL SH4
+SH3     AND #$3F
+SH4     STA (PTR),Y
+        JMP STATUS
+; walk the text from TOP, writing it on the screen: each line's start and
+; length, whether it has text, the cursor's place
+LAYOUT  LDA TOP
+        STA SRC
+        LDA TOP+1
+        STA SRC+1
+        LDA #$FF
+        STA CROW
+        LDA #1
+        STA LIVE
+        LDX #0
+LROW    LDA LIVE
+        STA ROWE,X
+        TXA
+        ASL A
+        TAY
+        LDA SRC
+        STA ROWST,Y
+        LDA SRC+1
+        STA ROWST+1,Y
+        LDA LINELO,X
+        STA PTR
+        LDA LINEHI,X
+        STA PTR+1
+        LDA #0
+        STA WALK
+LCELL   LDA CROW        ; the cursor here? (the first time only)
+        CMP #$FF
+        BNE LC1
+        LDA SRC
+        CMP CUR
+        BNE LC1
+        LDA SRC+1
+        CMP CUR+1
+        BNE LC1
+        STX CROW
+        LDA WALK
+        STA CCOL
+LC1     LDA SRC         ; the text's end: the rest empty, no more lines
+        CMP ENDP
+        BNE LC2
+        LDA SRC+1
+        CMP ENDP+1
+        BNE LC2
+        LDA #0
+        STA LIVE
+        BEQ LFILL
+LC2     LDY #0
+        LDA (SRC),Y
+        JSR FWD1
+        CMP #13
+        BEQ LFILL       ; a new line: the rest of this line empty
+        ORA #$80
+        LDY WALK
+        STA (PTR),Y
+        INC WALK
+        LDA WALK
+        CMP #COLS
+        BCC LCELL
+        STA ROWN,X
+        BCS LNEXT
+LFILL   LDA WALK
+        STA ROWN,X
+        LDY WALK
+        LDA #$A0
+LF1     CPY #COLS
+        BCS LNEXT
+        STA (PTR),Y
+        INY
+        BNE LF1
+LNEXT   INX
+        CPX #ROWS
+        BCS LDONE
+        JMP LROW
+LDONE   TXA
+        ASL A
+        TAY
+        LDA SRC
+        STA ROWST,Y
+        LDA SRC+1
+        STA ROWST+1,Y
+        LDA LIVE
+        STA ROWE,X
+        RTS
+; the status line, in inverse: LINE, COL, CHARS, and the keys
+STATUS  LDA #<START     ; the cursor's line and column: counted from the start
+        STA SRC
+        LDA #>START
+        STA SRC+1
+        LDA #1
+        STA LINEL
+        STA COLL
+        LDA #0
+        STA LINEH
+        STA COLH
+ST1     LDA SRC
+        CMP CUR
+        BNE ST2
+        LDA SRC+1
+        CMP CUR+1
+        BEQ ST4
+ST2     LDY #0
+        LDA (SRC),Y
+        CMP #13
+        BNE ST3
+        INC LINEL
+        BNE ST2A
+        INC LINEH
+ST2A    LDA #0
+        STA COLL
+        STA COLH
+ST3     INC COLL
+        BNE ST3A
+        INC COLH
+ST3A    JSR FWD1
+        JMP ST1
+ST4     LDA LINELO+23
+        STA PTR
+        LDA LINEHI+23
+        STA PTR+1
+        LDY #39         ; the line blank, in inverse
+        LDA #$20
+ST5     STA (PTR),Y
+        DEY
+        BPL ST5
+        LDY #0
+        LDX #0
+        JSR WORD        ; LINE
+        LDA LINEL
+        STA NUML
+        LDA LINEH
+        STA NUMH
+        JSR NUMBER
+        INY
+        JSR WORD        ; COL
+        LDA COLL
+        STA NUML
+        LDA COLH
+        STA NUMH
+        JSR NUMBER
+        INY
+        JSR WORD        ; CHARS
+        LDA CHARS
+        STA NUML
+        LDA CHARS+1
+        STA NUMH
+        JSR NUMBER
+        LDY #24
+        JMP WORD        ; F2 DEL QUIT
+; the words of WORDS from X, up to a 0, at Y on the status line
+WORD    LDA WORDS,X
+        INX
+        CMP #0
+        BEQ WD1
+        AND #$3F
+        STA (PTR),Y
+        INY
+        BNE WORD
+WD1     RTS
+WORDS   .byte "LINE ", 0, "COL ", 0, "CHARS ", 0, "F2 DEL  QUIT ENDS", 0
+; NUMH:NUML at Y, its digits without the zeros before them
+NUMBER  LDA #0
+        STA SHOWN
+        STX SAVEX
+        LDX #4
+NB1     LDA #0          ; how many of this power of ten
+        STA CH
+NB2     LDA NUML
+        SEC
+        SBC TENL,X
+        STA TL
+        LDA NUMH
+        SBC TENH,X
+        BCC NB3
+        STA NUMH
+        LDA TL
+        STA NUML
+        INC CH
+        BNE NB2
+NB3     LDA CH
+        BNE NB4
+        LDA SHOWN
+        BNE NB4
+        CPX #0          ; the last digit always
+        BNE NB5
+NB4     LDA #1
+        STA SHOWN
+        LDA CH
+        ORA #$30
+        STA (PTR),Y
+        INY
+NB5     DEX
+        BPL NB1
+        LDX SAVEX
+        RTS
+TENL    .byte 1, 10, 100, <1000, <10000
+TENH    .byte 0, 0, 0, >1000, >10000
+; each line of the text screen's first byte
+LINELO  ${textLines((a) => a & 255)}
+LINEHI  ${textLines((a) => a >> 8)}`,
+    },
+  },
 ];
 
 /**
@@ -451,4 +1039,13 @@ function tips(f) {
   const lines = [];
   for (let i = 0; i < all.length; i += 20) lines.push(`.byte ${all.slice(i, i + 20).join(", ")}`);
   return lines.join("\n        ");
+}
+
+/**
+ * The text screen's 24 lines' first bytes ($400 + 128 * (line mod 8) + 40 * (line / 8)), one byte
+ * of each, as assembly.
+ * @param {(addr: number) => number} f
+ */
+function textLines(f) {
+  return `.byte ${Array.from({ length: 24 }, (_, l) => f(0x400 + 128 * (l % 8) + 40 * Math.floor(l / 8))).join(", ")}`;
 }
