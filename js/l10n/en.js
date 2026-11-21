@@ -383,4 +383,8 @@ export default {
   "sample.bricks.about": "Keep the ball up with the bat, on the arrows or the joystick. A pink brick takes three hits, an orange two, a yellow one, and each changes colour as it weakens. Three balls.",
   "sample.minehunt.title": "Mine hunt",
   "sample.minehunt.about": "Ten mines under 81 green squares: open every other square. The pips on an open square count the mines round it, as on a die; flag the squares you think hide one. Its board is drawn and opened by machine code, so a field of empty squares opens at once.",
+  "sample.calendar.title": "Calendar",
+  "sample.calendar.about": "Any month of any year from 1583 to 9999, Sundays picked out; the arrows turn to the month or the year before and after.",
+  "sample.clock.title": "Clock",
+  "sample.clock.about": "An analog clock: set the time, and it keeps it. The machine has no clock of its own, so a little machine code counts the 50 pictures a second the screen shows, while it draws the hands.",
 };

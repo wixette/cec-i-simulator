@@ -9,7 +9,7 @@
 // `NAME = expr` for a constant; `* = expr` or `.org expr` for where the code goes; `.byte`
 // and `.word` for data; `#` for an immediate operand; `(zp,X)`, `(zp),Y`, `(abs)`; `,X`, `,Y`;
 // numbers in decimal, `$hex` or `%binary`; `'c'` for a character's code; `<expr` and `>expr`
-// for the low and high byte; `+ - * /` and parentheses; `*` alone for where the line starts;
+// for the low and high byte of the whole expression; `+ - * /` and parentheses; `*` alone for where the line starts;
 // `;` to the end of the line a comment. An operand under 256 known when it is first met takes
 // the zero page form where there is one.
 
@@ -79,9 +79,10 @@ export function assemble(source, org = 0x300) {
         if (!started) start = v;
         continue;
       }
-      // a label: at the line's start, not indented
+      // a label: at the line's start, not indented (an instruction is indented)
       const lab = /^([A-Za-z_][\w]*):?(?=\s|$)/.exec(text);
-      if (lab && !OPCODES.has(lab[1].toUpperCase()) && !/^\s/.test(text)) {
+      if (lab && OPCODES.has(lab[1].toUpperCase())) throw new AsmError(`${lab[1]} is an instruction: indent it, or name the label otherwise`, n);
+      if (lab) {
         const name = lab[1].toUpperCase();
         if (pass === 1 && labels.has(name)) throw new AsmError(`${name} defined twice`, n);
         labels.set(name, pc);
@@ -233,8 +234,6 @@ export function evaluate(src, labels, pc, n, final) {
       if (s[i++] !== ")") fail("a ) is missing");
       return v;
     }
-    if (c === "<") return (i++, primary() & 0xff);
-    if (c === ">") return (i++, (primary() >> 8) & 0xff);
     if (c === "-") return (i++, -primary());
     if (c === "*") return (i++, pc);
     if (c === "'") {
@@ -278,8 +277,12 @@ export function evaluate(src, labels, pc, n, final) {
     }
     return v;
   };
-  const v = sum();
+  // < and > in front: the low or the high byte of all that follows
+  const part = s[0] === "<" || s[0] === ">" ? s[i++] : "";
+  let v = sum();
   if (i !== s.length) fail("something is left over");
+  if (part === "<") v &= 0xff;
+  if (part === ">") v = (v >> 8) & 0xff;
   return unknown ? null : v;
 }
 

@@ -216,3 +216,47 @@ describe("our programs: Games", () => {
     assert.ok(p.until((t) => /^BOOM!/m.test(t), 5));
   });
 });
+
+describe("our programs: Utilities", () => {
+  it("Calendar: each month's first day and length as the calendar has them, leap years too; the arrows turn the months", () => {
+    const p = typed("calendar");
+    p.keys("2000\n2\n");
+    assert.ok(p.until((t) => /^ +FEBRUARY 2000/m.test(t) && /^N: ANOTHER DATE/m.test(t), 10));
+    const check = (/** @type {number} */ y, /** @type {number} */ m) => {
+      const lines = p.screen().split("\n");
+      const first = new Date(Date.UTC(y, m - 1, 1)).getUTCDay();
+      const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
+      const head = lines.findIndex((l) => /^ +SUN +MON/.test(l));
+      assert.equal(lines[head + 2].search(/\S/), 3 + first * 5, `${y}-${m}: the 1st under its day`);
+      const numbers = lines.slice(head + 1, head + 14).flatMap((l) => l.match(/\d+/g) ?? []).map(Number);
+      assert.equal(Math.max(...numbers), days, `${y}-${m}: its days`);
+    };
+    check(2000, 2);
+    p.keys("{down}");
+    assert.ok(p.until((t) => /^ +FEBRUARY 2001/m.test(t) && /^N: ANOTHER DATE/m.test(t), 5));
+    check(2001, 2);
+    p.keys("{right}");
+    assert.ok(p.until((t) => /^ +MARCH 2001/m.test(t) && /^N: ANOTHER DATE/m.test(t), 5));
+    check(2001, 3);
+    p.keys("N1987\n6\n");
+    assert.ok(p.until((t) => /^ +JUNE 1987/m.test(t) && /^N: ANOTHER DATE/m.test(t), 5));
+    check(1987, 6);
+  });
+  it("Clock: set to 10:09:30, it keeps the time by the screen's fields, a minute a minute, and draws its hands", () => {
+    const p = typed("clock");
+    p.keys("10\n9\n30\n");
+    assert.ok(p.until((t) => /^PRESS A KEY TO SET THE TIME/m.test(t), 30));
+    p.run(2);
+    const time = () => [...p.m.ram.subarray(0x6f00, 0x6f03)];
+    const [h0, m0, s0] = time();
+    p.run(60);
+    const [h1, m1, s1] = time();
+    const passed = (h1 * 3600 + m1 * 60 + s1) - (h0 * 3600 + m0 * 60 + s0);
+    assert.ok(Math.abs(passed - 60) <= 1, `${passed} s in 60`);
+    let lit = 0;
+    for (let a = 0x2000; a < 0x4000; a++) if (p.m.ram[a] & 0x7f) lit++;
+    assert.ok(lit > 200, `${lit} bytes of the face and hands`);
+    p.keys("Q");
+    assert.ok(p.until((t) => p.m.text && !/PRESS A KEY/.test(t), 3));
+  });
+});

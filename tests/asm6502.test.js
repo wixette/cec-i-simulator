@@ -41,13 +41,14 @@ loop:   LDA msg,X       ; a comment
 done    RTS
 msg     .byte "HI", 0
         .word start, >msg, <msg+1
+        .byte <start+$1FF, >start+$1FF
         LDA #'A'+1`;
     const { org, bytes, labels } = assemble(src);
     assert.equal(org, 0x300);
     assert.equal(labels.get("LOOP"), 0x302);
     assert.deepEqual(bytes.slice(0, 15), [0xa2, 0x00, 0xbd, 0x10, 0x03, 0xf0, 0x08, 0x09, 0x80, 0x9d, 0x28, 0x04, 0xe8, 0xd0, 0xf3]);
     assert.deepEqual(bytes.slice(15, 25), [0x60, 0x48, 0x49, 0x00, 0x00, 0x03, 0x03, 0x00, 0x11, 0x00]);
-    assert.deepEqual(bytes.slice(25), [0xa9, 0x42]);
+    assert.deepEqual(bytes.slice(25), [0xff, 0x04, 0xa9, 0x42]);
   });
   it("the zero page form for a small operand known when met; the absolute one for a label met later", () => {
     const { bytes } = assemble(" LDA $10\n LDA far\n RTS\nfar = $20");
@@ -58,6 +59,7 @@ msg     .byte "HI", 0
     assert.throws(() => assemble(" BNE far\n .byte " + "0,".repeat(200) + "0\nfar RTS"), /out of reach/);
     assert.throws(() => assemble(" FOO #1"), /unknown instruction/);
     assert.throws(() => assemble(" LDA #300"), /not a byte/);
+    assert.throws(() => assemble("BIT .byte 1"), /BIT is an instruction/);
   });
   it("DATA lines, as a type-in listing carried them", () => {
     assert.equal(dataLines([169, 0, 96], 1000), "1000 DATA 169,0,96");
