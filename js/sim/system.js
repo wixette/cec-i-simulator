@@ -68,6 +68,8 @@ export class System {
     this.tv = { on: false, brightness: KNOB_START.brightness, colour: KNOB_START.colour };
     /** Whether typing in runs the machine faster (FAST_TYPING). */
     this.fastTyping = true;
+    /** The longest a frame may spend running the machine, ms (FRAME_BUDGET_MS; the tests lift it, so that they do not depend on the computer they run on). */
+    this.frameBudgetMs = FRAME_BUDGET_MS;
     /** The speed the machine ran at in the last frame, against real time (below 1: it fell behind). */
     this.speed = 1;
     /** What the visitor should be told. @type {(m: Message) => void} */
@@ -411,7 +413,7 @@ export class System {
       this.typist.tick();
       m.run(SLICE);
       // too slow a device to keep up: run slow rather than freeze the page
-      if (performance.now() - t0 > FRAME_BUDGET_MS) break;
+      if (performance.now() - t0 > this.frameBudgetMs) break;
     }
     const ran = m.cycles - start;
     this.speed = want > 0 ? ran / (want / boost) : 1;

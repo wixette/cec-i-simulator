@@ -18,6 +18,8 @@ const ORDER = [
 
 function rig() {
   const s = new System({ roms: ROMS, matrix: MATRIX, takeApart: ORDER });
+  // the machine's time, not the test computer's: no frame is cut short for being slow
+  s.frameBudgetMs = Infinity;
   /** @type {string[]} */
   const said = [];
   s.say = (m) => said.push(m.key);
@@ -179,8 +181,16 @@ describe("Type in and Save the program", () => {
     assert.ok(Math.abs(ran - 0.02 * CLOCK_HZ) < 2000);
     s.type("PRINT\n");
     ran = s.frame(0.02, 20);
-    assert.ok(ran > 0.02 * CLOCK_HZ * (FAST_TYPING - 1) || s.speed < 1);
+    assert.ok(ran > 0.02 * CLOCK_HZ * (FAST_TYPING - 1), `${ran}`);
     assert.ok(s.racing);
+  });
+  it("a frame that runs over its budget stops, and the machine runs slow rather than freeze", () => {
+    const { s } = rig();
+    s.power(true);
+    s.frameBudgetMs = 0;
+    const ran = s.frame(0.02, 0);
+    assert.ok(ran > 0 && ran < 0.02 * CLOCK_HZ, `${ran}`);
+    assert.ok(s.speed < 1);
   });
   it("Western BASIC's prompt after switching on, in frames", () => {
     const { s } = rig();
