@@ -192,9 +192,14 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 /* a tool's layout: its main part, and a side */
 /* an instrument is one block, centred in its tab as a lesson is: its cards side by side at
    their own widths, not spread to the tab's edges */
-.tool { display: flex; gap: 20px; align-items: flex-start; justify-content: center; min-width: 0; max-width: 1400px; margin: 0 auto; }
-.tool-main { min-width: 0; flex: 0 1 auto; }
-.tool-side { flex: 0 1 340px; min-width: 240px; }
+/* The cards side by side while they fit at their own width, else one under another: the main
+   card as wide as its content (the page's 40 columns, the matrix), the side column 300 px at
+   least; on a phone all of them in one column, each the pane's width. */
+.tool { display: flex; flex-wrap: wrap; gap: 16px 20px; align-items: flex-start; justify-content: center; min-width: 0; max-width: 1400px; margin: 0 auto; }
+.tool > * { min-width: 0; max-width: 100%; }
+.tool > .tool-card, .tool-main { flex: 1 1 auto; width: min-content; }
+.tool-side { flex: 1 1 300px; display: flex; flex-direction: column; gap: 12px; }
+.hz-tool > .tool-main { flex: 1 1 440px; display: flex; flex-direction: column; gap: 12px; }
 .tool-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0; }
 .tool h3, .cpu-box h3, .tool-card h3 { margin: 4px 0 8px; font-size: 13px; font-weight: 640; color: var(--md-on-surface-variant); }
 .tool-note { margin: 4px 0 8px; }
@@ -207,7 +212,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .bit small { color: var(--md-outline); font-size: 10px; }
 .bit.on { background: var(--md-secondary-container); }
 .bit.rebuilt { outline: 1px dashed var(--md-primary); }
-.glyph { display: flex; gap: 12px; align-items: flex-start; }
+.glyph { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
 .dots { display: inline-grid; grid-template-columns: repeat(var(--w), 12px); gap: 2px; padding: 6px; background: #0c0d0d; border-radius: var(--radius-xs); }
 .dot { width: 12px; height: 12px; border-radius: 2px; background: #1b201f; }
 .dot.on { background: var(--md-on-surface); }
@@ -292,7 +297,7 @@ button.region:focus-visible { outline: 2px solid var(--md-primary); outline-offs
 .hires-dots i.on { background: var(--md-on-surface); }
 .hires-byte.shift .hires-dots { padding-left: 3px; }
 .line-pick { display: flex; align-items: center; gap: 8px; }
-.line-pick input[type=range] { width: 220px; }
+.line-pick input[type=range] { width: 220px; max-width: 60%; }
 
 /* the Keyboard tool: the latch, and how U26 gives a key's code */
 .kbd-head, .kbd-row, .kbd-own { grid-template-columns: 76px repeat(9, 52px); }
@@ -314,7 +319,7 @@ button.region:focus-visible { outline: 2px solid var(--md-primary); outline-offs
 .glyph-bytes { display: grid; grid-template-columns: repeat(2, auto); gap: 0 8px; font-family: var(--mono); font-size: 11px; line-height: 11px; padding-top: 6px; color: var(--md-on-surface-variant); }
 .kv { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 6px 0; font-size: 13px; }
 .kv dt { color: var(--md-on-surface-variant); }
-.kv dd { margin: 0; font-family: var(--mono); }
+.kv dd { margin: 0; font-family: var(--mono); overflow-wrap: anywhere; min-width: 0; }
 .caveat { margin: 0 auto 8px; max-width: 1400px; color: var(--md-outline); font-size: 12px; }
 
 /* a view pointed at: the stage's edge glows once */
@@ -424,6 +429,10 @@ kbd { display: inline-block; min-width: 1.6em; padding: 0 6px; border: 1px solid
 }
 /* a phone, upright (P9): the same app, the stage on top */
 @media (max-width: 700px) {
+  .cpu-tool { width: auto; }
+  .cpu-grid { grid-template-columns: minmax(0, 1fr); }
+  .tool > *, .hz-tool > .tool-main, .tool-side { flex-basis: 100%; }
+  .kv { grid-template-columns: minmax(0, max-content) minmax(0, 1fr); }
   :root { --bar-h: 48px; }
   #topbar .label, .brand-name { display: none; }
   #topbar { padding: 0 4px 0 10px; }

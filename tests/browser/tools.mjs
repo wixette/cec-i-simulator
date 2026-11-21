@@ -2,7 +2,8 @@
 //
 // The instruments (U12): each tab opens and reads the running machine; the CPU tool's Pause,
 // Step and Run to; a key pressed lights the matrix with its U26 lookup; Chinese printed shows
-// in the Chinese tool; Inside lights the chips.
+// in the Chinese tool; Inside lights the chips. On a phone each tab is one column of cards,
+// each the pane's width, and nothing scrolls the pane sideways.
 
 /** @param {import("./harness.mjs").Harness} h */
 export default async function (h) {
@@ -36,4 +37,14 @@ export default async function (h) {
   await h.js("app.stage.goTo('inside')");
   await h.sleep(1500);
   h.verify("Inside lights the 6502", await h.js("app.model().glow.cpu.level > 0.3"));
+  await h.viewport(390, 844, true);
+  await h.sleep(600);
+  for (const tab of ["cpu", "screen", "hanzi", "keyboard"]) {
+    await h.js(`app.dock.show('${tab}')`);
+    await h.sleep(300);
+    const lay = await h.js(`(() => { const pane = document.getElementById('pane-${tab}');
+      const rects = [...pane.querySelectorAll('.cpu-box, .tool-card')].filter((c) => c.offsetParent).map((c) => c.getBoundingClientRect());
+      return { cols: new Set(rects.map((r) => Math.round(r.left))).size, minW: Math.round(Math.min(...rects.map((r) => r.width))), pw: pane.clientWidth, sideways: pane.scrollWidth > pane.clientWidth + 1 }; })()`);
+    h.verify(`on a phone, ${tab}: one column of full-width cards`, lay.cols === 1 && lay.minW > lay.pw - 40 && !lay.sideways, JSON.stringify(lay));
+  }
 }

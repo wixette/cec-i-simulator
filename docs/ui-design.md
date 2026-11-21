@@ -26,7 +26,7 @@ If a control is wanted somewhere else, move it, or make both places visible at o
 
 ### P3. Tools live in one dock, one at a time
 
-The four instruments (CPU & Memory, Screen, Keyboard, Chinese), Start and References, and the lessons as they come, share one dock under the stage. You choose which one it shows, how big it is, and whether it is open at all.
+The four instruments (CPU & Memory, Screen, Chinese, Keyboard), Start and References, and the lessons as they come, share one dock under the stage. You choose which one it shows, how big it is, and whether it is open at all.
 
 ### P4. Occasional actions go in menus and dialogs
 
@@ -97,7 +97,7 @@ Every control takes its colours, corners, type and states from one set of design
 │ ╰─────────────────────────────────────────────────────────────────────────────────────╯ │
 │                          [⏻ Computer | ↺ Ctrl-Reset] [▭ TV]                               │  helper strip
 ├══════════════════════════════════════ drag ═════════════════════════════════════════════┤
-│ CPU & Memory  Screen  Keyboard  Chinese   Start  References                            ▾ │  dock
+│ CPU & Memory  Screen  Chinese  Keyboard   Start  References                            ▾ │  dock
 │ …                                                                                       │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
 │ Ready. Type on your keyboard: Enter is Return, Page Up 中文, Page Down 西文 …             │  status line
@@ -141,7 +141,7 @@ A strip of its own, centred at the stage's foot, just above the dock: *Computer*
 
 ### U6. The dock's tabs
 
-The instruments first (U12), from the CPU out to the Chinese screen; then the reading: **Start** (the default on a first visit): what the machine is, a first few minutes, the machine's keys on the visitor's, and how Chinese goes in; **References:** further reading first, then what the simulator is built on and its source, and last, folded, what it simplifies. The lessons (v0.0.4) will join the reading. The dock remembers its tab, its height and whether it is folded; what the machine does never switches its tab.
+The instruments first (U12): the CPU, the two of the picture (Screen, Chinese), the keyboard; then the reading: **Start** (the default on a first visit): what the machine is, a first few minutes, the machine's keys on the visitor's, and how Chinese goes in; **References:** further reading first, then what the simulator is built on and its source, and last, folded, what it simplifies. The lessons (v0.0.4) will join the reading. The dock remembers its tab, its height and whether it is folded; what the machine does never switches its tab.
 
 ### U7. Type in, Open, Save
 
@@ -180,8 +180,9 @@ The page speaks 简体中文 and English (D9); v0.0.6 brings ten.
 *(v0.0.2)* Four tabs of the dock, each a view the real machine never had, and each says so at its head (as the TRS-80 and Altair 8800 simulators' do). They read the running machine; they never change it, but for the CPU tool's clock.
 - **CPU & Memory** (after the TRS-80 simulator's): the registers (A, X, Y, S, P, PC) and the flags by letter (N V B D I Z C); the next eight instructions, disassembled in the Apple II monitor's notation; the memory map, ten regions of the 64 KB lit by their share of the traffic, each a button that shows it in the dump; the dump, following PC, the stack or an address. **Pause**, **Step** (one instruction; running, the first press pauses), **Run to** (a hex address), and the clock at real speed, 1/10, 1/100 or 1/1,000. Paused, everything else waits: the picture, the keys, typing. Sound only at real speed.
 - **Screen:** the display's soft switches as chips, lit while on, and a line saying what they make the picture show and from where; the text page's 40 × 24 bytes, row by row with each row's address (the interleave in plain sight), lo-res bytes drawn as their two colours; a cell picked: its address, its byte, and the character U13 draws for it (normal, inverse or flashing) or its two blocks; one hi-res line chosen with a slider: its address worked out from the line number, its 40 bytes as 7 dots each, bit 7's half-dot shift marked.
-- **Keyboard:** the matrix, X0-X7 by Y0-Y9, each key at its crossing with its legend, lit while down; the keys on lines of their own (Ctrl, the Shifts, Caps Lock, Reset); the latch at $C000 with its strobe; the last key's code worked out in U26, line by line.
 - **Chinese:** four cards in the character's order: the string (a variable chosen from the program's; its bytes grouped, each 127 x y a character), the window (the latch's value and bits, the 16 banks with the one in the window lit), the character (its 16 × 16 dots and 32 bytes, its glyph number worked out, where it is in the font and in the window), the screen (where its dots are on the hi-res page, and the 48 bytes they fill).
+- **Keyboard:** the matrix, X0-X7 by Y0-Y9, each key at its crossing with its legend, lit while down; the keys on lines of their own (Ctrl, the Shifts, Caps Lock, Reset); the latch at $C000 with its strobe; the last key's code worked out in U26, line by line.
 - **Inside** (U2) lights the chips as they work, as the TRS-80's does: the 6502 while it runs; the RAM U5, U6; U7; U35; the font ROMs U33, U34; the latch U32 as it is written; U13 while text is shown.
+- **Layout:** the cards side by side while each fits at its own width (the main card as wide as its grid, the side cards 300 px at least), else one under another; on a phone, one column, each card the pane's width, a wide grid (the page's bytes, the matrix, the dump) scrolling inside its card.
 - A tab not shown does no work; a tab shown redraws a few times a second, and its cards only when what they show changes.
 
