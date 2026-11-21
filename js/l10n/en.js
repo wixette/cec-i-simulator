@@ -27,7 +27,6 @@ export default {
   "menu.display.bw": "A black-and-white TV",
   "menu.display.green": "A green monitor",
   "menu.knobs.reset": "Reset the knobs (brightness, colour)",
-  "menu.knobs.atStart": "The knobs are where they start",
   "knobs.reset": "The TV's knobs are back where they start.",
   "menu.finish": "The computer's case",
   "menu.finish.new": "As new",

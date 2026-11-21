@@ -186,7 +186,7 @@ export class TopBar {
     items.push({
       label: t("menu.knobs.reset"),
       icon: "restart_alt",
-      disabled: s.knobsAtStart ? t("menu.knobs.atStart") : undefined,
+      divider: true,
       run: () => s.resetKnobs(),
     });
     for (const [i, found] of [false, true].entries()) {
