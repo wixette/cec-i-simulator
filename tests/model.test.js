@@ -92,10 +92,9 @@ describe("the model", () => {
     for (const m of ["flat_case", "flat_key"]) {
       const v = MACHINE.colours[m].v;
       assert.ok(Array.isArray(v) && v.length === 2 && v.every((c) => /^#[0-9A-F]{6}$/i.test(c)), m);
-      // rendered under the 3D view's lights, a little darker than the material itself
-      const lum = (/** @type {string} */ h) => [1, 3, 5].reduce((s, i) => s + parseInt(h.slice(i, i + 2), 16), 0);
-      const base = MACHINE.colours[m === "flat_case" ? "case_plastic" : "key_tan"].v;
-      v.forEach((c, i) => assert.ok(lum(c) < lum(base[i]), `${m}[${i}] is darker than the material`));
+      // as found yellower than as new: more red than blue
+      const ch = (/** @type {string} */ h, /** @type {number} */ i) => parseInt(h.slice(i, i + 2), 16);
+      assert.ok(ch(v[1], 1) - ch(v[1], 5) > ch(v[0], 1) - ch(v[0], 5), `${m}: as found is yellower`);
     }
   });
 
