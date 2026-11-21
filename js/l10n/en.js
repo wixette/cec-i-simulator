@@ -391,4 +391,6 @@ export default {
   "sample.musicbox.about": "Four tunes in the public domain, among them Mo Li Hua (Jasmine Flower) and Song Bie (Farewell), written in 简谱, the numbered notation, in DATA lines, and played with CEC-BASIC's own MUSIC; the notes are shown as they play.",
   "sample.organ.title": "Organ",
   "sample.organ.about": "The keys 1 to 7 play do, re, mi, fa, sol, la, ti, as 简谱 numbers them, and light on the screen; the arrows go an octave down or up.",
+  "sample.kaleidoscope.title": "Kaleidoscope",
+  "sample.kaleidoscope.about": "LOGO draws random shapes, each eight times round the centre, in colour, a new picture every few seconds. The machine's LOGO keeps colour off; one .DEPOSIT to the $C0B0 latch lets it through.",
 };

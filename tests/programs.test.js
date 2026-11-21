@@ -294,3 +294,16 @@ describe("our programs: Music", () => {
     assert.ok(Math.abs(doHigh - 523) < 10, `${doHigh} Hz`);
   });
 });
+
+describe("our programs: LOGO", () => {
+  it("Kaleidoscope: typed in LOGO's editor from Western BASIC, its four procedures defined, a picture drawn in colour", () => {
+    const p = typed("kaleidoscope");
+    assert.ok(p.until((t) => ["SHAPE", "RING", "PICTURE", "KALEIDOSCOPE"].every((n) => new RegExp(`^${n} DEFINED`, "m").test(t)), 20));
+    p.run(15);
+    assert.ok(p.m.hires && !p.m.text && !p.m.mixed, "the full screen");
+    assert.equal(p.m.c0b0 & 0x10, 0x10, "colour let through");
+    let lit = 0;
+    for (let a = 0x2000; a < 0x4000; a++) if (p.m.ram[a] & 0x7f) lit++;
+    assert.ok(lit > 500, `${lit} bytes drawn`);
+  });
+});

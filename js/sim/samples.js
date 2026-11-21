@@ -21,7 +21,7 @@ import { planTyping } from "./chinese.js";
  * @property {string} id
  * @property {Section} section where Programs lists it
  * @property {Mode} mode the mode it is typed in and runs in
- * @property {string} text the listing (BASIC lines; for LOGO, its procedures), without RUN
+ * @property {string} text the listing (BASIC lines; for LOGO, its procedures, typed in LOGO's editor), without RUN
  * @property {Code} [code] its machine code, if it has some
  * @property {string} [run] what starts it once typed in (BASIC: RUN)
  */
@@ -76,7 +76,8 @@ export function typingPlan(s) {
   const monitor = (/** @type {string[]} */ screen) => (screen.filter((l) => l.trim()).at(-1)?.startsWith("*") ? "\x02\n{wait:0.6}" : "");
   const body = listing(s);
   let after;
-  if (s.mode === "logo") after = `LG\n{wait:${LOGO_START_S}}${body}\n${s.run ?? ""}`;
+  // LOGO: TO opens its editor; Ctrl-C defines all that was typed in it
+  if (s.mode === "logo") after = `LG\n{wait:${LOGO_START_S}}${body}\n\x03{wait:2}${s.run ?? ""}`;
   else {
     const text = `NEW\n${body}\n${s.run ?? "RUN\n"}`;
     after = s.mode === "chinese" ? `{zhongwen}{wait:${CHINESE_START_S}}${planTyping(text).keys}` : planTyping(text).keys;

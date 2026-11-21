@@ -390,4 +390,6 @@ export default {
   "sample.musicbox.about": "四首公有领域的乐曲，其中有《茉莉花》和《送别》，用简谱写在 DATA 语句里，由 CEC-BASIC 自己的 MUSIC 语句演奏，边演奏边显示音符。",
   "sample.organ.title": "电子琴",
   "sample.organ.about": "按 1 到 7 键，按简谱弹出 do、re、mi、fa、sol、la、ti，屏幕上的琴键随之亮起；方向键升高或降低一个八度。",
+  "sample.kaleidoscope.title": "万花筒",
+  "sample.kaleidoscope.about": "LOGO 随机画出各种图形，每个都绕中心重复八次，彩色的，每隔几秒换一幅新图。学习机的 LOGO 本来关闭了彩色；向 $C0B0 锁存器 .DEPOSIT 一个字节，就能让彩色显示出来。",
 };
