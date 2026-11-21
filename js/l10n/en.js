@@ -366,4 +366,15 @@ export default {
   "hz.screen.bytes": "Bytes",
   "hz.screen.bytesIs": "{n}, from ${first}",
   "hz.screen.note": "16 dots across take three 7-dot hi-res bytes on each of 16 lines: 48 bytes. Characters stand 16 dots apart, lines 17 apart.",
+  // our programs (v0.0.3)
+  "sample.guess.title": "Guess my number",
+  "sample.guess.about": "The first program of many: the computer thinks of a number from 1 to 100, and says too big or too small until you find it. INPUT, IF, RND and a loop that ends.",
+  "sample.barchart.title": "Bar chart",
+  "sample.barchart.about": "Type up to eight names and numbers; their bars are drawn to scale in lo-res colour, the names and numbers under them.",
+  "sample.curves.title": "Hi-res curves",
+  "sample.curves.about": "Sine waves, then Lissajous figures, drawn with HPLOT on the 280 × 160 hi-res screen. A press of a key draws the next.",
+  "sample.bigchar.title": "Big character",
+  "sample.bigchar.about": "Give a character's 区位 code; its 16 × 16 dots are drawn large. A few bytes of machine code fetch its 32 bytes from the font chips, through the window the $C0B0 latch opens (the Chinese tab shows the same path).",
+  "sample.versus.title": "BASIC against machine code",
+  "sample.versus.about": "One picture drawn twice, side by side: the left half by BASIC, the right by machine code, with the same sums and the same PLOT routine in the ROM. Watch how long each takes.",
 };

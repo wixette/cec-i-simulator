@@ -365,4 +365,15 @@ export default {
   "hz.screen.bytes": "字节",
   "hz.screen.bytesIs": "{n} 个，从 ${first} 起",
   "hz.screen.note": "横向 16 个点要占三个 7 点的高分辨率字节，共 16 条线：48 个字节。字与字相隔 16 点，行与行相隔 17 线。",
+  // our programs (v0.0.3)
+  "sample.guess.title": "猜数",
+  "sample.guess.about": "许多人的第一个程序：计算机想好一个 1 到 100 之间的数，你来猜，它告诉你大了还是小了，直到猜中。用到 INPUT、IF、RND 和一个会结束的循环。",
+  "sample.barchart.title": "柱状图",
+  "sample.barchart.about": "输入最多八个名称和数字，按比例画出低分辨率彩色柱子，名称和数字写在柱子下面。",
+  "sample.curves.title": "高分辨率曲线",
+  "sample.curves.about": "在 280 × 160 的高分辨率屏幕上用 HPLOT 画出正弦曲线和李萨如图形，按一个键画下一幅。",
+  "sample.bigchar.title": "放大汉字",
+  "sample.bigchar.about": "输入一个汉字的区位码，把它的 16 × 16 点阵放大画出。几个字节的机器码通过 $C0B0 锁存器打开的窗口，从字库芯片里取出它的 32 个字节（“汉字”仪表显示的是同一条路径）。",
+  "sample.versus.title": "BASIC 与机器码",
+  "sample.versus.about": "同一幅图画两遍，左右并排：左半边由 BASIC 画，右半边由机器码画，算法相同，调用的也是 ROM 中同一个 PLOT 子程序。看看各用了多长时间。",
 };
