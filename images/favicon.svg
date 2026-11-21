@@ -1,25 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
-  <!-- The simulator's mark: the CEC-I from above, drawn low poly and simplified, to read at 16 px: the case, the raised back with its grille and slot, the keys in their dark well, the nameplate, the arrow keys' panel. Our own drawing, not the machine's or a maker's logo. -->
-  <polygon points="6,9 58,9 61,12 61,52 58,55 6,55 3,52 3,12" fill="#aaa497"/>
-  <polygon points="6,9 58,9 61,12 59.4,12.6 6.6,10.6 4.6,12.6 3,12" fill="#bfb9ac"/>
-  <polygon points="6.6,10.6 57.4,10.6 59.4,12.6 59.4,51.2 57.2,53 6.6,53 4.6,51.2 4.6,12.6" fill="#d6d1c4"/>
-  <polygon points="5.6,11.4 58.4,11.4 58.4,19.2 5.6,19.2" fill="#ddd8cc"/>
-  <polygon points="5.6,19.2 58.4,19.2 57.4,21.6 6.6,21.6" fill="#b8b2a5"/>
-  <rect x="8.5" y="12.2" width="1.4" height="5.4" fill="#8f897d"/>
-  <rect x="11.5" y="12.2" width="1.4" height="5.4" fill="#8f897d"/>
-  <rect x="14.5" y="12.2" width="1.4" height="5.4" fill="#8f897d"/>
-  <rect x="17.5" y="12.2" width="1.4" height="5.4" fill="#8f897d"/>
-  <rect x="38" y="13.2" width="16" height="3.6" rx="0.6" fill="#c6c0b3"/>
-  <rect x="36" y="24.2" width="12" height="3.4" rx="0.4" fill="#2456b8"/>
-  <polygon points="6.8,30 46.2,30 46.2,47.2 38.5,47.2 38.5,51.2 14.2,51.2 14.2,47.2 6.8,47.2" fill="#2b2c2e"/>
-  <rect x="8.6" y="32" width="35.8" height="2.6" rx="0.4" fill="#c4b8a6"/>
-  <rect x="8.6" y="37.4" width="35.8" height="2.6" rx="0.4" fill="#c4b8a6"/>
-  <rect x="8.6" y="42.8" width="35.8" height="2.6" rx="0.4" fill="#c4b8a6"/>
-  <rect x="16.4" y="47.9" width="20.4" height="2.2" rx="0.4" fill="#c4b8a6"/>
-  <rect x="45.8" y="32.6" width="14.8" height="14.8" rx="1.2" fill="#c9c3b6"/>
-  <polygon points="46.6,33.8 59.8,33.8 53.2,39.77" fill="#ddd4c3"/>
-  <polygon points="59.4,33.4 59.4,46.6 53.43,40" fill="#c3b7a4"/>
-  <polygon points="59.8,46.2 46.6,46.2 53.2,40.23" fill="#ab9f8c"/>
-  <polygon points="47,46.6 47,33.4 52.97,40" fill="#cfc5b3"/>
+  <!-- The simulator's mark: the CEC-I in low poly, a few flat triangles and no lines. Our own drawing, not the machine's or a maker's logo. Written by tools/make_logo.py. -->
+  <polygon points="3,45 61,45 32,52" fill="#aaa396"/>
+  <polygon points="3,45 32,52 5,52" fill="#b3ac9f"/>
+  <polygon points="61,45 59,52 32,52" fill="#9c9588"/>
+  <polygon points="10,13 54,13 28.34,17" fill="#e6e1d5"/>
+  <polygon points="54,13 55.75,21 28.34,17" fill="#d9d3c6"/>
+  <polygon points="55.75,21 8.25,21 28.34,17" fill="#cfc9bc"/>
+  <polygon points="8.25,21 10,13 28.34,17" fill="#e0dbcf"/>
+  <polygon points="8.25,21 55.75,21 7.9,22.6" fill="#a9a295"/>
+  <polygon points="55.75,21 56.1,22.6 7.9,22.6" fill="#9f988b"/>
+  <polygon points="7.9,22.6 56.1,22.6 26.73,33" fill="#d3cdc0"/>
+  <polygon points="56.1,22.6 61,45 26.73,33" fill="#c8c2b5"/>
+  <polygon points="61,45 3,45 26.73,33" fill="#bdb7aa"/>
+  <polygon points="3,45 7.9,22.6 26.73,33" fill="#cdc7ba"/>
+  <polygon points="11.63,26 41.94,26 8.72,42.2" fill="#34363a"/>
+  <polygon points="41.94,26 43.35,42.2 8.72,42.2" fill="#2a2b2e"/>
+  <polygon points="12.89,27.4 40.55,27.4 12.39,30.4" fill="#c6bba9"/>
+  <polygon points="40.55,27.4 40.77,30.4 12.39,30.4" fill="#aea391"/>
+  <polygon points="12.71,31.6 40.86,31.6 12.22,34.6" fill="#c6bba9"/>
+  <polygon points="40.86,31.6 41.09,34.6 12.22,34.6" fill="#aea391"/>
+  <polygon points="11.49,35.8 40.64,35.8 10.99,38.8" fill="#c6bba9"/>
+  <polygon points="40.64,35.8 40.85,38.8 10.99,38.8" fill="#aea391"/>
+  <polygon points="17.56,39.4 33.11,39.4 17.38,41" fill="#c6bba9"/>
+  <polygon points="33.11,39.4 33.12,41 17.38,41" fill="#aea391"/>
+  <polygon points="46.16,28 53.24,28 50.75,33.75" fill="#ece6da"/>
+  <polygon points="53.24,28 55.35,39.5 50.75,33.75" fill="#c2bbad"/>
+  <polygon points="55.35,39.5 47.57,39.5 50.75,33.75" fill="#aba496"/>
+  <polygon points="47.57,39.5 46.16,28 50.75,33.75" fill="#d6d0c3"/>
+  <polygon points="34.92,23.6 46.59,23.6 34.95,25" fill="#2c5fc4"/>
+  <polygon points="46.59,23.6 46.78,25 34.95,25" fill="#244fa6"/>
+  <polygon points="48.05,23.6 50.48,23.6 48.25,25" fill="#d8392d"/>
 </svg>

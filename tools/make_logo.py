@@ -1,75 +1,83 @@
 # SPDX-License-Identifier: Apache-2.0
 #
-# Writes images/logo.svg and images/favicon.svg: the CEC-I from above, drawn low poly; the
-# favicon simplified to read at 16 px. python3 -I tools/make_logo.py
+# Writes images/logo.svg and images/favicon.svg: the CEC-I in low poly, a few flat triangles
+# and no lines. Seen from the front and above, a little in perspective: the case's top (its
+# raised back, the deck), its front face, the keys' dark well, the arrow keys' panel and the
+# nameplate's blue. The favicon is the same drawing. python3 -I tools/make_logo.py
+
 import os
-def f(x): return f"{x:.2f}".rstrip("0").rstrip(".")
-def rect(x,y,w,h,c,rx=0): return f'<rect x="{f(x)}" y="{f(y)}" width="{f(w)}" height="{f(h)}"{f" rx={chr(34)}{f(rx)}{chr(34)}" if rx else ""} fill="{c}"/>'
-def poly(pts,c): return f'<polygon points="{" ".join(f(x)+","+f(y) for x,y in pts)}" fill="{c}"/>'
 
-CASE_TOP="#d6d1c4"; CASE_SIDE="#aaa497"; CASE_EDGE="#bfb9ac"; RAISED="#ddd8cc"; SLOPE="#b8b2a5"
-WELL="#2b2c2e"; KEY="#c4b8a6"; KEY_DARK="#a99d8b"; BLUE="#2456b8"
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "images")
 
-def machine(detail):
-    out=[]
-    # the case: a chamfered outline, its lower and right edges in shade, then its top
-    X0,X1,Y0,Y1,c=3,61,9,55,3
-    out.append(poly([(X0+c,Y0),(X1-c,Y0),(X1,Y0+c),(X1,Y1-c),(X1-c,Y1),(X0+c,Y1),(X0,Y1-c),(X0,Y0+c)],CASE_SIDE))
-    out.append(poly([(X0+c,Y0),(X1-c,Y0),(X1,Y0+c),(X1-1.6,Y0+c+0.6),(X0+c+0.6,Y0+1.6),(X0+1.6,Y0+c+0.6),(X0,Y0+c)],CASE_EDGE))
-    i=1.6
-    out.append(poly([(X0+c+0.6,Y0+i),(X1-c-0.6,Y0+i),(X1-i,Y0+c+0.6),(X1-i,Y1-c-0.8),(X1-c-0.8,Y1-i-0.4),(X0+c+0.6,Y1-i-0.4),(X0+i,Y1-c-0.8),(X0+i,Y0+c+0.6)],CASE_TOP))
-    # the raised part at the back, and its slope down to the deck
-    out.append(poly([(X0+i+1,Y0+i+0.8),(X1-i-1,Y0+i+0.8),(X1-i-1,19.2),(X0+i+1,19.2)],RAISED))
-    out.append(poly([(X0+i+1,19.2),(X1-i-1,19.2),(X1-i-2,21.6),(X0+i+2,21.6)],SLOPE))
-    # the speaker grille at the left, the expansion slot's cover at the right
-    for k in range(6 if detail else 4):
-        step=2.0 if detail else 3.0
-        out.append(rect(8.5+k*step,12.2,0.9 if detail else 1.4,5.4,"#8f897d"))
-    out.append(rect(38,13.2,16,3.6,"#c6c0b3",0.6))
-    if detail:
-        # the F keys and Quit, the nameplate, the lamp
-        out.append(rect(7.6,24.2,24.6,3.6,WELL,0.4))
-        for k in range(6):
-            out.append(rect(8.1+k*4.0 + (1.0 if k else 0),24.6,3.1 if k else 3.3,2.8,KEY,0.4))
-        out.append(rect(35.5,24.3,13,3.4,"#f2efe6",0.3))
-        out.append(rect(36.1,24.9,7.2,1.0,BLUE))
-        out.append(rect(36.1,26.4,7.2,0.7,BLUE))
-        for k,cc in enumerate(["#d8332b","#2f9a45","#2456b8"]): out.append(poly([(44.2+k*1.0,27.2),(45.0+k*1.0,24.8),(45.6+k*1.0,24.8),(44.8+k*1.0,27.2)],cc))
-        out.append(f'<circle cx="54" cy="26" r="0.75" fill="#e0402c"/>')
-    else:
-        out.append(rect(36,24.2,12,3.4,BLUE,0.4))
-    # the key well and the keys
-    out.append(poly([(6.8,30),(46.2,30),(46.2,47.2),(38.5,47.2),(38.5,51.2),(14.2,51.2),(14.2,47.2),(6.8,47.2)],WELL))
-    if detail:
-        rows=[(31.0,12,0.0),(35.0,12,1.2),(39.0,11,2.0),(43.0,11,3.0)]
-        for y,n,dx in rows:
-            w=38.6/12-0.55
-            for k in range(n):
-                out.append(rect(7.3+dx+k*(38.6/12),y,w,3.2,KEY,0.35))
-                out.append(rect(7.3+dx+k*(38.6/12),y+2.45,w,0.75,KEY_DARK,0.3))
-        out.append(rect(14.7,47.6,4.0,3.2,KEY,0.35)); out.append(rect(19.2,47.6,14.8,3.2,KEY,0.35)); out.append(rect(34.5,47.6,3.5,3.2,KEY,0.35))
-        out.append(rect(14.7,50.05,23.3,0.75,KEY_DARK,0.3))
-    else:
-        for y in (32.0,37.4,42.8):
-            out.append(rect(8.6,y,35.8,2.6,KEY,0.4))
-        out.append(rect(16.4,47.9,20.4,2.2,KEY,0.4))
-    # the arrow keys' panel: a square of four triangles, each facing its own way to the light
-    cx,cy,r=53.2,40.0,6.6
-    out.append(rect(cx-r-0.8,cy-r-0.8,2*r+1.6,2*r+1.6,"#c9c3b6",1.2))
-    a,b,cc,d=(cx-r,cy-r),(cx+r,cy-r),(cx+r,cy+r),(cx-r,cy+r)
-    g=0.35
-    for pts,col in (([a,b],"#ddd4c3"),([b,cc],"#c3b7a4"),([cc,d],"#ab9f8c"),([d,a],"#cfc5b3")):
-        (x1,y1),(x2,y2)=pts
-        mx=(x1+x2)/2; my=(y1+y2)/2
-        sx=(cx-mx)*0.06; sy=(cy-my)*0.06
-        out.append(poly([(x1+sx,y1+sy),(x2+sx,y2+sy),(cx+(mx-cx)*g*0.1,cy+(my-cy)*g*0.1)],col))
+# the case's back edge (narrower, further away) and its front edge, and the front face's foot
+BACK_Y, BACK_X0, BACK_X1 = 13.0, 10.0, 54.0
+FRONT_Y, FRONT_X0, FRONT_X1 = 45.0, 3.0, 61.0
+FOOT_Y, FOOT_INSET = 52.0, 2.0
+RAISED_Y = 21.0   # where the raised back meets the deck
+
+
+def at(y, u):
+    """A point on the case's top: y down the page, u 0 (left edge) .. 1 (right edge)."""
+    k = (y - BACK_Y) / (FRONT_Y - BACK_Y)
+    x0 = BACK_X0 + (FRONT_X0 - BACK_X0) * k
+    x1 = BACK_X1 + (FRONT_X1 - BACK_X1) * k
+    return (x0 + (x1 - x0) * u, y)
+
+
+def tri(pts, colour):
+    return '<polygon points="%s" fill="%s"/>' % (" ".join("%g,%g" % (round(x, 2), round(y, 2)) for x, y in pts), colour)
+
+
+def drawing():
+    out = []
+    # the front face: two facets, the left a little lighter (the light comes from the left)
+    fl, fr = at(FRONT_Y, 0), at(FRONT_Y, 1)
+    bl, br = (FRONT_X0 + FOOT_INSET, FOOT_Y), (FRONT_X1 - FOOT_INSET, FOOT_Y)
+    mid = (32.0, FOOT_Y)
+    out += [tri([fl, fr, mid], "#aaa396"), tri([fl, mid, bl], "#b3ac9f"), tri([fr, br, mid], "#9c9588")]
+    # the raised back: four facets round its middle, lit from the upper left
+    a, b, c, d = at(BACK_Y, 0), at(BACK_Y, 1), at(RAISED_Y, 1), at(RAISED_Y, 0)
+    m = at((BACK_Y + RAISED_Y) / 2, 0.42)
+    out += [tri([a, b, m], "#e6e1d5"), tri([b, c, m], "#d9d3c6"), tri([c, d, m], "#cfc9bc"), tri([d, a, m], "#e0dbcf")]
+    # the raised back's front, sloping down to the deck: a darker strip of two facets
+    c2, d2 = at(RAISED_Y + 1.6, 1), at(RAISED_Y + 1.6, 0)
+    out += [tri([d, c, d2], "#a9a295"), tri([c, c2, d2], "#9f988b")]
+    c, d = c2, d2
+    # the deck: four facets round a point left of the middle
+    e, g = at(FRONT_Y, 1), at(FRONT_Y, 0)
+    n = at(33.0, 0.4)
+    out += [tri([d, c, n], "#d3cdc0"), tri([c, e, n], "#c8c2b5"), tri([e, g, n], "#bdb7aa"), tri([g, d, n], "#cdc7ba")]
+    # the keys' dark well, in two facets
+    k0, k1, k2, k3 = at(26.0, 0.09), at(26.0, 0.70), at(42.2, 0.70), at(42.2, 0.09)
+    out += [tri([k0, k1, k3], "#34363a"), tri([k1, k2, k3], "#2a2b2e")]
+    # the keys: three rows and the space bar, each two lighter facets: just enough to read as keys
+    for y0, y1, u0, u1 in ((27.4, 30.4, 0.12, 0.67), (31.6, 34.6, 0.13, 0.67), (35.8, 38.8, 0.12, 0.66), (39.4, 41.0, 0.24, 0.52)):
+        r0, r1, r2, r3 = at(y0, u0), at(y0, u1), at(y1, u1), at(y1, u0)
+        out += [tri([r0, r1, r3], "#c6bba9"), tri([r1, r2, r3], "#aea391")]
+    # the arrow keys' panel: four triangles round its middle, one per key
+    p, q, r, s = at(28.0, 0.78), at(28.0, 0.92), at(39.5, 0.92), at(39.5, 0.78)
+    o = ((p[0] + r[0]) / 2, (p[1] + r[1]) / 2)
+    out += [tri([p, q, o], "#ece6da"), tri([q, r, o], "#c2bbad"), tri([r, s, o], "#aba496"), tri([s, p, o], "#d6d0c3")]
+    # the nameplate's blue, and the red of its maker's mark
+    n0, n1, n2, n3 = at(23.6, 0.56), at(23.6, 0.80), at(25.0, 0.80), at(25.0, 0.56)
+    out += [tri([n0, n1, n3], "#2c5fc4"), tri([n1, n2, n3], "#244fa6")]
+    t0, t1, t2 = at(23.6, 0.83), at(23.6, 0.88), at(25.0, 0.83)
+    out += [tri([t0, t1, t2], "#d8392d")]
     return out
 
-for name,detail in (("logo",True),("favicon",False)):
-    body="\n  ".join(machine(detail))
-    open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "images", f"{name}.svg"),"w").write(f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+
+def svg(note):
+    body = "\n  ".join(drawing())
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
-  <!-- The simulator's mark: the CEC-I from above, drawn low poly{" and simplified, to read at 16 px" if not detail else ""}: the case, the raised back with its grille and slot, the keys in their dark well, the nameplate, the arrow keys' panel. Our own drawing, not the machine's or a maker's logo. -->
+  <!-- {note} Our own drawing, not the machine's or a maker's logo. Written by tools/make_logo.py. -->
   {body}
 </svg>
-''')
+'''
+
+
+if __name__ == "__main__":
+    note = "The simulator's mark: the CEC-I in low poly, a few flat triangles and no lines."
+    for name in ("logo", "favicon"):
+        with open(os.path.join(OUT, f"{name}.svg"), "w", encoding="utf-8") as f:
+            f.write(svg(note))
