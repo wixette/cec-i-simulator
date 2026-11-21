@@ -12,7 +12,7 @@ import { CLOCK_HZ } from "../js/sim/machine.js";
 import { listing, machineCode, SAMPLES, SECTIONS, typingPlan } from "../js/sim/samples.js";
 import { System } from "../js/sim/system.js";
 import { textRowBase } from "../js/sim/video.js";
-import { MATRIX, ROMS } from "./boot.js";
+import { MATRIX, ROMS, tone } from "./boot.js";
 
 const ORDER = [
   { unit: "case.lid", requires: [] },
@@ -258,5 +258,39 @@ describe("our programs: Utilities", () => {
     assert.ok(lit > 200, `${lit} bytes of the face and hands`);
     p.keys("Q");
     assert.ok(p.until((t) => p.m.text && !/PRESS A KEY/.test(t), 3));
+  });
+});
+
+describe("our programs: Music", () => {
+  it("Music box: Twinkle, Twinkle starts on do (C4, 262 Hz), its notes shown as they play", () => {
+    const p = typed("musicbox");
+    assert.ok(p.until((t) => /^WHICH TUNE/m.test(t), 10));
+    p.m.speaker.length = 0;
+    p.keys("3");
+    for (let i = 0; i < 100 && !p.m.speaker.length; i++) p.run(0.05);
+    p.run(0.2);
+    const start = p.m.speaker[0];
+    const first = tone(p.m.speaker.filter((c) => c - start < 0.2 * CLOCK_HZ));
+    assert.ok(Math.abs(first.hz - 262) < 6, `${first.hz} Hz`);
+    assert.ok(p.until((t) => /^1 1 5 5 6 6 5 -/m.test(t), 15));
+  });
+  it("Organ: 5 is sol (G4, 392 Hz), and an octave up 1 is high do (523 Hz); the key lights", () => {
+    const p = typed("organ");
+    assert.ok(p.until((t) => /^KEYS 1-7 PLAY/m.test(t), 15));
+    const play = (/** @type {string} */ k) => {
+      p.m.speaker.length = 0;
+      p.keys(k);
+      p.run(0.4);
+      return tone(p.m.speaker).hz;
+    };
+    p.keys("5");
+    assert.equal(block(p.m, 23, 10), 13, "sol lit");
+    p.run(0.5);
+    const sol = play("5");
+    assert.ok(Math.abs(sol - 392) < 8, `${sol} Hz`);
+    p.keys("{right}");
+    p.run(0.3);
+    const doHigh = play("1");
+    assert.ok(Math.abs(doHigh - 523) < 10, `${doHigh} Hz`);
   });
 });

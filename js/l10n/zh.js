@@ -386,4 +386,8 @@ export default {
   "sample.calendar.about": "1583 年到 9999 年中任何一年的任何一个月，星期日突出显示；方向键可以翻到上一个月、下一个月或上一年、下一年。",
   "sample.clock.title": "时钟",
   "sample.clock.about": "一个有指针的时钟：设好时间，它就一直走下去。学习机自己没有时钟，所以由一小段机器码一边画指针，一边数屏幕每秒显示的 50 幅画面。",
+  "sample.musicbox.title": "音乐盒",
+  "sample.musicbox.about": "四首公有领域的乐曲，其中有《茉莉花》和《送别》，用简谱写在 DATA 语句里，由 CEC-BASIC 自己的 MUSIC 语句演奏，边演奏边显示音符。",
+  "sample.organ.title": "电子琴",
+  "sample.organ.about": "按 1 到 7 键，按简谱弹出 do、re、mi、fa、sol、la、ti，屏幕上的琴键随之亮起；方向键升高或降低一个八度。",
 };

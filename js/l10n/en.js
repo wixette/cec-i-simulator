@@ -387,4 +387,8 @@ export default {
   "sample.calendar.about": "Any month of any year from 1583 to 9999, Sundays picked out; the arrows turn to the month or the year before and after.",
   "sample.clock.title": "Clock",
   "sample.clock.about": "An analog clock: set the time, and it keeps it. The machine has no clock of its own, so a little machine code counts the 50 pictures a second the screen shows, while it draws the hands.",
+  "sample.musicbox.title": "Music box",
+  "sample.musicbox.about": "Four tunes in the public domain, among them Mo Li Hua (Jasmine Flower) and Song Bie (Farewell), written in 简谱, the numbered notation, in DATA lines, and played with CEC-BASIC's own MUSIC; the notes are shown as they play.",
+  "sample.organ.title": "Organ",
+  "sample.organ.about": "The keys 1 to 7 play do, re, mi, fa, sol, la, ti, as 简谱 numbers them, and light on the screen; the arrows go an octave down or up.",
 };
