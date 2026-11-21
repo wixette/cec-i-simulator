@@ -1,0 +1,124 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <!-- What a search result and a shared link show: in Chinese, then English, as the page is
+         before any script runs; the page then titles itself in its language. -->
+    <meta name="description" content="中华学习机 CEC-I 模拟器：在浏览器里 3D 再现 1987 年的中华学习机，运行它自己的 ROM，能写 BASIC、输入汉字、拆开看内部。CEC-I (China Educational Computer, 1987) emulator in 3D, free in your browser.">
+    <meta name="theme-color" content="#1f1f1f">
+    <title>中华学习机模拟器 · CEC-I Simulator</title>
+    <link rel="canonical" href="https://wixette.github.io/cec-i-simulator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="中华学习机模拟器 · CEC-I Simulator">
+    <meta property="og:title" content="中华学习机模拟器 · CEC-I Simulator">
+    <meta property="og:description" content="中华学习机 CEC-I 模拟器：在浏览器里 3D 再现 1987 年的中华学习机。CEC-I (China Educational Computer, 1987) emulator in 3D, free in your browser.">
+    <meta property="og:url" content="https://wixette.github.io/cec-i-simulator/">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:locale:alternate" content="en_US">
+    <link rel="icon" href="images/favicon.svg?v=0.0.1" type="image/svg+xml">
+    <link rel="stylesheet" href="css/style.css?v=0.0.1">
+    <!-- Every file name here carries the version (?v=), and so does each module the
+         scripts import, through this map. pnpm version writes them, or pnpm stamp
+         (tools/stamp.mjs); do not edit them by hand. -->
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/build/three.module.js?v=0.0.1",
+        "three/addons/controls/OrbitControls.js": "./vendor/three/examples/jsm/controls/OrbitControls.js?v=0.0.1",
+        "three/addons/loaders/GLTFLoader.js": "./vendor/three/examples/jsm/loaders/GLTFLoader.js?v=0.0.1",
+        "three/addons/utils/BufferGeometryUtils.js": "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js?v=0.0.1",
+        "three/addons/utils/SkeletonUtils.js": "./vendor/three/examples/jsm/utils/SkeletonUtils.js?v=0.0.1",
+        "./js/app/about.js": "./js/app/about.js?v=0.0.1",
+        "./js/app/dock.js": "./js/app/dock.js?v=0.0.1",
+        "./js/app/link.js": "./js/app/link.js?v=0.0.1",
+        "./js/app/main.js": "./js/app/main.js?v=0.0.1",
+        "./js/app/references.js": "./js/app/references.js?v=0.0.1",
+        "./js/app/selftest.js": "./js/app/selftest.js?v=0.0.1",
+        "./js/app/stage.js": "./js/app/stage.js?v=0.0.1",
+        "./js/app/start.js": "./js/app/start.js?v=0.0.1",
+        "./js/app/strip.js": "./js/app/strip.js?v=0.0.1",
+        "./js/app/topbar.js": "./js/app/topbar.js?v=0.0.1",
+        "./js/flat/bake-keys.js": "./js/flat/bake-keys.js?v=0.0.1",
+        "./js/flat/bake-rocker.js": "./js/flat/bake-rocker.js?v=0.0.1",
+        "./js/flat/flat.js": "./js/flat/flat.js?v=0.0.1",
+        "./js/l10n/en.js": "./js/l10n/en.js?v=0.0.1",
+        "./js/l10n/l10n.js": "./js/l10n/l10n.js?v=0.0.1",
+        "./js/l10n/locales.js": "./js/l10n/locales.js?v=0.0.1",
+        "./js/l10n/zh.js": "./js/l10n/zh.js?v=0.0.1",
+        "./js/scene/framing.js": "./js/scene/framing.js?v=0.0.1",
+        "./js/scene/ghost.js": "./js/scene/ghost.js?v=0.0.1",
+        "./js/scene/keyboard-motion.js": "./js/scene/keyboard-motion.js?v=0.0.1",
+        "./js/scene/knobs.js": "./js/scene/knobs.js?v=0.0.1",
+        "./js/scene/machine3d.js": "./js/scene/machine3d.js?v=0.0.1",
+        "./js/scene/ribbon.js": "./js/scene/ribbon.js?v=0.0.1",
+        "./js/scene/tv.js": "./js/scene/tv.js?v=0.0.1",
+        "./js/scene/viewer.js": "./js/scene/viewer.js?v=0.0.1",
+        "./js/sim/basic.js": "./js/sim/basic.js?v=0.0.1",
+        "./js/sim/chinese.js": "./js/sim/chinese.js?v=0.0.1",
+        "./js/sim/cpu6502.js": "./js/sim/cpu6502.js?v=0.0.1",
+        "./js/sim/host-keys.js": "./js/sim/host-keys.js?v=0.0.1",
+        "./js/sim/key-holds.js": "./js/sim/key-holds.js?v=0.0.1",
+        "./js/sim/keyboard.js": "./js/sim/keyboard.js?v=0.0.1",
+        "./js/sim/machine.js": "./js/sim/machine.js?v=0.0.1",
+        "./js/sim/roms.js": "./js/sim/roms.js?v=0.0.1",
+        "./js/sim/sound.js": "./js/sim/sound.js?v=0.0.1",
+        "./js/sim/system.js": "./js/sim/system.js?v=0.0.1",
+        "./js/sim/video.js": "./js/sim/video.js?v=0.0.1",
+        "./js/ui/components.js": "./js/ui/components.js?v=0.0.1",
+        "./vendor/material-symbols/icons.js": "./vendor/material-symbols/icons.js?v=0.0.1",
+        "./vendor/three/build/three.core.js": "./vendor/three/build/three.core.js?v=0.0.1",
+        "./vendor/three/build/three.module.js": "./vendor/three/build/three.module.js?v=0.0.1",
+        "./vendor/three/examples/jsm/controls/OrbitControls.js": "./vendor/three/examples/jsm/controls/OrbitControls.js?v=0.0.1",
+        "./vendor/three/examples/jsm/loaders/GLTFLoader.js": "./vendor/three/examples/jsm/loaders/GLTFLoader.js?v=0.0.1",
+        "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js": "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js?v=0.0.1",
+        "./vendor/three/examples/jsm/utils/SkeletonUtils.js": "./vendor/three/examples/jsm/utils/SkeletonUtils.js?v=0.0.1"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <header id="topbar">
+      <div class="brand">
+        <img class="brand-mark" src="images/logo.svg?v=0.0.1" alt="">
+        <span class="brand-name" data-l10n="app.name">中华学习机模拟器</span>
+      </div>
+      <button id="programs" class="btn tool-btn has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="article"></i><span class="label" data-l10n="bar.programs"></span><i data-icon="keyboard_arrow_down"></i></button>
+      <span class="spacer"></span>
+      <button id="sound" class="btn icon-only" type="button" aria-pressed="true"><i data-icon="volume_up"></i></button>
+      <button id="lang" class="btn tool-btn has-icon lang-btn" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="translate"></i><span class="lang-code"></span><i data-icon="keyboard_arrow_down"></i></button>
+      <button id="about" class="btn icon-only" type="button"><i data-icon="info"></i></button>
+    </header>
+
+    <main id="stage">
+      <nav id="band"></nav>
+      <div id="stage-view">
+        <div id="view3d"></div>
+        <div id="view2d" hidden></div>
+      </div>
+      <div id="helper-strip"></div>
+    </main>
+
+    <div id="dock-handle" role="separator" aria-orientation="horizontal" tabindex="0" data-l10n-tip="dock.resize"></div>
+    <section id="dock">
+      <div class="dock-bar">
+        <div id="dock-tabs" role="tablist">
+          <button id="tab-start" class="dock-tab" role="tab" aria-controls="pane-start" type="button"><i data-icon="school"></i><span data-l10n="dock.start"></span></button>
+          <button id="tab-refs" class="dock-tab" role="tab" aria-controls="pane-refs" type="button"><i data-icon="menu_book"></i><span data-l10n="dock.refs"></span></button>
+        </div>
+        <span class="spacer"></span>
+        <button id="dock-fold" class="btn icon-only" type="button"></button>
+      </div>
+      <div id="pane-start" class="dock-pane" role="tabpanel" aria-labelledby="tab-start"></div>
+      <div id="pane-refs" class="dock-pane" role="tabpanel" aria-labelledby="tab-refs" hidden></div>
+    </section>
+
+    <noscript>
+      <p>中华学习机模拟器：在浏览器里 3D 再现 1987 年的 CEC-I 中华学习机。需要 JavaScript 和 WebGL。源代码在 <a href="https://github.com/wixette/cec-i-simulator">GitHub</a>。</p>
+      <p>CEC-I Simulator: the China Educational Computer of 1987, emulated in your browser, in 3D. It needs JavaScript and WebGL. The source is on <a href="https://github.com/wixette/cec-i-simulator">GitHub</a>.</p>
+    </noscript>
+    <footer id="status"><span id="status-text" role="status" aria-live="polite"></span></footer>
+    <script type="module" src="js/app/main.js?v=0.0.1"></script>
+  </body>
+</html>

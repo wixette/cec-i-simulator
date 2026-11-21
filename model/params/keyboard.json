@@ -1,0 +1,1106 @@
+{
+ "_generated": "by model/tools/make_keyboard.py from model/params/machine.json; do not edit",
+ "frame": "the keyboard's flat frame: x across (machine X), y along the steel plate from its front edge, z up from the plate's top (mm)",
+ "count": 69,
+ "keys": [
+  {
+   "id": "esc",
+   "node": "key.esc",
+   "row": "r1",
+   "x": -160.75,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "Esc"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "1",
+   "node": "key.1",
+   "row": "r1",
+   "x": -141.85,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "1",
+    "!"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "2",
+   "node": "key.2",
+   "row": "r1",
+   "x": -122.95,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "2",
+    "@"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "3",
+   "node": "key.3",
+   "row": "r1",
+   "x": -104.05,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "3",
+    "#"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "4",
+   "node": "key.4",
+   "row": "r1",
+   "x": -85.15,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "4",
+    "$"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "5",
+   "node": "key.5",
+   "row": "r1",
+   "x": -66.25,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "5",
+    "%"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "6",
+   "node": "key.6",
+   "row": "r1",
+   "x": -47.35,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "6",
+    "^"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "7",
+   "node": "key.7",
+   "row": "r1",
+   "x": -28.45,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "7",
+    "&"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "8",
+   "node": "key.8",
+   "row": "r1",
+   "x": -9.55,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "8",
+    "*"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "9",
+   "node": "key.9",
+   "row": "r1",
+   "x": 9.35,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "9",
+    "("
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "0",
+   "node": "key.0",
+   "row": "r1",
+   "x": 28.25,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "0",
+    ")"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "minus",
+   "node": "key.minus",
+   "row": "r1",
+   "x": 47.15,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "-",
+    "_"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "equal",
+   "node": "key.equal",
+   "row": "r1",
+   "x": 66.05,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "=",
+    "+"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "backslash",
+   "node": "key.backslash",
+   "row": "r1",
+   "x": 84.95,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "\\",
+    "|"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "reset",
+   "node": "key.reset",
+   "row": "r1",
+   "x": 103.85,
+   "y": 95.82,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "Reset"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "tab",
+   "node": "key.tab",
+   "row": "r2",
+   "x": -156.02,
+   "y": 76.92,
+   "w": 26.45,
+   "d": 17.0,
+   "legends": [
+    "Tab"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "q",
+   "node": "key.q",
+   "row": "r2",
+   "x": -132.4,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "Q"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "w",
+   "node": "key.w",
+   "row": "r2",
+   "x": -113.5,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "W"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "e",
+   "node": "key.e",
+   "row": "r2",
+   "x": -94.6,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "E"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "r",
+   "node": "key.r",
+   "row": "r2",
+   "x": -75.7,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "R"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "t",
+   "node": "key.t",
+   "row": "r2",
+   "x": -56.8,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "T"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "y",
+   "node": "key.y",
+   "row": "r2",
+   "x": -37.9,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "Y"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "u",
+   "node": "key.u",
+   "row": "r2",
+   "x": -19.0,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "U"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "i",
+   "node": "key.i",
+   "row": "r2",
+   "x": -0.1,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "I"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "o",
+   "node": "key.o",
+   "row": "r2",
+   "x": 18.8,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "O"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "p",
+   "node": "key.p",
+   "row": "r2",
+   "x": 37.7,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "P"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "lbracket",
+   "node": "key.lbracket",
+   "row": "r2",
+   "x": 56.6,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "[",
+    "{"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "rbracket",
+   "node": "key.rbracket",
+   "row": "r2",
+   "x": 75.5,
+   "y": 76.92,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "]",
+    "}"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "ctrl",
+   "node": "key.ctrl",
+   "row": "r3",
+   "x": -153.66,
+   "y": 58.02,
+   "w": 31.17,
+   "d": 17.0,
+   "legends": [
+    "Ctrl"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "a",
+   "node": "key.a",
+   "row": "r3",
+   "x": -127.67,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "A"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "s",
+   "node": "key.s",
+   "row": "r3",
+   "x": -108.77,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "S"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "d",
+   "node": "key.d",
+   "row": "r3",
+   "x": -89.88,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "D"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "f",
+   "node": "key.f",
+   "row": "r3",
+   "x": -70.97,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "F"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "g",
+   "node": "key.g",
+   "row": "r3",
+   "x": -52.08,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "G"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "h",
+   "node": "key.h",
+   "row": "r3",
+   "x": -33.18,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "H"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "j",
+   "node": "key.j",
+   "row": "r3",
+   "x": -14.28,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "J"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "k",
+   "node": "key.k",
+   "row": "r3",
+   "x": 4.62,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "K"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "l",
+   "node": "key.l",
+   "row": "r3",
+   "x": 23.53,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "L"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "semicolon",
+   "node": "key.semicolon",
+   "row": "r3",
+   "x": 42.42,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    ";",
+    ":"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "quote",
+   "node": "key.quote",
+   "row": "r3",
+   "x": 61.32,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "'",
+    "\""
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "grave",
+   "node": "key.grave",
+   "row": "r3",
+   "x": 80.22,
+   "y": 58.02,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "`",
+    "~"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "lshift",
+   "node": "key.lshift",
+   "row": "r4",
+   "x": -148.94,
+   "y": 39.12,
+   "w": 40.62,
+   "d": 17.0,
+   "legends": [
+    "Shift"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "z",
+   "node": "key.z",
+   "row": "r4",
+   "x": -118.22,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "Z"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "x",
+   "node": "key.x",
+   "row": "r4",
+   "x": -99.32,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "X"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "c",
+   "node": "key.c",
+   "row": "r4",
+   "x": -80.42,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "C"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "v",
+   "node": "key.v",
+   "row": "r4",
+   "x": -61.52,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "V"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "b",
+   "node": "key.b",
+   "row": "r4",
+   "x": -42.62,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "B"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "n",
+   "node": "key.n",
+   "row": "r4",
+   "x": -23.72,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "N"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "m",
+   "node": "key.m",
+   "row": "r4",
+   "x": -4.82,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "M"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "comma",
+   "node": "key.comma",
+   "row": "r4",
+   "x": 14.07,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    ",",
+    "<"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "period",
+   "node": "key.period",
+   "row": "r4",
+   "x": 32.97,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    ".",
+    ">"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "slash",
+   "node": "key.slash",
+   "row": "r4",
+   "x": 51.88,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "/",
+    "?"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "test",
+   "node": "key.test",
+   "row": "r4",
+   "x": 70.78,
+   "y": 39.12,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "Test"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "rshift",
+   "node": "key.rshift",
+   "row": "r4",
+   "x": 96.76,
+   "y": 39.12,
+   "w": 31.17,
+   "d": 17.0,
+   "legends": [
+    "Shift"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "capslock",
+   "node": "key.capslock",
+   "row": "r5",
+   "x": -120.11,
+   "y": 20.22,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "Caps",
+    "Lock"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left",
+   "latching": true,
+   "latched_drop": 2.2
+  },
+  {
+   "id": "zhongwen",
+   "node": "key.zhongwen",
+   "row": "r5",
+   "x": -101.21,
+   "y": 20.22,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "中文"
+   ],
+   "dish": "lr",
+   "legend_at": "centre"
+  },
+  {
+   "id": "space",
+   "node": "key.space",
+   "row": "r5",
+   "x": -15.22,
+   "y": 20.22,
+   "w": 151.19,
+   "d": 17.0,
+   "legends": [],
+   "dish": "convex",
+   "legend_at": "top_left",
+   "w_top": 141.0
+  },
+  {
+   "id": "xiwen",
+   "node": "key.xiwen",
+   "row": "r5",
+   "x": 70.78,
+   "y": 20.22,
+   "w": 17.0,
+   "d": 17.0,
+   "legends": [
+    "西文"
+   ],
+   "dish": "lr",
+   "legend_at": "centre"
+  },
+  {
+   "id": "return",
+   "node": "key.return",
+   "row": "r2",
+   "x": 98.85,
+   "y": 67.47,
+   "w": 27.0,
+   "d": 35.9,
+   "legends": [
+    "Return"
+   ],
+   "dish": "fb",
+   "legend_at": "top_left",
+   "outline": [
+    [
+     -13.5,
+     17.95
+    ],
+    [
+     13.5,
+     17.95
+    ],
+    [
+     13.5,
+     -17.95
+    ],
+    [
+     -9.5,
+     -17.95
+    ],
+    [
+     -9.5,
+     0.0
+    ],
+    [
+     -13.5,
+     0.0
+    ]
+   ]
+  },
+  {
+   "id": "quit",
+   "node": "key.quit",
+   "row": "f",
+   "x": -159.0,
+   "y": 133.74,
+   "w": 22.4,
+   "d": 17.0,
+   "legends": [
+    "Quit"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "f1",
+   "node": "key.f1",
+   "row": "f",
+   "x": -113.1,
+   "y": 133.74,
+   "w": 22.4,
+   "d": 17.0,
+   "legends": [
+    "F1"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "f2",
+   "node": "key.f2",
+   "row": "f",
+   "x": -89.3,
+   "y": 133.74,
+   "w": 22.4,
+   "d": 17.0,
+   "legends": [
+    "F2"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "f3",
+   "node": "key.f3",
+   "row": "f",
+   "x": -65.5,
+   "y": 133.74,
+   "w": 22.4,
+   "d": 17.0,
+   "legends": [
+    "F3"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "f4",
+   "node": "key.f4",
+   "row": "f",
+   "x": -41.7,
+   "y": 133.74,
+   "w": 22.4,
+   "d": 17.0,
+   "legends": [
+    "F4"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "f5",
+   "node": "key.f5",
+   "row": "f",
+   "x": -17.9,
+   "y": 133.74,
+   "w": 22.4,
+   "d": 17.0,
+   "legends": [
+    "F5"
+   ],
+   "dish": "lr",
+   "legend_at": "top_left"
+  },
+  {
+   "id": "up",
+   "node": "key.up",
+   "row": "arrows",
+   "x": 151.5,
+   "y": 79.32,
+   "w": 41.85,
+   "d": 23.5,
+   "legends": [],
+   "dish": "flat",
+   "legend_at": "top_left",
+   "outline": [
+    [
+     -18.35,
+     11.75
+    ],
+    [
+     18.35,
+     11.75
+    ],
+    [
+     20.93,
+     9.18
+    ],
+    [
+     0.0,
+     -11.75
+    ],
+    [
+     -20.93,
+     9.18
+    ]
+   ],
+   "arrow": "up"
+  },
+  {
+   "id": "down",
+   "node": "key.down",
+   "row": "arrows",
+   "x": 151.5,
+   "y": 54.12,
+   "w": 41.85,
+   "d": 23.5,
+   "legends": [],
+   "dish": "flat",
+   "legend_at": "top_left",
+   "outline": [
+    [
+     18.35,
+     -11.75
+    ],
+    [
+     -18.35,
+     -11.75
+    ],
+    [
+     -20.93,
+     -9.18
+    ],
+    [
+     0.0,
+     11.75
+    ],
+    [
+     20.93,
+     -9.18
+    ]
+   ],
+   "arrow": "down"
+  },
+  {
+   "id": "left",
+   "node": "key.left",
+   "row": "arrows",
+   "x": 138.9,
+   "y": 66.72,
+   "w": 23.5,
+   "d": 41.85,
+   "legends": [],
+   "dish": "flat",
+   "legend_at": "top_left",
+   "outline": [
+    [
+     -11.75,
+     -18.35
+    ],
+    [
+     -11.75,
+     18.35
+    ],
+    [
+     -9.18,
+     20.93
+    ],
+    [
+     11.75,
+     0.0
+    ],
+    [
+     -9.18,
+     -20.93
+    ]
+   ],
+   "arrow": "left"
+  },
+  {
+   "id": "right",
+   "node": "key.right",
+   "row": "arrows",
+   "x": 164.1,
+   "y": 66.72,
+   "w": 23.5,
+   "d": 41.85,
+   "legends": [],
+   "dish": "flat",
+   "legend_at": "top_left",
+   "outline": [
+    [
+     11.75,
+     18.35
+    ],
+    [
+     11.75,
+     -18.35
+    ],
+    [
+     9.18,
+     -20.93
+    ],
+    [
+     -11.75,
+     0.0
+    ],
+    [
+     9.18,
+     20.93
+    ]
+   ],
+   "arrow": "right"
+  }
+ ]
+}

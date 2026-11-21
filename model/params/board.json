@@ -1,0 +1,2137 @@
+{
+ "_generated": "by model/tools/make_board.py from images/photos/mainboard-top.jpg; do not edit",
+ "frame": "board frame: bx right, by toward the front, from the board's back-left corner (mm); box = [bx0, by0, bx1, by1]",
+ "count": 164,
+ "parts": [
+  {
+   "ref": "U1",
+   "kind": "dip40",
+   "box": [
+    43.4,
+    95.7,
+    60.4,
+    147.7
+   ],
+   "height": 8.0,
+   "label": "U1: the 6502 processor (marked N3065)",
+   "label_zh": "U1：6502 中央处理器（CPU）"
+  },
+  {
+   "ref": "U15",
+   "kind": "dip40",
+   "box": [
+    118.0,
+    98.1,
+    135.0,
+    150.1
+   ],
+   "height": 8.0,
+   "label": "U15: IOU, the input/output and video controller (marked 4005/AA; the books' IOU 4007)",
+   "label_zh": "U15：IOU4007 输入/输出管理部件"
+  },
+  {
+   "ref": "U4",
+   "kind": "dip40",
+   "box": [
+    150.1,
+    98.1,
+    167.1,
+    150.1
+   ],
+   "height": 8.0,
+   "label": "U4: MMU, the memory manager (marked 4001/AA; the books' MMU 4006)",
+   "label_zh": "U4：MMU4006 内存管理部件"
+  },
+  {
+   "ref": "U25",
+   "kind": "dip40",
+   "box": [
+    232.9,
+    166.2,
+    249.9,
+    218.2
+   ],
+   "height": 8.0,
+   "label": "U25: GI KB3600-PRO, the keyboard encoder",
+   "label_zh": "U25：KB3600 键盘编码器"
+  },
+  {
+   "ref": "U7",
+   "kind": "dip28",
+   "box": [
+    5.1,
+    171.8,
+    22.1,
+    207.8
+   ],
+   "height": 8.0,
+   "label": "U7: EPROM 27256, the system ROM (BASIC, the monitor, the Chinese system's entry)",
+   "label_zh": "U7：27256 EPROM，系统 ROM",
+   "marking": [
+    "27256"
+   ]
+  },
+  {
+   "ref": "U35",
+   "kind": "dip28",
+   "box": [
+    32.2,
+    171.8,
+    49.2,
+    207.8
+   ],
+   "height": 8.0,
+   "label": "U35: EPROM 27256, the Chinese system's tables and code",
+   "label_zh": "U35：27256 EPROM",
+   "marking": [
+    "27256"
+   ]
+  },
+  {
+   "ref": "U34",
+   "kind": "dip28",
+   "box": [
+    57.5,
+    171.8,
+    74.5,
+    207.8
+   ],
+   "height": 8.0,
+   "label": "U34: font ROM CECWL II (Macronix MX231024-0060): half of the 16 x 16 Chinese font",
+   "label_zh": "U34：CECWL II 汉字字库 ROM（二）"
+  },
+  {
+   "ref": "U33",
+   "kind": "dip28",
+   "box": [
+    83.5,
+    171.8,
+    100.5,
+    207.8
+   ],
+   "height": 8.0,
+   "label": "U33: font ROM CECWL I (Macronix MX231024-0059): the other half of the font",
+   "label_zh": "U33：CECWL I 汉字字库 ROM（一）"
+  },
+  {
+   "ref": "U13",
+   "kind": "dip24",
+   "box": [
+    210.0,
+    94.6,
+    227.0,
+    124.6
+   ],
+   "height": 8.0,
+   "label": "U13: GI 9433C-0202, the character ROM (the 96 letters, digits and signs, and the graphics patterns)",
+   "label_zh": "U13：字符 ROM（书中为 2732）"
+  },
+  {
+   "ref": "U26",
+   "kind": "dip24",
+   "box": [
+    207.5,
+    192.8,
+    224.5,
+    222.8
+   ],
+   "height": 8.0,
+   "label": "U26: GI 9433C-0201, the keyboard ROM",
+   "label_zh": "U26：键盘 ROM（书中为 2716）"
+  },
+  {
+   "ref": "U17",
+   "kind": "dip20",
+   "box": [
+    177.6,
+    98.3,
+    186.6,
+    123.3
+   ],
+   "height": 8.0,
+   "label": "U17: the timing PAL (marked 8100/AA; the books' PAL 4008)",
+   "label_zh": "U17：PAL4008 可编程阵列逻辑（时钟）"
+  },
+  {
+   "ref": "U5",
+   "kind": "dip18",
+   "box": [
+    93.6,
+    126.5,
+    102.6,
+    149.5
+   ],
+   "height": 8.0,
+   "label": "U5: OKI M41464 dynamic RAM, 64K x 4 (the low 4 bits of every byte)",
+   "label_zh": "U5：50464 动态 RAM，4×64K"
+  },
+  {
+   "ref": "U6",
+   "kind": "dip18",
+   "box": [
+    75.1,
+    126.5,
+    84.1,
+    149.5
+   ],
+   "height": 8.0,
+   "label": "U6: OKI M41464 dynamic RAM, 64K x 4 (the high 4 bits)",
+   "label_zh": "U6：50464 动态 RAM，4×64K"
+  },
+  {
+   "ref": "U30",
+   "kind": "dip16",
+   "box": [
+    89.3,
+    42.4,
+    98.3,
+    62.4
+   ],
+   "height": 8.0,
+   "label": "U30: TCA650, the PAL colour modulator",
+   "label_zh": "U30：TCA650 彩色信号调制器"
+  },
+  {
+   "ref": "U32",
+   "kind": "dip16",
+   "box": [
+    118.3,
+    164.7,
+    127.3,
+    184.7
+   ],
+   "height": 8.0,
+   "label": "U32: 74LS174, the $C0B0 latch: font bank, colour on, table bank",
+   "label_zh": "U32：74LS174，6D 触发器（$C0B0 锁存器）"
+  },
+  {
+   "ref": "U19",
+   "kind": "dip16",
+   "box": [
+    166.5,
+    199.0,
+    175.5,
+    219.0
+   ],
+   "height": 8.0,
+   "label": "U19: NE558, four timers (the game paddles)",
+   "label_zh": "U19：NE558，4-单稳触发器时基电路（游戏棒）"
+  },
+  {
+   "ref": "U39",
+   "kind": "dip20",
+   "box": [
+    151.7,
+    -4.3,
+    160.7,
+    20.7
+   ],
+   "height": 8.0,
+   "label": "U39: 74LS323, an 8-bit two-way shift register (the disk drive)",
+   "label_zh": "U39：74LS323，8 位通用双向移位寄存器（软盘接口）",
+   "marking": [
+    "74LS323"
+   ]
+  },
+  {
+   "ref": "U41",
+   "kind": "dip16",
+   "box": [
+    169.6,
+    0.7,
+    178.6,
+    20.7
+   ],
+   "height": 8.0,
+   "label": "U41: 74LS259, an 8-bit addressable latch (the disk drive)",
+   "label_zh": "U41：74LS259，8 位可寻址锁存器（软盘接口）",
+   "marking": [
+    "74LS259"
+   ]
+  },
+  {
+   "ref": "U42",
+   "kind": "dip16",
+   "box": [
+    188.8,
+    0.7,
+    197.8,
+    20.7
+   ],
+   "height": 8.0,
+   "label": "U42: 74LS174, six D flip-flops (the disk drive)",
+   "label_zh": "U42：74LS174，6D 触发器（软盘接口）",
+   "marking": [
+    "74LS174"
+   ]
+  },
+  {
+   "ref": "U40",
+   "kind": "dip20",
+   "box": [
+    208.2,
+    0.7,
+    217.2,
+    25.7
+   ],
+   "height": 8.0,
+   "label": "U40: a 256 x 8 PROM (the disk drive)",
+   "label_zh": "U40：256×8 PROM（软盘接口）",
+   "marking": [
+    "256x8 PROM"
+   ]
+  },
+  {
+   "ref": "U43",
+   "kind": "dip14",
+   "box": [
+    227.3,
+    0.7,
+    236.3,
+    20.7
+   ],
+   "height": 8.0,
+   "label": "U43: 74LS132, four Schmitt-trigger NAND gates (the disk drive)",
+   "label_zh": "U43：74LS132，施密特触发器（软盘接口）",
+   "marking": [
+    "74LS132"
+   ]
+  },
+  {
+   "ref": "U44",
+   "kind": "dip14",
+   "box": [
+    245.0,
+    0.7,
+    254.0,
+    20.7
+   ],
+   "height": 8.0,
+   "label": "U44: 74LS05, six inverters, open-collector outputs (the disk drive)",
+   "label_zh": "U44：74LS05，6-OC 门（软盘接口）",
+   "marking": [
+    "74LS05"
+   ]
+  },
+  {
+   "ref": "U27",
+   "kind": "dip14",
+   "box": [
+    7.8,
+    59.3,
+    16.8,
+    79.3
+   ],
+   "height": 8.0,
+   "label": "U27: 74LS164, an 8-bit shift register, parallel out (the colour picture)",
+   "label_zh": "U27：74LS164，8 位并行输出移位寄存器（彩色视频）",
+   "marking": [
+    "74LS164"
+   ]
+  },
+  {
+   "ref": "U28",
+   "kind": "dip16",
+   "box": [
+    26.4,
+    61.1,
+    35.4,
+    81.1
+   ],
+   "height": 8.0,
+   "label": "U28: 74LS175, four D flip-flops (the colour picture)",
+   "label_zh": "U28：74LS175，4-D 型触发器（彩色视频）",
+   "marking": [
+    "74LS175"
+   ]
+  },
+  {
+   "ref": "U29",
+   "kind": "dip14",
+   "box": [
+    56.6,
+    59.3,
+    65.6,
+    79.3
+   ],
+   "height": 8.0,
+   "label": "U29: 74LS74, two D flip-flops (the colour picture)",
+   "label_zh": "U29：74LS74，2-D 型触发器（彩色视频）",
+   "marking": [
+    "74LS74"
+   ]
+  },
+  {
+   "ref": "U36",
+   "kind": "dip14",
+   "box": [
+    150.4,
+    67.7,
+    159.4,
+    87.7
+   ],
+   "height": 8.0,
+   "label": "U36: 74LS02, four NOR gates",
+   "label_zh": "U36：74LS02，4-或非门",
+   "marking": [
+    "74LS02"
+   ]
+  },
+  {
+   "ref": "U38",
+   "kind": "dip14",
+   "box": [
+    172.7,
+    67.1,
+    181.7,
+    87.1
+   ],
+   "height": 8.0,
+   "label": "U38: 74LS10, three three-input NAND gates",
+   "label_zh": "U38：74LS10，3-三输入与非门",
+   "marking": [
+    "74LS10"
+   ]
+  },
+  {
+   "ref": "U18",
+   "kind": "dip8",
+   "box": [
+    218.3,
+    74.3,
+    227.3,
+    84.8
+   ],
+   "height": 8.0,
+   "label": "U18: MC1458, two operational amplifiers (the recorder, the picture)",
+   "label_zh": "U18：MC1458，运算放大器（录音机接口、视频）",
+   "marking": [
+    "MC1458"
+   ]
+  },
+  {
+   "ref": "U45",
+   "kind": "dip8",
+   "box": [
+    218.3,
+    53.3,
+    227.3,
+    63.8
+   ],
+   "height": 8.0,
+   "label": "U45: 555, a timer",
+   "label_zh": "U45：555 精密定时器",
+   "marking": [
+    "555"
+   ]
+  },
+  {
+   "ref": "U2",
+   "kind": "dip20",
+   "box": [
+    27.6,
+    92.3,
+    36.6,
+    117.3
+   ],
+   "height": 8.0,
+   "label": "U2: 74LS244, eight three-state buffers: the address bus",
+   "label_zh": "U2：74LS244，8 个不反相三态门（地址总线驱动器）",
+   "marking": [
+    "74LS244"
+   ]
+  },
+  {
+   "ref": "U10",
+   "kind": "dip14",
+   "box": [
+    75.1,
+    97.2,
+    84.1,
+    117.2
+   ],
+   "height": 8.0,
+   "label": "U10: 74LS02, four NOR gates",
+   "label_zh": "U10：74LS02，4-或非门",
+   "marking": [
+    "74LS02"
+   ]
+  },
+  {
+   "ref": "U11",
+   "kind": "dip14",
+   "box": [
+    93.6,
+    97.2,
+    102.6,
+    117.2
+   ],
+   "height": 8.0,
+   "label": "U11: 74LS08, four AND gates",
+   "label_zh": "U11：74LS08，4-与门",
+   "marking": [
+    "74LS08"
+   ]
+  },
+  {
+   "ref": "U12",
+   "kind": "dip20",
+   "box": [
+    194.9,
+    98.3,
+    203.9,
+    123.3
+   ],
+   "height": 8.0,
+   "label": "U12: 74LS374, eight D flip-flops, three-state outputs (the picture)",
+   "label_zh": "U12：74LS374，8-三态门输出的 D 型触发器（视频）",
+   "marking": [
+    "74LS374"
+   ]
+  },
+  {
+   "ref": "U14",
+   "kind": "dip16",
+   "box": [
+    236.9,
+    100.8,
+    245.9,
+    120.8
+   ],
+   "height": 8.0,
+   "label": "U14: 74LS166, an 8-bit shift register: the picture's dots, out one by one",
+   "label_zh": "U14：74LS166，8 位移位寄存器（视频）",
+   "marking": [
+    "74LS166"
+   ]
+  },
+  {
+   "ref": "U3",
+   "kind": "dip20",
+   "box": [
+    27.6,
+    126.7,
+    36.6,
+    151.7
+   ],
+   "height": 8.0,
+   "label": "U3: 74LS244, eight three-state buffers: the address bus",
+   "label_zh": "U3：74LS244，8 个不反相三态门（地址总线驱动器）",
+   "marking": [
+    "74LS244"
+   ]
+  },
+  {
+   "ref": "U9",
+   "kind": "dip14",
+   "box": [
+    177.6,
+    132.2,
+    186.6,
+    152.2
+   ],
+   "height": 8.0,
+   "label": "U9: 74LS04, six inverters",
+   "label_zh": "U9：74LS04，6-反相器",
+   "marking": [
+    "74LS04"
+   ]
+  },
+  {
+   "ref": "U16",
+   "kind": "dip16",
+   "box": [
+    195.5,
+    132.8,
+    204.5,
+    152.8
+   ],
+   "height": 8.0,
+   "label": "U16: 74S109, two J-K flip-flops (the clocks)",
+   "label_zh": "U16：74S109，J-K 触发器（时钟）",
+   "marking": [
+    "74S109"
+   ]
+  },
+  {
+   "ref": "U8",
+   "kind": "dip14",
+   "box": [
+    215.3,
+    132.8,
+    224.3,
+    152.8
+   ],
+   "height": 8.0,
+   "label": "U8: 74LS00, four NAND gates",
+   "label_zh": "U8：74LS00，4-与非门",
+   "marking": [
+    "74LS00"
+   ]
+  },
+  {
+   "ref": "U37",
+   "kind": "dip14",
+   "box": [
+    236.9,
+    132.8,
+    245.9,
+    152.8
+   ],
+   "height": 8.0,
+   "label": "U37: 74LS125, four three-state buffers",
+   "label_zh": "U37：74LS125，4-三态门（不带反相器）",
+   "marking": [
+    "74LS125"
+   ]
+  },
+  {
+   "ref": "U20",
+   "kind": "dip16",
+   "box": [
+    143.0,
+    164.7,
+    152.0,
+    184.7
+   ],
+   "height": 8.0,
+   "label": "U20: 74LS251, a one-of-eight selector, three-state output (the recorder and joystick inputs)",
+   "label_zh": "U20：74LS251，三态门输出的三-八译码器（录音机、游戏棒）",
+   "marking": [
+    "74LS251"
+   ]
+  },
+  {
+   "ref": "U23",
+   "kind": "dip16",
+   "box": [
+    166.5,
+    164.7,
+    175.5,
+    184.7
+   ],
+   "height": 8.0,
+   "label": "U23: 74LS138, a three-to-eight decoder (the I/O addresses)",
+   "label_zh": "U23：74LS138，三-八译码器（I/O 译码）",
+   "marking": [
+    "74LS138"
+   ]
+  },
+  {
+   "ref": "U22",
+   "kind": "dip16",
+   "box": [
+    187.5,
+    164.7,
+    196.5,
+    184.7
+   ],
+   "height": 8.0,
+   "label": "U22: 74LS138, a three-to-eight decoder (the I/O addresses)",
+   "label_zh": "U22：74LS138，三-八译码器（I/O 译码）",
+   "marking": [
+    "74LS138"
+   ]
+  },
+  {
+   "ref": "U21",
+   "kind": "dip16",
+   "box": [
+    207.8,
+    164.7,
+    216.8,
+    184.7
+   ],
+   "height": 8.0,
+   "label": "U21: 74LS138, a three-to-eight decoder (the I/O addresses)",
+   "label_zh": "U21：74LS138，三-八译码器（I/O 译码）",
+   "marking": [
+    "74LS138"
+   ]
+  },
+  {
+   "ref": "U31",
+   "kind": "dip16",
+   "box": [
+    118.3,
+    198.4,
+    127.3,
+    218.4
+   ],
+   "height": 8.0,
+   "label": "U31: 74LS139, two two-to-four decoders (the memory)",
+   "label_zh": "U31：74LS139，2-4 译码器（存储器切换）",
+   "marking": [
+    "74LS139"
+   ]
+  },
+  {
+   "ref": "U24",
+   "kind": "dip20",
+   "box": [
+    187.5,
+    196.5,
+    196.5,
+    221.5
+   ],
+   "height": 8.0,
+   "label": "U24: 74LS245, eight three-state bus transceivers: the data bus",
+   "label_zh": "U24：74LS245，8-三态门（数据总线双向驱动器）",
+   "marking": [
+    "74LS245"
+   ]
+  },
+  {
+   "ref": "J1",
+   "kind": "slot",
+   "box": [
+    130.4,
+    27.7,
+    200.4,
+    36.7
+   ],
+   "height": 15.0,
+   "label": "J1: the expansion slot, under the flap in the lid",
+   "label_zh": "J1：扩充槽，在上盖的盖板下面"
+  },
+  {
+   "ref": "J9",
+   "kind": "header",
+   "box": [
+    250.9,
+    166.3,
+    261.7,
+    201.2
+   ],
+   "height": 9.0,
+   "label": "J9: the keyboard's 26-way flat cable",
+   "pins": [
+    2,
+    13
+   ],
+   "label_zh": "J9：键盘的 26 芯扁平电缆插座"
+  },
+  {
+   "ref": "J10",
+   "kind": "header",
+   "box": [
+    256.8,
+    126.5,
+    264.2,
+    153.0
+   ],
+   "height": 9.0,
+   "label": "J10: the slot jumpers (SLOT 1-7)",
+   "pins": [
+    2,
+    7
+   ],
+   "label_zh": "J10：扩充槽跳线（SLOT 1-7）"
+  },
+  {
+   "ref": "J4",
+   "kind": "header",
+   "box": [
+    121.0,
+    3.6,
+    145.7,
+    15.7
+   ],
+   "height": 9.0,
+   "label": "J4: the disk drive connector (驱动器), 2 x 10 pins",
+   "pins": [
+    2,
+    10
+   ],
+   "label_zh": "J4：驱动器接口，2 × 10 针"
+  },
+  {
+   "ref": "J3",
+   "kind": "din",
+   "box": [
+    251.9,
+    33.7,
+    276.5,
+    50.6
+   ],
+   "height": 13.0,
+   "label": "J3: the cassette socket (录音机), DIN",
+   "label_zh": "J3：录音机插座，DIN 型"
+  },
+  {
+   "ref": "J2",
+   "kind": "de9",
+   "box": [
+    251.9,
+    86.7,
+    274.1,
+    115.7
+   ],
+   "height": 12.0,
+   "label": "J2: the joystick socket (游戏棒), D-sub",
+   "label_zh": "J2：游戏棒插座，D 型"
+  },
+  {
+   "ref": "RF1",
+   "kind": "can",
+   "box": [
+    3.1,
+    0.5,
+    45.1,
+    28.5
+   ],
+   "height": 17.0,
+   "label": "RF-1: the RF modulator, the picture for a TV's aerial socket (电视)",
+   "label_zh": "RF-1：射频调制器，把图像送到电视机的天线插座（电视）"
+  },
+  {
+   "ref": "SW1",
+   "kind": "dipswitch",
+   "box": [
+    107.4,
+    4.8,
+    114.8,
+    15.7
+   ],
+   "height": 6.0,
+   "label": "SW1?: a two-way DIP switch by the colour circuit, both OPEN (the colour/black-and-white switch, to be confirmed)",
+   "label_zh": "SW1？：彩色电路旁的两位拨动开关，都在 OPEN（彩色 / 黑白开关，有待确认）"
+  },
+  {
+   "ref": "Y1",
+   "kind": "crystal",
+   "box": [
+    204.9,
+    71.1,
+    214.8,
+    81.9
+   ],
+   "height": 10.0,
+   "label": "Y1: 14.31818 MHz, the master clock",
+   "label_zh": "Y1：14.31818 MHz，主时钟晶振"
+  },
+  {
+   "ref": "Y2",
+   "kind": "crystal",
+   "box": [
+    93.8,
+    9.6,
+    103.7,
+    19.3
+   ],
+   "height": 10.0,
+   "label": "Y2: 4.433619 MHz, the PAL colour subcarrier",
+   "label_zh": "Y2：4.433619 MHz，PAL 彩色副载波晶振"
+  },
+  {
+   "ref": "J8",
+   "kind": "conn",
+   "box": [
+    8.9,
+    222.9,
+    16.8,
+    228.7
+   ],
+   "height": 9.0,
+   "label": "J8: the speaker's connector, its two wires in from the top",
+   "label_zh": "J8：喇叭插座，两根线从上面插入"
+  },
+  {
+   "ref": "JP",
+   "kind": "conn",
+   "box": [
+    8.6,
+    88.0,
+    17.3,
+    103.6
+   ],
+   "height": 18.0,
+   "label": "The power connector: +5 V, +12 V and the rest from the power supply (18 mm tall)",
+   "label_zh": "电源插座：电源送来的 +5 V、+12 V 等电压（高 18 毫米）"
+  },
+  {
+   "ref": "x01",
+   "kind": "cap_e",
+   "box": [
+    35.1,
+    37.3,
+    42.0,
+    45.1
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "x02",
+   "kind": "cap_e",
+   "box": [
+    108.6,
+    43.4,
+    114.8,
+    51.8
+   ],
+   "height": 11.0,
+   "label": ""
+  },
+  {
+   "ref": "x03",
+   "kind": "cap_e",
+   "box": [
+    231.6,
+    63.9,
+    237.5,
+    71.1
+   ],
+   "height": 11.0,
+   "label": ""
+  },
+  {
+   "ref": "x04",
+   "kind": "cap_e",
+   "box": [
+    12.3,
+    125.3,
+    18.5,
+    131.3
+   ],
+   "height": 10.0,
+   "label": ""
+  },
+  {
+   "ref": "x05",
+   "kind": "cap_e",
+   "box": [
+    12.3,
+    136.1,
+    18.5,
+    142.2
+   ],
+   "height": 10.0,
+   "label": ""
+  },
+  {
+   "ref": "x06",
+   "kind": "cap_e",
+   "box": [
+    12.3,
+    148.2,
+    18.5,
+    154.2
+   ],
+   "height": 10.0,
+   "label": ""
+  },
+  {
+   "ref": "x07",
+   "kind": "cap_e",
+   "box": [
+    12.3,
+    160.2,
+    18.5,
+    166.3
+   ],
+   "height": 10.0,
+   "label": ""
+  },
+  {
+   "ref": "x08",
+   "kind": "coil",
+   "box": [
+    18.8,
+    119.3,
+    27.4,
+    127.7
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "x09",
+   "kind": "coil",
+   "box": [
+    18.8,
+    131.3,
+    27.4,
+    139.8
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "x10",
+   "kind": "coil",
+   "box": [
+    18.8,
+    142.2,
+    27.4,
+    150.6
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "x11",
+   "kind": "coil",
+   "box": [
+    18.8,
+    153.0,
+    27.4,
+    161.4
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "x12",
+   "kind": "trimmer",
+   "box": [
+    46.9,
+    27.7,
+    55.6,
+    36.1
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "x13",
+   "kind": "trimmer",
+   "box": [
+    29.6,
+    45.8,
+    38.3,
+    54.2
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "x14",
+   "kind": "trimmer",
+   "box": [
+    39.0,
+    45.8,
+    47.7,
+    54.2
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "x15",
+   "kind": "coil",
+   "box": [
+    53.1,
+    38.6,
+    61.7,
+    47.0
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "x16",
+   "kind": "res",
+   "box": [
+    53.5,
+    24.1,
+    60.0,
+    26.5
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x17",
+   "kind": "res",
+   "box": [
+    19.0,
+    39.8,
+    25.5,
+    42.2
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x18",
+   "kind": "res",
+   "box": [
+    36.3,
+    29.9,
+    42.8,
+    32.3
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x19",
+   "kind": "res",
+   "box": [
+    36.3,
+    32.3,
+    42.8,
+    34.7
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x20",
+   "kind": "res",
+   "box": [
+    36.3,
+    34.7,
+    42.8,
+    37.1
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x21",
+   "kind": "res",
+   "box": [
+    17.0,
+    43.9,
+    23.5,
+    46.3
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x22",
+   "kind": "res",
+   "box": [
+    17.0,
+    46.3,
+    23.5,
+    48.7
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x23",
+   "kind": "res",
+   "box": [
+    17.0,
+    48.7,
+    23.5,
+    51.1
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x24",
+   "kind": "res",
+   "box": [
+    65.5,
+    24.5,
+    67.9,
+    31.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x25",
+   "kind": "res",
+   "box": [
+    68.4,
+    65.9,
+    70.8,
+    72.4
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x26",
+   "kind": "res",
+   "box": [
+    17.8,
+    64.2,
+    20.2,
+    70.7
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x27",
+   "kind": "res",
+   "box": [
+    41.2,
+    59.8,
+    47.7,
+    62.2
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x28",
+   "kind": "res",
+   "box": [
+    41.2,
+    62.2,
+    47.7,
+    64.6
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x29",
+   "kind": "res",
+   "box": [
+    41.2,
+    64.6,
+    47.7,
+    67.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x30",
+   "kind": "res",
+   "box": [
+    41.2,
+    67.0,
+    47.7,
+    69.4
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x31",
+   "kind": "res",
+   "box": [
+    41.2,
+    69.4,
+    47.7,
+    71.8
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x32",
+   "kind": "res",
+   "box": [
+    41.2,
+    71.8,
+    47.7,
+    74.2
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x33",
+   "kind": "res",
+   "box": [
+    41.2,
+    74.2,
+    47.7,
+    76.6
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x34",
+   "kind": "res",
+   "box": [
+    41.2,
+    76.6,
+    47.7,
+    79.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x35",
+   "kind": "res",
+   "box": [
+    78.7,
+    39.8,
+    85.2,
+    42.2
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x36",
+   "kind": "res",
+   "box": [
+    78.7,
+    54.2,
+    85.2,
+    56.6
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x37",
+   "kind": "res",
+   "box": [
+    78.7,
+    56.6,
+    85.2,
+    59.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x38",
+   "kind": "res",
+   "box": [
+    78.7,
+    59.5,
+    85.2,
+    61.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x39",
+   "kind": "res",
+   "box": [
+    106.6,
+    54.2,
+    113.1,
+    56.6
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x40",
+   "kind": "res",
+   "box": [
+    106.6,
+    57.1,
+    113.1,
+    59.5
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x41",
+   "kind": "res",
+   "box": [
+    79.5,
+    66.3,
+    86.0,
+    68.7
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x42",
+   "kind": "res",
+   "box": [
+    79.5,
+    70.4,
+    86.0,
+    72.8
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x43",
+   "kind": "res",
+   "box": [
+    92.6,
+    66.3,
+    99.1,
+    68.7
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x44",
+   "kind": "res",
+   "box": [
+    92.6,
+    70.4,
+    99.1,
+    72.8
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x45",
+   "kind": "disc",
+   "box": [
+    77.7,
+    12.2,
+    82.7,
+    15.2
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x46",
+   "kind": "film",
+   "box": [
+    69.1,
+    22.3,
+    80.1,
+    26.8
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "x47",
+   "kind": "disc",
+   "box": [
+    92.6,
+    27.9,
+    97.6,
+    30.9
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x48",
+   "kind": "disc",
+   "box": [
+    78.0,
+    43.6,
+    83.0,
+    46.6
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x49",
+   "kind": "disc",
+   "box": [
+    78.0,
+    48.4,
+    83.0,
+    51.4
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x50",
+   "kind": "film",
+   "box": [
+    101.9,
+    61.6,
+    112.9,
+    66.1
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "x51",
+   "kind": "tr",
+   "box": [
+    24.9,
+    32.4,
+    29.5,
+    36.0
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x52",
+   "kind": "tr",
+   "box": [
+    74.7,
+    32.4,
+    79.3,
+    36.0
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x53",
+   "kind": "tr",
+   "box": [
+    65.6,
+    42.1,
+    70.2,
+    45.7
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x54",
+   "kind": "tr",
+   "box": [
+    66.1,
+    50.0,
+    70.7,
+    53.6
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x55",
+   "kind": "tr",
+   "box": [
+    102.6,
+    29.5,
+    107.2,
+    33.1
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x56",
+   "kind": "tr",
+   "box": [
+    57.0,
+    31.2,
+    61.6,
+    34.8
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x57",
+   "kind": "sip",
+   "box": [
+    62.9,
+    92.8,
+    65.4,
+    104.8
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x58",
+   "kind": "res",
+   "box": [
+    224.2,
+    24.5,
+    226.6,
+    31.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x59",
+   "kind": "tr",
+   "box": [
+    227.3,
+    33.1,
+    231.9,
+    36.7
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x60",
+   "kind": "res",
+   "box": [
+    232.6,
+    56.6,
+    239.1,
+    59.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x61",
+   "kind": "res",
+   "box": [
+    232.6,
+    59.0,
+    239.1,
+    61.4
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x62",
+   "kind": "res",
+   "box": [
+    232.6,
+    61.5,
+    239.1,
+    63.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x63",
+   "kind": "res",
+   "box": [
+    232.6,
+    72.8,
+    239.1,
+    75.2
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x64",
+   "kind": "res",
+   "box": [
+    232.6,
+    75.2,
+    239.1,
+    77.6
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x65",
+   "kind": "res",
+   "box": [
+    232.6,
+    77.6,
+    239.1,
+    80.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x66",
+   "kind": "res",
+   "box": [
+    232.6,
+    80.0,
+    239.1,
+    82.4
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x67",
+   "kind": "res",
+   "box": [
+    232.6,
+    82.4,
+    239.1,
+    84.8
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x68",
+   "kind": "res",
+   "box": [
+    257.7,
+    56.6,
+    264.2,
+    59.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x69",
+   "kind": "res",
+   "box": [
+    257.7,
+    59.5,
+    264.2,
+    61.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x70",
+   "kind": "res",
+   "box": [
+    202.2,
+    63.1,
+    208.7,
+    65.5
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x71",
+   "kind": "res",
+   "box": [
+    202.2,
+    65.5,
+    208.7,
+    67.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x72",
+   "kind": "res",
+   "box": [
+    202.2,
+    68.0,
+    208.7,
+    70.4
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x73",
+   "kind": "disc",
+   "box": [
+    190.6,
+    62.8,
+    195.6,
+    65.8
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x74",
+   "kind": "disc",
+   "box": [
+    190.6,
+    66.5,
+    195.6,
+    69.5
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x75",
+   "kind": "res",
+   "box": [
+    193.0,
+    78.6,
+    199.5,
+    81.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x76",
+   "kind": "res",
+   "box": [
+    193.0,
+    81.5,
+    199.5,
+    83.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x77",
+   "kind": "tr",
+   "box": [
+    187.8,
+    74.1,
+    192.4,
+    77.7
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x78",
+   "kind": "tr",
+   "box": [
+    197.7,
+    74.1,
+    202.3,
+    77.7
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x79",
+   "kind": "res",
+   "box": [
+    173.6,
+    110.5,
+    176.0,
+    117.0
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x80",
+   "kind": "res",
+   "box": [
+    84.7,
+    123.7,
+    87.1,
+    130.2
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x81",
+   "kind": "res",
+   "box": [
+    103.2,
+    123.3,
+    105.6,
+    129.8
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x82",
+   "kind": "res",
+   "box": [
+    24.4,
+    213.7,
+    30.9,
+    216.1
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x83",
+   "kind": "res",
+   "box": [
+    24.4,
+    216.1,
+    30.9,
+    218.5
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x84",
+   "kind": "disc",
+   "box": [
+    23.9,
+    219.5,
+    28.9,
+    222.5
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x85",
+   "kind": "disc",
+   "box": [
+    23.9,
+    225.0,
+    28.9,
+    228.0
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x86",
+   "kind": "tr",
+   "box": [
+    12.5,
+    218.0,
+    17.1,
+    221.6
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "x87",
+   "kind": "res",
+   "box": [
+    145.2,
+    198.4,
+    147.6,
+    204.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x88",
+   "kind": "res",
+   "box": [
+    147.7,
+    198.4,
+    150.1,
+    204.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x89",
+   "kind": "res",
+   "box": [
+    150.2,
+    198.4,
+    152.6,
+    204.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x90",
+   "kind": "res",
+   "box": [
+    152.6,
+    198.4,
+    155.0,
+    204.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x91",
+   "kind": "res",
+   "box": [
+    155.1,
+    198.4,
+    157.5,
+    204.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x92",
+   "kind": "res",
+   "box": [
+    157.6,
+    198.4,
+    160.0,
+    204.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x93",
+   "kind": "res",
+   "box": [
+    160.0,
+    198.4,
+    162.4,
+    204.9
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x94",
+   "kind": "film",
+   "box": [
+    138.5,
+    207.8,
+    143.0,
+    218.8
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "x95",
+   "kind": "film",
+   "box": [
+    143.2,
+    207.8,
+    147.7,
+    218.8
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "x96",
+   "kind": "film",
+   "box": [
+    147.9,
+    207.8,
+    152.4,
+    218.8
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "x97",
+   "kind": "film",
+   "box": [
+    152.6,
+    207.8,
+    157.1,
+    218.8
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "x98",
+   "kind": "film",
+   "box": [
+    157.3,
+    207.8,
+    161.8,
+    218.8
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "x99",
+   "kind": "sip",
+   "box": [
+    179.2,
+    196.1,
+    181.7,
+    212.1
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x100",
+   "kind": "res",
+   "box": [
+    183.2,
+    168.3,
+    185.6,
+    174.8
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x101",
+   "kind": "sip",
+   "box": [
+    245.9,
+    110.6,
+    248.4,
+    126.6
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x102",
+   "kind": "res",
+   "box": [
+    226.2,
+    137.0,
+    228.6,
+    143.5
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x103",
+   "kind": "disc",
+   "box": [
+    242.4,
+    153.9,
+    247.4,
+    156.9
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x104",
+   "kind": "res",
+   "box": [
+    237.5,
+    221.7,
+    244.0,
+    224.1
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x105",
+   "kind": "res",
+   "box": [
+    237.5,
+    224.1,
+    244.0,
+    226.5
+   ],
+   "height": 3.0,
+   "label": ""
+  },
+  {
+   "ref": "x106",
+   "kind": "disc",
+   "box": [
+    256.8,
+    210.8,
+    261.8,
+    213.8
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "x107",
+   "kind": "disc",
+   "box": [
+    262.4,
+    210.1,
+    267.4,
+    213.1
+   ],
+   "height": 7.0,
+   "label": ""
+  }
+ ]
+}

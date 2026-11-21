@@ -1,0 +1,91 @@
+ROM images of the CEC-I 中华学习机 (China Educational Computer, 1987)
+====================================================================
+
+The files in this directory are NOT covered by the Apache License 2.0
+or the CC BY-SA 4.0 licence that apply to the rest of this repository
+(design/decisions.md, D2). They are historical software and data,
+included so that the simulator can run the machine as it was. Their
+copyright belongs to their original owners: the CEC-I joint design
+group (中华学习机联合设计组) and the factories that made the machine.
+Parts derive from Apple Computer's Apple IIe firmware (the monitor;
+Applesoft BASIC, by Microsoft) and from MIT LOGO ("(C) 1981 MIT" in
+U7). The font ROMs hold the GB2312 character set as 16 x 16 bitmaps.
+
+They were never formally released, and no licence to redistribute them
+has been granted. They are carried here, as by MAME and by other
+preservation archives, as historical artifacts for study, for teaching
+and for running on a simulator of the machine they were written for:
+a non-profit project for computer-science education and for the
+preservation of computing history, within the principles of fair use
+and of Article 24 of the Copyright Law of the People's Republic of
+China on classroom teaching, scientific research and the preservation
+of copies.
+
+If you hold rights in these files and would rather they were not here,
+please open an issue on the repository and they will be removed.
+
+
+The set
+-------
+
+These six files are the ROMs of a working CEC-I, version 1.1, the
+version the 1987-88 manuals show: what the simulator runs is what that
+machine runs. Chip designators are those of the CEC-I's main board.
+
+  File                           Bytes  Chip and contents
+  u7.cec-i-v1.1.bin              32768  U7, 27256, the system ROM: monitor and
+                                        CEC-BASIC at $C100-$FFFF (its high
+                                        16 KB); LOGO (its low 16 KB, seen at
+                                        aux $8000). Boots with "ZHONG HUA XUE
+                                        XI JI" and "VERSION 1.1"
+  u35.tmm24256ap.bin             32768  U35, 27256, the Chinese system ROM:
+                                        code tables (aux $8000), the $C300
+                                        and $C600 firmware, the Chinese system
+                                        (aux $D000-$FFFF)
+  u33.mx231024-0059.bin         131072  U33, 1 Mbit mask ROM: the GB2312 16 x 16
+                                        font, left halves (even addresses)
+  u34.mx231024-0060.bin         131072  U34, 1 Mbit mask ROM: the font, right
+                                        halves (odd addresses)
+  u13.9433c-0202.rcl-zh-32.bin    4096  U13, 2732: the video character
+                                        generator and the lo-res and hi-res
+                                        colour patterns
+  u26.9433c-0201.rcl-zh-16.bin    2048  U26, 2716: the keyboard ROM, read by the
+                                        KB3600 encoder
+
+  SHA-256
+  u7.cec-i-v1.1.bin              779d7c665dddf39dc5586f9455695730b53b105c5192a3841238ada7a25f66d3
+  u35.tmm24256ap.bin             418c44073818595b472cf7c3956e6d1c8bfbdf7edc4eb7a50b5c1761d842d459
+  u33.mx231024-0059.bin          1e7161ebb3959d8e75909183992f3383b45ef5a9f967a8eadb91b545c2ab334f
+  u34.mx231024-0060.bin          886a5fd7ec0f05f5a099591c2a77a4b358317d66205831b0264c7fa92e87c709
+  u13.9433c-0202.rcl-zh-32.bin   ed5bdd4afa509134e85f1d020685af7ff50e279226eb869a17825b471cc1634c
+  u26.9433c-0201.rcl-zh-16.bin   9501daf657954acaa7c1a6f881b3b80bc590bfea64f3068ed71ec52a552c01aa
+
+tests/roms.test.js checks each file against these hashes.
+
+
+Where they came from
+--------------------
+
+U35, U33, U34, U13 and U26 are MAME's "ceci" ROM set (driver
+src/mame/apple/apple2e.cpp), file names kept as MAME has them so that
+they can be checked against it; each matches the CRC32 and SHA-1 in
+that driver. Checksums of every page of the address space, taken on
+the working machine with a short program, match them as the machine
+reads them.
+
+U7 is MAME's version 1.1 system ROM (u7.tmm24256ap.bin, SHA-256
+18bcd19e81a373efc973843429358b41346639900530cae467e42e7ee9dd13ef) with
+21 bytes changed, so that it reproduces every page and block checksum
+measured on the working machine. The four pages that differ were
+listed with the machine's own monitor. The changes (CPU address: MAME's
+bytes -> the machine's):
+
+  $D300-$D310  AD 63 C0 10 08 A9 00 8D F4 03 8D 7B 04 20 84 FE 60
+               -> FF x 17          (a reset hook, absent on the machine)
+  $FA64-$FA65  00 D3 -> 84 FE      (the reset: JSR $D300 -> JSR $FE84)
+  $C86D        08 -> EA            (the disk boot search: PHP -> NOP)
+  $CDFC        6F -> 34            (the self-test's check value for
+                                    $D000-$FFFF, to match)
+
+The machine boots, runs its self-test (every line OK) and behaves as
+the working one does on this image.

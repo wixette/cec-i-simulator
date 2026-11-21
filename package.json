@@ -1,0 +1,38 @@
+{
+  "name": "cec-i-simulator",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "The CEC-I 中华学习机 (China Educational Computer, 1987) in 3D in your browser: switch it on, write Chinese in BASIC, and open it up.",
+  "license": "Apache-2.0",
+  "homepage": "https://wixette.github.io/cec-i-simulator/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wixette/cec-i-simulator.git"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check:refs": "node tools/check-refs.mjs",
+    "check": "pnpm check:refs && pnpm typecheck && pnpm test",
+    "test": "node --test \"tests/**/*.test.js\" \"tools/*.test.mjs\"",
+    "test:browser": "node tests/browser/run.mjs",
+    "test:6502": "node tools/harte6502.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "vendor": "node tools/vendor.mjs",
+    "stamp": "node tools/stamp.mjs",
+    "version": "node tools/stamp.mjs",
+    "serve": "node tools/serve.mjs 8000",
+    "build:model": "\"${BLENDER:-/Applications/Blender.app/Contents/MacOS/Blender}\" --background --factory-startup --python-exit-code 1 --python model/blender/scripts/build_machine.py"
+  },
+  "devDependencies": {
+    "@fontsource-variable/roboto-flex": "5.3.0",
+    "@material-symbols/svg-400": "0.48.0",
+    "@types/node": "24.19.2",
+    "@types/three": "0.186.0",
+    "three": "0.186.1",
+    "typescript": "7.0.2"
+  }
+}

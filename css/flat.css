@@ -1,0 +1,218 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* The 2D view (js/flat/flat.js): the TV and the computer drawn flat, scaled to fit. */
+.flat {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.flat-fit {
+  position: relative;
+  flex: none;
+}
+.flat-rig {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+/* the TV: the 3D set's silver-grey cabinet, the screen in its dark lip, the dark control
+   panel on the right */
+.flat-tv {
+  box-sizing: border-box;
+  display: flex;
+  gap: 0;
+  background: linear-gradient(#b7b9bb, #9a9c9f);
+  border-radius: 22px;
+  box-shadow: 0 10px 40px #0009, inset 0 1px 0 #ffffff40;
+}
+.flat-screen-box {
+  position: relative;
+  flex: none;
+  border-radius: 46px;
+  overflow: hidden;
+  background: #101312;
+  box-shadow: 0 0 0 6px #2a2c2f, 0 0 0 9px #4a4c50;
+}
+.flat-screen {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* the tube's glass: a faint sheen at the top, darker at the curved edges */
+.flat-glass {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 62%, #0006 100%), linear-gradient(170deg, #ffffff10, transparent 30%);
+}
+.flat-panel {
+  flex: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  /* a darker plate, inset from the cabinet's edge, as the 3D set's */
+  width: calc(150px - 18px) !important;
+  margin-left: 18px;
+  padding: 22px 0 14px;
+  border-radius: 8px;
+  background: #4a4c50;
+  box-shadow: inset 0 1px 0 #ffffff14;
+}
+.flat-grille {
+  width: 92px;
+  height: 64px;
+  background: repeating-linear-gradient(90deg, #111 0 5px, transparent 5px 11px);
+  opacity: 0.85;
+}
+.flat-grille-low {
+  height: 46px;
+  background: repeating-linear-gradient(0deg, #111 0 4px, transparent 4px 10px);
+}
+.flat-knob-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+/* the knobs as the 3D set's (model/blender/scripts/build_machine.py): a skirt 30 mm across, a flat
+   cap 25 mm across, a light pointer line from 4 to 11 mm out */
+.flat-knob {
+  position: relative;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: #0c0c0d;
+  box-shadow: 0 3px 8px #000a, inset 0 0 0 1px #ffffff12;
+  cursor: grab;
+  touch-action: none;
+}
+.flat-knob::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: #19191b;
+  box-shadow: 0 0 0 1px #ffffff1a, 0 1px 3px #000c;
+}
+.flat-knob:active {
+  cursor: grabbing;
+}
+.flat-knob-mark {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 5px;
+  height: 17px;
+  margin-left: -2.5px;
+  background: #dcdde0;
+}
+.flat-label {
+  font: 13px/1 "Noto Sans SC", system-ui, sans-serif;
+  color: #b9b7b0;
+}
+.flat-tv-power {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+/* the thin vertical push button, and its lamp */
+.flat button.flat-tv-button {
+  width: 20px;
+  height: 72px;
+  border: none;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #6e6f73, #c9cacd 45%, #75767a);
+  box-shadow: 0 3px 6px #000a;
+  cursor: pointer;
+  padding: 0;
+}
+.flat button.flat-tv-button[aria-pressed="true"] {
+  transform: translateY(4px);
+  box-shadow: 0 1px 2px #000a;
+}
+.flat-tv-lamp {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-top: 8px;
+  background: #4a1512;
+}
+.flat-tv-lamp.on {
+  background: #ff3b2e;
+  box-shadow: 0 0 12px #ff3b2e;
+}
+/* the computer: its colours, its power rocker at the left edge */
+.flat-computer {
+  position: relative;
+  flex: none;
+}
+.flat-keys {
+  display: block;
+  touch-action: none;
+  cursor: pointer;
+  filter: drop-shadow(0 10px 24px #0008);
+}
+.flat button.flat-power,
+.flat button.flat-power[aria-pressed] {
+  position: absolute;
+  right: 100%;
+  margin-right: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #c9c7c0;
+  cursor: pointer;
+  flex-direction: column;
+}
+/* the rocker, face on (model/params/machine.json, base.left_side.power_switch: 24 x 8.5 mm, a 2 mm white pit
+   6.5 mm towards the front end, the end pressed in for on): front at the bottom, as in 2D */
+.flat-rocker {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 80px;
+  border-radius: 3px;
+  box-shadow: 0 0 0 5px #121314, 0 0 0 7px #3a3b3e, 0 4px 10px #000a;
+  /* off: the back end (top) pressed in and in shadow, the front end standing out in the light,
+     the ridge between them */
+  background: linear-gradient(to bottom, #000 0%, #0b0b0c 47%, #77787d 50%, #4a4b50 54%, #5c5d62 100%);
+}
+.flat .flat-power[aria-pressed="true"] .flat-rocker {
+  /* on: the front end (bottom) pressed in, the back end standing out */
+  background: linear-gradient(to top, #000 0%, #0b0b0c 47%, #77787d 50%, #4a4b50 54%, #5c5d62 100%);
+}
+.flat-rocker-pit {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 21px);
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: #e9e6dc;
+}
+/* the rocker drawn from the 3D model (js/flat/bake-rocker.js): the picture of its position */
+.flat button.flat-power.baked[aria-pressed] {
+  margin-right: 0;
+}
+.flat button:focus {
+  outline: none;
+}
+/* a thin light glow, so the dark rocker shows against the dark stage */
+.flat-rocker-art {
+  filter: drop-shadow(0 0 1.2px #f2efe6e0) drop-shadow(0 0 7px #f2efe666);
+}

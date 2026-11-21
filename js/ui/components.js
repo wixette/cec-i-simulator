@@ -1,0 +1,483 @@
+// SPDX-License-Identifier: Apache-2.0
+//
+// The page's components (docs/ui-design.md, P10): icons, texts and tooltips, menus, tabs and
+// dialogs. One of each kind, used the same way everywhere, following Material Design 3's
+// patterns and WAI-ARIA's keyboard rules. As the TRS-80 simulator has them
+// (https://github.com/wixette/trs-80-simulator, Apache-2.0, by the same author).
+
+import { ICONS } from "../../vendor/material-symbols/icons.js";
+import { t } from "../l10n/l10n.js";
+
+/** @typedef {keyof typeof ICONS} IconName */
+
+const SVG = "http://www.w3.org/2000/svg";
+
+/**
+ * A Material Symbol as an inline SVG element, in the current text colour.
+ * @param {IconName} name
+ * @returns {SVGSVGElement}
+ */
+export function icon(name) {
+  const svg = document.createElementNS(SVG, "svg");
+  svg.setAttribute("viewBox", "0 -960 960 960");
+  svg.setAttribute("class", "icon");
+  svg.setAttribute("aria-hidden", "true");
+  const path = document.createElementNS(SVG, "path");
+  path.setAttribute("d", ICONS[name]);
+  svg.appendChild(path);
+  return svg;
+}
+
+/**
+ * An element with attributes and children.
+ * @template {keyof HTMLElementTagNameMap} K
+ * @param {K} tag
+ * @param {Record<string, string | boolean | undefined>} [attrs]
+ * @param {(Node | string | null | undefined)[]} [children]
+ * @returns {HTMLElementTagNameMap[K]}
+ */
+export function el(tag, attrs = {}, children = []) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === undefined || v === false) continue;
+    if (k === "class") e.className = String(v);
+    else if (k === "text") e.textContent = String(v);
+    else e.setAttribute(k, v === true ? "" : v);
+  }
+  for (const c of children) if (c !== null && c !== undefined) e.append(c);
+  return e;
+}
+
+/**
+ * A switch (Material 3): its track and thumb, then its label.
+ * @param {string} label
+ * @param {boolean} on
+ * @param {(on: boolean) => void} change
+ */
+export function toggle(label, on, change) {
+  const b = el("button", { class: "switch", type: "button", role: "switch", "aria-checked": String(on) }, [el("span", { class: "switch-track" }, [el("span", { class: "switch-thumb" })]), el("span", { text: label })]);
+  b.addEventListener("click", () => {
+    const now = b.getAttribute("aria-checked") !== "true";
+    b.setAttribute("aria-checked", String(now));
+    change(now);
+  });
+  return b;
+}
+
+/**
+ * Replace each <i data-icon="name"> placeholder under root with its icon.
+ * @param {ParentNode} root
+ */
+export function applyIcons(root) {
+  for (const i of /** @type {NodeListOf<HTMLElement>} */ (root.querySelectorAll("i[data-icon]"))) {
+    i.replaceWith(icon(/** @type {IconName} */ (i.dataset.icon)));
+  }
+}
+
+/**
+ * Translate the texts under root: data-l10n sets the text, data-l10n-tip the tooltip and the
+ * screen-reader name (an icon button's only name).
+ * @param {ParentNode} root
+ */
+export function applyL10n(root) {
+  for (const e of /** @type {NodeListOf<HTMLElement>} */ (root.querySelectorAll("[data-l10n]"))) {
+    e.textContent = t(/** @type {string} */ (e.dataset.l10n));
+  }
+  for (const e of /** @type {NodeListOf<HTMLElement>} */ (root.querySelectorAll("[data-l10n-tip]"))) {
+    setTip(e, t(/** @type {string} */ (e.dataset.l10nTip)));
+  }
+}
+
+// ---- tooltips ---------------------------------------------------------------------------------
+/** @type {HTMLElement | null} */
+let tipBox = null;
+/** @type {ReturnType<typeof setTimeout> | undefined} */
+let tipTimer;
+
+/**
+ * Give an element a tooltip (shown on hover and keyboard focus) and a screen-reader name. An
+ * element with its own visible label (data-tip-describes: a text button, a labelled field) keeps
+ * that label as its name, and the tooltip describes it.
+ * @param {HTMLElement} e
+ * @param {string} text
+ */
+export function setTip(e, text) {
+  e.dataset.tip = text;
+  e.setAttribute(e.hasAttribute("data-tip-describes") ? "aria-description" : "aria-label", text);
+  if (e.dataset.tipBound) return;
+  e.dataset.tipBound = "1";
+  const show = () => {
+    clearTimeout(tipTimer);
+    tipTimer = setTimeout(() => {
+      // never over an open menu: the tooltip would cover what was just asked for
+      if (!e.isConnected || !e.dataset.tip || openMenu) return;
+      tipBox ??= el("div", { class: "tooltip", role: "presentation" });
+      // inside an open dialog, in it: a modal dialog is drawn above everything else in the page
+      const host = e.closest("dialog[open]") ?? document.body;
+      if (tipBox.parentElement !== host) host.appendChild(tipBox);
+      tipBox.textContent = e.dataset.tip;
+      tipBox.hidden = false;
+      const r = e.getBoundingClientRect();
+      const b = tipBox.getBoundingClientRect();
+      const below = r.bottom + 8 + b.height < window.innerHeight;
+      tipBox.style.top = `${below ? r.bottom + 8 : r.top - 8 - b.height}px`;
+      tipBox.style.left = `${Math.max(8, Math.min(window.innerWidth - b.width - 8, r.left + r.width / 2 - b.width / 2))}px`;
+    }, 450);
+  };
+  const hide = () => {
+    clearTimeout(tipTimer);
+    if (tipBox) tipBox.hidden = true;
+  };
+  e.addEventListener("pointerenter", (ev) => ev.pointerType === "mouse" && show());
+  e.addEventListener("pointerleave", hide);
+  e.addEventListener("focus", () => e.matches(":focus-visible") && show());
+  e.addEventListener("blur", hide);
+  e.addEventListener("click", hide);
+}
+
+// ---- menus ------------------------------------------------------------------------------------
+/**
+ * @typedef {object} MenuItem
+ * @property {string} label
+ * @property {() => void} [run] what choosing it does (not for an item with `items`)
+ * @property {MenuItem[]} [items] a submenu: beside the menu where there is room, else in its place
+ * @property {boolean} [checked] shown with a check (a choice among several, or a toggle)
+ * @property {boolean} [toggle] the check is a setting on or off, not a choice among several
+ * @property {IconName} [icon] shown before the label
+ * @property {string | true} [divider] a line before the item, headed by the text if one is given
+ * @property {string} [disabled] greyed, with this reason at its right; choosing it still runs it, which says why (P6)
+ */
+
+/** @type {{ box: HTMLElement; anchor: HTMLElement; sub: HTMLElement | null } | null} */
+let openMenu = null;
+
+/** Close the open menu, if any. */
+export function closeMenu() {
+  if (!openMenu) return;
+  const { box, anchor, sub } = openMenu;
+  openMenu = null;
+  box.remove();
+  sub?.remove();
+  anchor.setAttribute("aria-expanded", "false");
+}
+
+/**
+ * Puts a menu box beside or below a rectangle, inside the window; a box taller than the room
+ * scrolls.
+ * @param {HTMLElement} box
+ * @param {DOMRect} r what it opens from
+ * @param {"below" | "beside"} how
+ */
+function place(box, r, how) {
+  box.style.maxHeight = "";
+  box.style.overflowY = "";
+  const b = box.getBoundingClientRect();
+  if (how === "below") {
+    // below the anchor, else above it; a menu taller than either side scrolls, on the roomier one
+    const down = window.innerHeight - 8 - (r.bottom + 4);
+    const up = r.top - 4 - 8;
+    if (b.height > down && b.height > up) {
+      box.style.maxHeight = `${Math.max(down, up)}px`;
+      box.style.overflowY = "auto";
+    }
+    const top = b.height <= down || down >= up ? r.bottom + 4 : Math.max(8, r.top - 4 - Math.min(b.height, up));
+    box.style.top = `${top}px`;
+    // open towards the middle of the window: from the anchor's left edge, or its right edge on the right
+    const left = r.left + r.width / 2 > window.innerWidth / 2 ? r.right - b.width : r.left;
+    box.style.left = `${Math.max(8, Math.min(window.innerWidth - b.width - 8, left))}px`;
+    return;
+  }
+  // beside: level with the item, to its right where there is room, else to its left
+  const room = window.innerHeight - 16;
+  if (b.height > room) {
+    box.style.maxHeight = `${room}px`;
+    box.style.overflowY = "auto";
+  }
+  const h = Math.min(b.height, room);
+  box.style.top = `${Math.max(8, Math.min(window.innerHeight - 8 - h, r.top - 6))}px`;
+  box.style.left = `${r.right + b.width + 8 <= window.innerWidth ? r.right - 2 : r.left - b.width + 2}px`;
+}
+
+/**
+ * Open a menu under (or above) an anchor button. Arrow keys move, Enter or Space choose,
+ * Escape and a click outside close it. An item with `items` opens a submenu: beside the
+ * menu where the window has room for it (→ or a click opens it, ← or Escape goes back), else
+ * in the menu's place, headed by a row that goes back (a phone).
+ * @param {HTMLElement} anchor
+ * @param {MenuItem[]} items
+ */
+export function showMenu(anchor, items) {
+  const again = openMenu?.anchor === anchor;
+  closeMenu();
+  if (again) return;
+  const box = el("div", { class: "menu", role: "menu" });
+  /** @type {{ box: HTMLElement; anchor: HTMLElement; sub: HTMLElement | null }} */
+  const state = { box, anchor, sub: null };
+  /** Chosen: close everything, the focus as the way it was chosen asks. @param {MenuItem} it @param {Event} e */
+  const choose = (it, e) => {
+    closeMenu();
+    // chosen by the keyboard, the focus goes back to the menu's button; by the pointer, it is
+    // let go, so that the next keys (Enter, Space) are the machine's, not a reopened menu
+    if (/** @type {MouseEvent} */ (e).detail === 0) anchor.focus();
+    else anchor.blur();
+    it.run?.();
+  };
+  /**
+   * Fills a box with items, and gives it the arrow keys. Returns the buttons.
+   * @param {HTMLElement} into
+   * @param {MenuItem[]} list
+   * @param {{ back?: () => void }} [o] `back`: ← and Escape go back (a submenu)
+   */
+  const fill = (into, list, o = {}) => {
+    /** @type {HTMLButtonElement[]} */
+    const buttons = [];
+    for (const it of list) {
+      if (it.divider) into.appendChild(el("div", { class: "menu-divider", role: "separator" }, [typeof it.divider === "string" ? el("span", { text: it.divider }) : null]));
+      const role = it.checked === undefined ? "menuitem" : it.toggle ? "menuitemcheckbox" : "menuitemradio";
+      const mark = it.checked === undefined ? null : it.checked ? icon("check") : el("span", { class: "check" });
+      const b = /** @type {HTMLButtonElement} */ (el("button", { role, tabindex: "-1" }, [mark, it.icon ? icon(it.icon) : null, el("span", { text: it.label }), it.disabled ? el("small", { class: "why", text: it.disabled }) : null, it.items ? icon("chevron_right") : null]));
+      if (it.checked !== undefined) b.setAttribute("aria-checked", String(it.checked));
+      if (it.disabled) b.setAttribute("aria-disabled", "true");
+      if (it.items) {
+        const children = it.items;
+        b.setAttribute("aria-haspopup", "menu");
+        b.setAttribute("aria-expanded", "false");
+        b.classList.add("has-sub");
+        b.addEventListener("click", () => openSub(b, it.label, children, into, list));
+        b.addEventListener("pointerenter", (e) => {
+          if (e.pointerType === "mouse" && into === box && state.sub?.dataset.from !== it.label) openSub(b, it.label, children, into, list, true);
+        });
+      } else {
+        b.addEventListener("click", (e) => choose(it, e));
+        b.addEventListener("pointerenter", (e) => {
+          if (e.pointerType === "mouse" && into === box) closeSub();
+        });
+      }
+      into.appendChild(b);
+      buttons.push(b);
+    }
+    into.onkeydown = (e) => {
+      const i = buttons.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        buttons[(i + (e.key === "ArrowDown" ? 1 : -1) + buttons.length) % buttons.length].focus();
+      } else if (e.key === "Home" || e.key === "End") {
+        e.preventDefault();
+        buttons[e.key === "Home" ? 0 : buttons.length - 1].focus();
+      } else if (e.key === "ArrowRight" && buttons[i]?.classList.contains("has-sub")) {
+        e.preventDefault();
+        buttons[i].click();
+      } else if (o.back && (e.key === "ArrowLeft" || e.key === "Escape")) {
+        e.preventDefault();
+        e.stopPropagation();
+        o.back();
+      } else if (e.key === "Escape" || e.key === "Tab") {
+        e.preventDefault();
+        closeMenu();
+        anchor.focus();
+      }
+    };
+    return buttons;
+  };
+  /** Closes a submenu beside the menu. */
+  const closeSub = () => {
+    if (!state.sub) return;
+    state.sub.remove();
+    state.sub = null;
+    for (const x of box.querySelectorAll("[aria-haspopup]")) x.setAttribute("aria-expanded", "false");
+  };
+  /**
+   * Opens a submenu: beside the menu if the window has room, else in its place.
+   * @param {HTMLButtonElement} from its item
+   * @param {string} label
+   * @param {MenuItem[]} children
+   * @param {HTMLElement} parent the box its item is in
+   * @param {MenuItem[]} siblings the items of that box
+   * @param {boolean} [hovered] only hovered: beside the menu, or not at all (never in its place,
+   *   which would put another item under the pointer that is about to click), and no focus
+   */
+  const openSub = (from, label, children, parent, siblings, hovered = false) => {
+    closeSub();
+    const sub = el("div", { class: "menu submenu", role: "menu", "aria-label": label });
+    sub.dataset.from = label;
+    const subButtons = fill(sub, children, {
+      back: () => {
+        closeSub();
+        from.focus();
+      },
+    });
+    document.body.appendChild(sub);
+    const r = from.getBoundingClientRect();
+    const w = sub.getBoundingClientRect().width;
+    if (r.right + w + 8 <= window.innerWidth || r.left - w - 8 >= 0) {
+      state.sub = sub;
+      from.setAttribute("aria-expanded", "true");
+      const p = parent.getBoundingClientRect();
+      place(sub, new DOMRect(p.left, r.top, p.width, r.height), "beside");
+      if (!hovered) subButtons[0]?.focus();
+      return;
+    }
+    if (hovered) return void sub.remove();
+    // no room beside it (a phone): the submenu takes the menu's place, under a row going back
+    sub.remove();
+    const restore = () => {
+      parent.replaceChildren();
+      const again = fill(parent, siblings);
+      place(parent, anchor.getBoundingClientRect(), "below");
+      again[siblings.findIndex((x) => x.label === label)]?.focus();
+    };
+    parent.replaceChildren();
+    const back = /** @type {HTMLButtonElement} */ (el("button", { role: "menuitem", tabindex: "-1", class: "menu-back" }, [icon("chevron_left"), el("span", { text: label })]));
+    back.addEventListener("click", restore);
+    parent.appendChild(back);
+    const inner = el("div", { class: "menu-inner" });
+    const kids = fill(inner, children, { back: restore });
+    parent.appendChild(inner);
+    const all = [back, ...kids];
+    const keys = inner.onkeydown;
+    parent.onkeydown = (e) => {
+      const i = all.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        all[(i + (e.key === "ArrowDown" ? 1 : -1) + all.length) % all.length].focus();
+      } else if (i === 0 && (e.key === "ArrowLeft" || e.key === "Escape")) {
+        e.preventDefault();
+        restore();
+      } else keys?.call(inner, e);
+    };
+    inner.onkeydown = null;
+    place(parent, anchor.getBoundingClientRect(), "below");
+    (kids[0] ?? back).focus();
+  };
+  const buttons = fill(box, items);
+  document.body.appendChild(box);
+  openMenu = state;
+  if (tipBox) tipBox.hidden = true;
+  anchor.setAttribute("aria-expanded", "true");
+  place(box, anchor.getBoundingClientRect(), "below");
+  const start = Math.max(0, items.findIndex((it) => it.checked && !it.toggle));
+  buttons[start]?.focus();
+}
+
+/** When the visitor last pressed with a pointer (performance.now()), to tell how a dialog was opened. */
+let lastPointer = -Infinity;
+document.addEventListener("pointerdown", () => (lastPointer = performance.now()), { capture: true });
+document.addEventListener("pointerdown", (e) => {
+  const t = /** @type {Node} */ (e.target);
+  if (openMenu && !openMenu.box.contains(t) && !openMenu.sub?.contains(t) && !openMenu.anchor.contains(t)) closeMenu();
+});
+window.addEventListener("resize", closeMenu);
+
+// ---- tabs (WAI-ARIA tabs, automatic activation) -------------------------------------------------
+/**
+ * @param {HTMLElement} list the role="tablist" element
+ * @param {(id: string) => void} onSelect called with the selected tab's id
+ * @returns {(id: string) => void} selects a tab by id
+ */
+export function tabs(list, onSelect) {
+  const all = /** @type {HTMLButtonElement[]} */ ([...list.querySelectorAll('[role="tab"]')]);
+  /** @param {string} id */
+  const select = (id) => {
+    for (const tab of all) {
+      const on = tab.id === id;
+      tab.setAttribute("aria-selected", String(on));
+      tab.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(/** @type {string} */ (tab.getAttribute("aria-controls")));
+      if (panel) panel.hidden = !on;
+    }
+    onSelect(id);
+  };
+  for (const tab of all) tab.addEventListener("click", () => select(tab.id));
+  list.addEventListener("keydown", (e) => {
+    const i = all.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
+    if (i < 0) return;
+    let j = -1;
+    if (e.key === "ArrowRight") j = (i + 1) % all.length;
+    else if (e.key === "ArrowLeft") j = (i - 1 + all.length) % all.length;
+    else if (e.key === "Home") j = 0;
+    else if (e.key === "End") j = all.length - 1;
+    if (j < 0) return;
+    e.preventDefault();
+    all[j].focus();
+    select(all[j].id);
+  });
+  return select;
+}
+
+// ---- dialogs (Material 3, on the native <dialog>) ------------------------------------------------
+/**
+ * @typedef {object} DialogAction a button at the dialog's foot; each closes the dialog, then runs
+ * @property {string} label
+ * @property {boolean} [primary] the one action the dialog is for: filled, and the focus at first
+ * @property {boolean} [choice] one of several choices of equal weight: tonal, with its icon; the first has the focus
+ * @property {IconName} [icon] shown before the label
+ * @property {string} [disabled] greyed, with this reason under its label; choosing it still runs it, which says why (P6)
+ * @property {() => void} [run]
+ */
+
+/**
+ * Opens a modal dialog (Material 3): a title band with its close button, the body, and the
+ * actions at the bottom right, the one it is for filled. Escape, the close button, an action or
+ * a click on the scrim closes it, and the focus goes back where it was.
+ * @param {string} title
+ * @param {Node[]} body
+ * @param {DialogAction[]} [actions]
+ * @param {{ wide?: boolean }} [o] wide: room for a text box
+ * @returns {HTMLDialogElement}
+ */
+export function showDialog(title, body, actions = [], o = {}) {
+  const close = el("button", { class: "btn icon-only", type: "button" }, [icon("close")]);
+  setTip(close, t("dialog.close"));
+  /** @type {HTMLButtonElement | null} */
+  let first = null;
+  const foot = el(
+    "div",
+    { class: "dialog-actions" },
+    actions.map((a) => {
+      const b = el("button", { class: `btn${a.primary ? " filled" : a.choice ? " tonal choice" : ""}${a.icon ? " has-icon" : ""}`, type: "button" }, [a.icon ? icon(a.icon) : null, el("span", { class: "choice-label" }, [el("span", { text: a.label }), a.disabled ? el("small", { class: "why", text: a.disabled }) : null])]);
+      if (a.disabled) b.setAttribute("aria-disabled", "true");
+      b.addEventListener("click", () => {
+        d.close();
+        a.run?.();
+      });
+      if (a.primary || (a.choice && !first)) first = b;
+      return b;
+    }),
+  );
+  const d = el("dialog", { class: o.wide ? "dialog wide" : "dialog", "aria-label": title }, [
+    el("div", { class: "dialog-head" }, [el("h2", { text: title }), close]),
+    el("div", { class: "dialog-body" }, [...body, ...(actions.length ? [foot] : [])]),
+  ]);
+  close.addEventListener("click", () => d.close());
+  // opened by a click or a touch, the browser gives the focus back to what was pressed when it
+  // closes: let go of it then, so that the next Enter is the machine's, not the dialog again
+  const byPointer = performance.now() - lastPointer < 1000;
+  // a click on the scrim closes it, but only one that both began and ended there: a press
+  // inside (selecting text, say) released outside is not one
+  /** @param {MouseEvent} e */
+  const outside = (e) => {
+    const r = d.getBoundingClientRect();
+    return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+  };
+  let downOutside = false;
+  d.addEventListener("pointerdown", (e) => (downOutside = outside(e)));
+  d.addEventListener("click", (e) => {
+    if (e.target === d && downOutside && outside(e)) d.close();
+    downOutside = false;
+  });
+  d.addEventListener("close", () => {
+    d.remove();
+    if (byPointer)
+      setTimeout(() => {
+        const a = /** @type {HTMLElement | null} */ (document.activeElement);
+        if (a && a !== document.body && !a.closest("dialog, .menu") && a.matches("button, [role=tab]")) a.blur();
+      }, 0);
+  });
+  document.body.appendChild(d);
+  d.showModal();
+  /** @type {HTMLButtonElement | null} */ (first)?.focus();
+  return d;
+}
+
+/** @returns {boolean} whether a dialog or a menu is open over the page */
+export const overlayOpen = () => openMenu !== null || document.querySelector("dialog[open]") !== null;

@@ -1,0 +1,12 @@
+# Text normalisation.
+* text=auto eol=lf
+# Binaries. The 3D model is kept in plain git, not LFS: GitHub Pages serves the repository
+# as it is (design/decisions.md, D12).
+*.glb binary
+*.bin binary
+*.otf binary
+*.ttf binary
+*.woff2 binary
+*.jpg binary
+*.png binary
+*.ico binary
