@@ -169,6 +169,8 @@ export default {
   "tv.off": "The TV is off.",
   "knob.brightness": "Brightness: {value} %",
   "knob.colour": "Colour: {value} % (0 is black and white)",
+  "knob.colourNone.bw": "A black-and-white TV has no colour: its colour knob does nothing.",
+  "knob.colourNone.green": "A green monitor has no colour: its colour knob does nothing.",
   "display.colour": "A colour TV: colour where the machine sends it, and Western BASIC's text in green.",
   "display.bw": "A black-and-white TV: every picture in black and white, its colours as patterns of dots.",
   "display.green": "A green monitor: every picture in green.",

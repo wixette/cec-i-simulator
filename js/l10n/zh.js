@@ -168,6 +168,8 @@ export default {
   "tv.off": "电视机已关闭。",
   "knob.brightness": "亮度：{value}%",
   "knob.colour": "色饱和度：{value}%（0 为黑白）",
+  "knob.colourNone.bw": "黑白电视机没有色彩，饱和度不起作用。",
+  "knob.colourNone.green": "绿色单色显示器没有色彩，饱和度不起作用。",
   "display.colour": "彩色电视机：学习机送出彩色时显示彩色，西文 BASIC 的文本为绿色。",
   "display.bw": "黑白电视机：所有画面都是黑白的，彩色显示为点的图案。",
   "display.green": "绿色单色显示器：所有画面都是绿色的。",

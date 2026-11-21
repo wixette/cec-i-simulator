@@ -22,6 +22,16 @@ export default async function (h) {
   const k = await h.centre(".flat-knob");
   await h.drag(k, { x: k.x + 60, y: k.y - 60 });
   h.verify("a drag turns the brightness knob up", (await h.js("cec.tv.brightness")) > 0.6);
+  // on a green monitor the colour knob turns, and the picture stays the same (D6)
+  await h.choose("#display", "A green monitor");
+  await h.sleep(300);
+  const pixel = "(() => { const c = app.flat.screen.getContext('2d').getImageData(600, 450, 1, 1).data; return [...c].join(); })()";
+  const before = await h.js(pixel);
+  const knobs = await h.js("[...document.querySelectorAll('.flat-knob')].map((k) => { const b = k.getBoundingClientRect(); return { x: b.x + b.width / 2, y: b.y + b.height / 2 }; })");
+  await h.drag(knobs[1], { x: knobs[1].x - 80, y: knobs[1].y + 80 });
+  await h.sleep(300);
+  h.verify("on a green monitor, the colour knob turns but the picture stays, and says why", (await h.js("cec.tv.colour")) < 0.5 && (await h.js(pixel)) === before && /no colour/.test(await h.status()), [before, await h.js(pixel), await h.status()]);
+  await h.choose("#display", "A colour TV");
   // the finish chosen with the drawer closed opens it: the change is seen
   await h.press(".drawers .btn");
   await h.until("!app.flat.drawerOpen", 1000);

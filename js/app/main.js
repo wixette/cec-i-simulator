@@ -324,12 +324,12 @@ function frame() {
   speaker.frame(system.machine, t0, !system.racing);
   const tvShows = system.tv.on;
   if (tvShows) system.video.draw(system.machine);
-  const pic = { on: tvShows, signal: system.machine.powered, pixels: system.video.pixels, width: WIDTH, height: HEIGHT, border: system.video.border, brightness: system.tv.brightness, colour: system.tv.colour, display: system.video.display };
+  const pic = { on: tvShows, signal: system.machine.powered, pixels: system.video.pixels, width: WIDTH, height: HEIGHT, border: system.video.border, brightness: system.tv.brightness, colour: system.colourKnob, display: system.video.display };
   // the tube is drawn while the 3D view is, the flight to 2D included
   if (model && viewer?.active) model.showPicture(pic);
   if (stage.mode === "2d") {
     flat.setState({ power: system.machine.powered, tv: system.tv.on, brightness: system.tv.brightness, colour: system.tv.colour });
-    flat.show({ on: system.machine.powered, pixels: system.video.pixels, border: [...system.video.border], display: system.video.display });
+    flat.show({ on: system.machine.powered, pixels: system.video.pixels, border: [...system.video.border], display: system.video.display, colour: system.colourKnob });
     flat.setKeys(system.keysDown(), new Set(system.keyboard.caps ? ["capslock"] : []));
   }
   stage.refresh();

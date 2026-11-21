@@ -563,12 +563,12 @@ export class Flat {
   /**
    * The picture on the tube: each dot sharp, the colour round it in the overscan, the TV's
    * knobs applied, over the lit glass. With the TV off, the glass; with no signal, the glass lit.
-   * @param {{ on: boolean, pixels: Uint8ClampedArray, border: number[], display: import("../sim/video.js").Display }} s on: the computer's signal; display: the set, for its glass
+   * @param {{ on: boolean, pixels: Uint8ClampedArray, border: number[], display: import("../sim/video.js").Display, colour: number }} s on: the computer's signal; display: the set, for its glass; colour: the colour knob as the picture takes it (System.colourKnob)
    */
   show(s) {
     const tvOn = this.state.tv;
     const glass = GLASS[s.display];
-    const key = `${tvOn}|${s.on}|${s.display}|${this.state.brightness}|${this.state.colour}|${s.border.join(",")}`;
+    const key = `${tvOn}|${s.on}|${s.display}|${this.state.brightness}|${s.colour}|${s.border.join(",")}`;
     if (this.lastPixels && this.lastKey === key && (!s.on || samePixels(this.lastPixels, s.pixels))) return;
     this.lastKey = key;
     this.lastPixels = this.lastPixels ?? new Uint8ClampedArray(s.pixels.length);
@@ -579,7 +579,7 @@ export class Flat {
       c.fillRect(0, 0, SW, SH);
       return;
     }
-    const t = knobTable(this.state.brightness, this.state.colour);
+    const t = knobTable(this.state.brightness, s.colour);
     // the glass under the light: out = glass + light x (1 - glass), per channel
     const g = glass.lit;
     const over = (/** @type {number} */ r, /** @type {number} */ gg, /** @type {number} */ b) => {

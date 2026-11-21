@@ -147,8 +147,18 @@ export class System {
     const v = Math.min(1, Math.max(0, value));
     if (v === this.tv[which]) return;
     this.tv[which] = v;
-    this.say({ key: `knob.${which}`, params: { value: Math.round(v * 100) } });
+    // a black-and-white TV or a green monitor has no colour to turn: the knob turns, nothing changes (D6)
+    if (which === "colour" && this.video.display !== "colour") this.say({ key: `knob.colourNone.${this.video.display}` });
+    else this.say({ key: `knob.${which}`, params: { value: Math.round(v * 100) } });
     this.changed();
+  }
+
+  /**
+   * The colour knob as the picture takes it: as turned on a colour TV; on a black-and-white
+   * TV or a green monitor, which have no colour control, where it is set up (D6).
+   */
+  get colourKnob() {
+    return this.video.display === "colour" ? this.tv.colour : KNOB_START.colour;
   }
 
   /** A knob back to where it starts: a double-click on it. @param {Knob} which */
