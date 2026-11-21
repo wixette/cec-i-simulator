@@ -392,4 +392,6 @@ export default {
   "sample.organ.about": "按 1 到 7 键，按简谱弹出 do、re、mi、fa、sol、la、ti，屏幕上的琴键随之亮起；方向键升高或降低一个八度。",
   "sample.kaleidoscope.title": "万花筒",
   "sample.kaleidoscope.about": "LOGO 随机画出各种图形，每个都绕中心重复八次，彩色的，每隔几秒换一幅新图。学习机的 LOGO 本来关闭了彩色；向 $C0B0 锁存器 .DEPOSIT 一个字节，就能让彩色显示出来。",
+  "sample.idioms.title": "成语填空",
+  "sample.idioms.about": "十个成语，每个缺一个字，从三个字里选出它来。在汉字系统中运行，界面是中文的。",
 };

@@ -393,4 +393,6 @@ export default {
   "sample.organ.about": "The keys 1 to 7 play do, re, mi, fa, sol, la, ti, as 简谱 numbers them, and light on the screen; the arrows go an octave down or up.",
   "sample.kaleidoscope.title": "Kaleidoscope",
   "sample.kaleidoscope.about": "LOGO draws random shapes, each eight times round the centre, in colour, a new picture every few seconds. The machine's LOGO keeps colour off; one .DEPOSIT to the $C0B0 latch lets it through.",
+  "sample.idioms.title": "Idiom quiz",
+  "sample.idioms.about": "Ten idioms, each with a character missing: choose it from three. In the Chinese system, its text in Chinese.",
 };

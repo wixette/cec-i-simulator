@@ -307,3 +307,43 @@ describe("our programs: LOGO", () => {
     assert.ok(lit > 500, `${lit} bytes drawn`);
   });
 });
+
+/**
+ * A BASIC program's simple numeric variable, read from its memory as CEC-BASIC keeps it (the
+ * variables from VARTAB, $69, 7 bytes each: the name's two letters, then a 5-byte number).
+ * @param {import("../js/sim/machine.js").Machine} m @param {string} name one or two letters
+ * @returns {number | null}
+ */
+function basicVar(m, name) {
+  const r = m.ram;
+  const want = [name.charCodeAt(0), name.length > 1 ? name.charCodeAt(1) : 0];
+  for (let a = r[0x69] | (r[0x6a] << 8), end = r[0x6b] | (r[0x6c] << 8); a < end; a += 7) {
+    if (r[a] !== want[0] || r[a + 1] !== want[1]) continue;
+    const e = r[a + 2];
+    if (!e) return 0;
+    const mant = ((r[a + 3] | 0x80) * 2 ** 24 + r[a + 4] * 2 ** 16 + r[a + 5] * 2 ** 8 + r[a + 6]) / 2 ** 32;
+    return (r[a + 3] & 0x80 ? -1 : 1) * mant * 2 ** (e - 128);
+  }
+  return null;
+}
+/** The line CEC-BASIC is running (CURLIN, $75). @param {import("../js/sim/machine.js").Machine} m */
+const line = (m) => m.ram[0x75] | (m.ram[0x76] << 8);
+
+describe("our programs: Chinese", () => {
+  it("Idiom quiz: typed in through 区位 in the Chinese system; ten right answers, full marks", () => {
+    const p = typed("idioms");
+    assert.ok(p.s.chineseOn, "the Chinese system on");
+    p.run(2);
+    p.keys(" ");
+    for (let q = 1; q <= 10; q++) {
+      for (let i = 0; i < 50 && line(p.m) !== 160; i++) p.run(0.1);
+      assert.equal(line(p.m), 160, `question ${q} asked`);
+      p.keys(String(basicVar(p.m, "R")));
+      for (let i = 0; i < 50 && line(p.m) !== 190; i++) p.run(0.1);
+      p.keys(" ");
+    }
+    for (let i = 0; i < 50 && line(p.m) !== 250; i++) p.run(0.1);
+    assert.equal(basicVar(p.m, "S"), 10);
+    assert.equal(line(p.m), 250, "asks to play again");
+  });
+});
