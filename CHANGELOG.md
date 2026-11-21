@@ -9,6 +9,7 @@ Instruments that show how it works ([design/v0.0.2.md](design/v0.0.2.md)): four 
 - **Keyboard:** the X-by-Y key matrix lit as keys go down, the latch at $C000 and its strobe, and the last key's code worked out in the keyboard ROM U26.
 - **Chinese:** a string's bytes (127 and two more a character), the latch at $C0B0 and the font bank in its 16 KB window, the last character's 32 bytes as 16 × 16 dots with its glyph number and place in the font, and where its dots landed on the hi-res page.
 - **Inside** lights the chips as they work: the 6502, the RAM, U7, U35, the font ROMs, the latch U32, the character ROM.
+- A new logo and favicon: the CEC-I from the front, in flat shapes.
 
 ## v0.0.1 (pre-release)
 
