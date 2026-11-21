@@ -90,7 +90,7 @@ Every control takes its colours, corners, type and states from one set of design
 ```
 ┌ [logo] CEC-I Simulator   [▤ Programs ▾]                                [🔊] [文A 简 ▾] [ⓘ] ┐  top bar
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                         [▭ Display ▾] [Keyboard] [⌂] [− +] [Front ▾]  [2D | 3D]           │  stage band
+│                         [Keyboard] [⌂] [− +] [Front ▾] [▭ Display ▾]  [2D | 3D]           │  stage band
 │ ╭─────────────────────────────────────────────────────────────────────────────────────╮ │
 │ │            THE STAGE: the computer and its TV in 3D, or the TV and keyboard flat     │ │
 │ │                                                                  [Put it all back]  │ │
@@ -113,7 +113,7 @@ The page is a fixed frame of top bar, stage, dock and status line, and never scr
 - **3D is the default** on a first visit. After that the choice is remembered, and a link can carry it (`#view=3d`, `#view=2d`). A link's view wins over the remembered one.
 - **Going to 2D, the camera flies** to the TV's screen, then the flat view cross-fades in. Going back, it fades out and the camera flies back. With `prefers-reduced-motion`, both are a cut. A double-click on the TV's screen in 3D goes to 2D.
 - **Under 2D the 3D scene stops rendering.** The machine keeps running.
-- **The band** holds **Display** (U8) and the 2D | 3D toggle in both views, the 3D view's own tools (⌂, zoom, Views) in 3D, and the Keyboard drawer's toggle in 2D: everything that changes what is seen. The helper strip is under the stage in both.
+- **The band** holds, from the left, the 3D view's own tools (⌂ first, zoom, Views) in 3D or the Keyboard drawer's toggle in 2D, then **Display** (U8) and the 2D | 3D toggle in both views, Display beside the toggle so that it keeps its place in either: everything that changes what is seen. The helper strip is under the stage in both.
 
 ### U2. The 3D views
 

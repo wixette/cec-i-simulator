@@ -137,7 +137,9 @@ export class Stage {
     const display = el("button", { id: "display", class: "btn small menu-btn has-icon display-btn", type: "button", "aria-haspopup": "menu", "aria-expanded": "false" }, [icon("tv"), el("span", { text: t("bar.display") }), icon("keyboard_arrow_down")]);
     display.setAttribute("data-tip-describes", "");
     display.setAttribute("aria-label", t("bar.display"));
-    band.append(el("span", { class: "spacer" }), el("div", { class: "band-group" }, [display]), this.drawers, this.tools3d, this.toggle);
+    // the camera's tools (3D) or the keyboard drawer (2D), then Display beside the 2D | 3D switch:
+    // Display keeps its place whichever view is on
+    band.append(el("span", { class: "spacer" }), this.drawers, this.tools3d, el("div", { class: "band-group" }, [display]), this.toggle);
     // Put it all back (U3)
     this.putBack = el("button", { class: "btn filled has-icon put-back", type: "button", hidden: true }, [icon("construction"), el("span", { text: t("stage.putBack") })]);
     this.putBack.addEventListener("click", () => this.system.putAllBack());
