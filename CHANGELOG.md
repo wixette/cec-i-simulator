@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.0.2 (pre-release)
+
+Instruments that show how it works ([design/v0.0.2.md](design/v0.0.2.md)): four tabs of the dock, each a view the real machine never had.
+
+- **CPU & Memory:** the registers and flags, the next instructions disassembled, the memory map lit by its traffic, a memory dump; Pause, Step, Run to an address, and the clock 10, 100 or 1,000 times slower.
+- **Screen:** the display's soft switches; the text page's 40 × 24 bytes at their interleaved addresses, a cell's byte drawn from the character ROM U13; a hi-res line's address worked out and its bytes as dots.
+- **Chinese:** a string's bytes (127 and two more a character), the latch at $C0B0 and the font bank in its 16 KB window, the last character's 32 bytes as 16 × 16 dots with its glyph number and place in the font, and where its dots landed on the hi-res page.
+- **Keyboard:** the X-by-Y key matrix lit as keys go down, the latch at $C000 and its strobe, and the last key's code worked out in the keyboard ROM U26.
+- **Inside** lights the chips as they work: the 6502, the RAM, U7, U35, the font ROMs, the latch U32, the character ROM.
+- A new logo and favicon: the CEC-I from the front, in flat shapes.
+- Display ▸ Reset the knobs puts brightness and colour back where they start. A double-click brings the TV (the Screen view) or the computer (the Keyboard view) close.
+- The case as new by default again; as found today (yellowed) is left in Display for the visitor to find.
+- Fewer labels in the way: none between the keys, and a part a click does nothing to waits a second before saying what it is. The 3D key light no longer shows in the TV's glass.
+
 ## v0.0.1 (pre-release)
 
 The first pre-release: the machine, on desktop and phone ([design/v0.0.1.md](design/v0.0.1.md)).

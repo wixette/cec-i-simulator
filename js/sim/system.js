@@ -70,6 +70,19 @@ export class System {
     this.fastTyping = true;
     /** The longest a frame may spend running the machine, ms (FRAME_BUDGET_MS; the tests lift it, so that they do not depend on the computer they run on). */
     this.frameBudgetMs = FRAME_BUDGET_MS;
+    /** The CPU tool's clock: paused, the speed asked for (1, 0.1, 0.01, 0.001), the stops of Run to. */
+    this.paused = false;
+    this.speedSet = 1;
+    /** @type {Set<number>} */
+    this.stops = new Set();
+    /** Called when Run to reaches a stop, with its address. @type {(pc: number) => void} */
+    this.onStop = () => {};
+    /** @private resumed at a stop: its instruction runs first */
+    this.leaving = false;
+    /** @private fractions of a cycle carried between slow frames */
+    this.carry = 0;
+    /** The memory traffic of the last frame (the CPU tool's map, Inside's lit chips). */
+    this.traffic = this.machine.takeTraffic();
     /** The speed the machine ran at in the last frame, against real time (below 1: it fell behind). */
     this.speed = 1;
     /** What the visitor should be told. @type {(m: Message) => void} */
@@ -87,6 +100,7 @@ export class System {
     this.typist.onKey = (code) => {
       const s = this.keyboard.strokeFor(code);
       if (!s) return;
+      this.keyboard.last = this.keyboard.lookup(s.id, { shift: s.shift, ctrl: s.ctrl, caps: true });
       const until = this.now + TYPED_MS;
       this.typed.set(s.id, until);
       if (s.shift) this.typed.set("lshift", until);
@@ -125,6 +139,8 @@ export class System {
     }
     this.typist.clear();
     this.keyboard.releaseAll();
+    this.resume();
+    this.stops.clear();
     if (on) m.powerOn();
     else m.powerOff();
     this.say({ key: on ? (this.tv.on ? "power.on" : "power.onTvOff") : "power.off" });
@@ -166,6 +182,19 @@ export class System {
   /** A knob back to where it starts: a double-click on it. @param {Knob} which */
   resetKnob(which) {
     this.setKnob(which, KNOB_START[which]);
+  }
+
+  /** Whether both knobs are where they start. */
+  get knobsAtStart() {
+    return this.tv.brightness === KNOB_START.brightness && this.tv.colour === KNOB_START.colour;
+  }
+
+  /** Both knobs back to where they start: Display's Reset the knobs. */
+  resetKnobs() {
+    this.tv.brightness = KNOB_START.brightness;
+    this.tv.colour = KNOB_START.colour;
+    this.say({ key: "knobs.reset" });
+    this.changed();
   }
 
   /** The set the computer is plugged into (D6). @param {Display} d */
@@ -402,26 +431,73 @@ export class System {
     for (const [id, until] of this.typed) if (until <= now) this.typed.delete(id);
     this.stepMotion(dt);
     const m = this.machine;
-    if (!m.powered) return 0;
+    this.traffic = m.takeTraffic();
+    if (!m.powered || this.paused) return 0;
     const boost = this.typist.busy && this.fastTyping ? FAST_TYPING : 1;
-    const want = Math.min(dt, MAX_DT) * CLOCK_HZ * boost;
+    const exact = Math.min(dt, MAX_DT) * CLOCK_HZ * boost * this.speedSet + this.carry;
+    const want = Math.floor(exact);
+    this.carry = exact - want;
     const start = m.cycles;
     const end = start + want;
     const t0 = performance.now();
     while (m.cycles < end && m.powered) {
       this.keyboard.tick();
       this.typist.tick();
-      m.run(SLICE);
+      const slice = Math.min(SLICE, end - m.cycles);
+      const ran = m.run(slice, this.stops, this.leaving);
+      if (ran > 0) this.leaving = false;
+      if (ran < slice && this.stops.size) {
+        // at a stop: paused there
+        this.paused = true;
+        const pc = m.cpu.pc;
+        this.stops.clear();
+        this.onStop(pc);
+        break;
+      }
       // too slow a device to keep up: run slow rather than freeze the page
       if (performance.now() - t0 > this.frameBudgetMs) break;
     }
     const ran = m.cycles - start;
-    this.speed = want > 0 ? ran / (want / boost) : 1;
+    this.speed = want > 0 ? ran / want : 1;
     return ran;
   }
 
-  /** Whether the last frame ran faster than real time (no sound then). */
+  /** Whether the last frame ran at another speed than real time (no sound then). */
   get racing() {
-    return this.typist.busy && this.fastTyping;
+    return (this.typist.busy && this.fastTyping) || this.speedSet !== 1 || this.paused;
+  }
+
+  // ---- the CPU tool's clock -----------------------------------------------------------------------
+
+  /** Pause: nothing runs, the keys and the typist wait too, until resume() or step(). */
+  pause() {
+    this.paused = true;
+  }
+
+  resume() {
+    this.paused = false;
+    this.leaving = true;
+  }
+
+  /** One instruction, the keyboard and the typist ticked first; only while paused. @returns {number} its cycles */
+  step() {
+    if (!this.paused || !this.machine.powered) return 0;
+    this.keyboard.tick();
+    this.typist.tick();
+    return this.machine.step();
+  }
+
+  /** Runs until the 6502 is about to run the instruction at an address, then pauses there. @param {number} addr */
+  runTo(addr) {
+    this.stops.clear();
+    this.stops.add(addr & 0xffff);
+    this.paused = false;
+    this.leaving = true;
+  }
+
+  /** The clock's speed against the real machine's: 1, 0.1, 0.01 or 0.001. @param {number} s */
+  setSpeed(s) {
+    this.speedSet = s;
+    this.carry = 0;
   }
 }

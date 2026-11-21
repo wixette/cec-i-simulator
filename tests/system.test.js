@@ -54,6 +54,16 @@ describe("power and the TV", () => {
     s.resetKnob("brightness");
     assert.equal(s.tv.brightness, KNOB_START.brightness);
   });
+  it("Reset the knobs: both back where they start, and it says so", () => {
+    const { s, said } = rig();
+    assert.ok(s.knobsAtStart);
+    s.setKnob("brightness", 0.1);
+    s.setKnob("colour", 0.2);
+    assert.ok(!s.knobsAtStart);
+    s.resetKnobs();
+    assert.ok(s.knobsAtStart);
+    assert.equal(said.at(-1), "knobs.reset");
+  });
   it("on a black-and-white TV or a green monitor, the colour knob turns but does nothing, and says so (D6)", () => {
     const { s, said } = rig();
     s.setKnob("colour", 0.2);
@@ -151,6 +161,76 @@ describe("keys", () => {
     later[0]();
     assert.ok(!s.machine.resetLow);
     assert.ok(!s.keysDown().has("ctrl"));
+  });
+});
+
+describe("the CPU tool's clock", () => {
+  it("paused, nothing runs; Step runs one instruction", () => {
+    const { s } = rig();
+    s.power(true);
+    frames(s, 1);
+    s.pause();
+    const c0 = s.machine.cycles;
+    assert.equal(s.frame(0.02, 1000), 0);
+    assert.equal(s.machine.cycles, c0);
+    const pc = s.machine.cpu.pc;
+    const n = s.step();
+    assert.ok(n >= 2 && n <= 7, `${n} cycles`);
+    assert.notEqual(s.machine.cpu.pc, pc);
+    assert.equal(s.machine.cycles, c0 + n);
+  });
+  it("Run to stops before the instruction at the address, paused, and says where", () => {
+    const { s } = rig();
+    s.power(true);
+    frames(s, 4);
+    /** @type {number[]} */
+    const hit = [];
+    s.onStop = (pc) => hit.push(pc);
+    // BASIC waits for a key in the monitor's input loop at $FD1B
+    s.runTo(0xfd1b);
+    frames(s, 1);
+    assert.deepEqual(hit, [0xfd1b]);
+    assert.ok(s.paused);
+    assert.equal(s.machine.cpu.pc, 0xfd1b);
+    s.resume();
+    s.frame(0.02, 99999);
+    assert.notEqual(s.machine.cpu.pc, 0xfd1b, "resumed, it leaves the stop");
+  });
+  it("a slower clock runs a tenth, a hundredth of the cycles; no sound then", () => {
+    const { s } = rig();
+    s.power(true);
+    s.setSpeed(0.1);
+    let ran = 0;
+    for (let i = 0; i < 10; i++) ran += s.frame(0.02, i * 20);
+    assert.ok(Math.abs(ran - 0.2 * CLOCK_HZ * 0.1) < 100, `${ran}`);
+    assert.ok(s.racing);
+  });
+  it("the memory traffic: the ROM and RAM read as BASIC runs, the latch written in 中文", () => {
+    const { s } = rig();
+    s.power(true);
+    frames(s, 4);
+    s.frame(0.02, 5000);
+    assert.ok(s.traffic.u7 > 0 && s.traffic.pages.some((n) => n > 0), "the ROM and the RAM read");
+    s.type("{zhongwen}");
+    let latch = 0;
+    let font = 0;
+    for (let i = 0; i < 150; i++) {
+      s.frame(0.02, 6000 + i * 20);
+      latch += s.traffic.latch;
+      font += s.traffic.font;
+    }
+    assert.ok(latch > 0, "the Chinese system writes $C0B0");
+    assert.ok(s.chineseOn);
+    assert.ok(font >= 0);
+  });
+  it("peek reads without what reading does: the keyboard's strobe stays", () => {
+    const { s } = rig();
+    s.power(true);
+    s.machine.keyPress(65);
+    assert.equal(s.machine.peek(0xc010), 0);
+    assert.equal(s.machine.peek(0xc000), 0xc1);
+    assert.ok(s.machine.strobe);
+    assert.equal(s.machine.peek(0xfffc), s.machine.read(0xfffc));
   });
 });
 

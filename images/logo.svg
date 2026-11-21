@@ -1,34 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
-  <!-- The simulator's mark: the CEC-I in low poly, a few flat triangles and no lines. Our own drawing, not the machine's or a maker's logo. Written by tools/make_logo.py. -->
-  <polygon points="3,45 61,45 32,52" fill="#aaa396"/>
-  <polygon points="3,45 32,52 5,52" fill="#b3ac9f"/>
-  <polygon points="61,45 59,52 32,52" fill="#9c9588"/>
-  <polygon points="10,13 54,13 28.34,17" fill="#e6e1d5"/>
-  <polygon points="54,13 55.75,21 28.34,17" fill="#d9d3c6"/>
-  <polygon points="55.75,21 8.25,21 28.34,17" fill="#cfc9bc"/>
-  <polygon points="8.25,21 10,13 28.34,17" fill="#e0dbcf"/>
-  <polygon points="8.25,21 55.75,21 7.9,22.6" fill="#a9a295"/>
-  <polygon points="55.75,21 56.1,22.6 7.9,22.6" fill="#9f988b"/>
-  <polygon points="7.9,22.6 56.1,22.6 26.73,33" fill="#d3cdc0"/>
-  <polygon points="56.1,22.6 61,45 26.73,33" fill="#c8c2b5"/>
-  <polygon points="61,45 3,45 26.73,33" fill="#bdb7aa"/>
-  <polygon points="3,45 7.9,22.6 26.73,33" fill="#cdc7ba"/>
-  <polygon points="11.63,26 41.94,26 8.72,42.2" fill="#34363a"/>
-  <polygon points="41.94,26 43.35,42.2 8.72,42.2" fill="#2a2b2e"/>
-  <polygon points="12.89,27.4 40.55,27.4 12.39,30.4" fill="#c6bba9"/>
-  <polygon points="40.55,27.4 40.77,30.4 12.39,30.4" fill="#aea391"/>
-  <polygon points="12.71,31.6 40.86,31.6 12.22,34.6" fill="#c6bba9"/>
-  <polygon points="40.86,31.6 41.09,34.6 12.22,34.6" fill="#aea391"/>
-  <polygon points="11.49,35.8 40.64,35.8 10.99,38.8" fill="#c6bba9"/>
-  <polygon points="40.64,35.8 40.85,38.8 10.99,38.8" fill="#aea391"/>
-  <polygon points="17.56,39.4 33.11,39.4 17.38,41" fill="#c6bba9"/>
-  <polygon points="33.11,39.4 33.12,41 17.38,41" fill="#aea391"/>
-  <polygon points="46.16,28 53.24,28 50.75,33.75" fill="#ece6da"/>
-  <polygon points="53.24,28 55.35,39.5 50.75,33.75" fill="#c2bbad"/>
-  <polygon points="55.35,39.5 47.57,39.5 50.75,33.75" fill="#aba496"/>
-  <polygon points="47.57,39.5 46.16,28 50.75,33.75" fill="#d6d0c3"/>
-  <polygon points="34.92,23.6 46.59,23.6 34.95,25" fill="#2c5fc4"/>
-  <polygon points="46.59,23.6 46.78,25 34.95,25" fill="#244fa6"/>
-  <polygon points="48.05,23.6 50.48,23.6 48.25,25" fill="#d8392d"/>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- The simulator's mark: the CEC-I from the front, in flat shapes. Drawn for this project by its owner; not the machine's or a maker's logo. -->
+<path d="M133.041 234H890.959L909.776 308.702H114.224L133.041 234Z" fill="#66583F"/>
+<path d="M114.224 308.702H909.776V373.8H114.224V308.702Z" fill="#66583F"/>
+<path d="M40 755.85H984L973.546 790H50.454L40 755.85Z" fill="#66583F"/>
+<path d="M102.724 373.8H921.276L984 755.85H40L102.724 373.8Z" fill="#66583F"/>
+<path d="M150 251H875L893 321H132L150 251Z" fill="#D3CBB5"/>
+<path d="M132 321H893V382H132V321Z" fill="#F0ECE1"/>
+<path d="M61 740H964L954 772H71L61 740Z" fill="#F0ECE1"/>
+<path d="M121 382H904L964 740H61L121 382Z" fill="#D3CBB5"/>
+<path d="M796.983 528.811C795.918 517.098 805.14 507 816.901 507H884.473C894.066 507 902.307 513.81 904.115 523.23L915.438 582.23C917.805 594.563 908.354 606 895.797 606H822.264C811.92 606 803.283 598.112 802.346 587.811L796.983 528.811Z" fill="#9A8C72"/>
+<path d="M184 321H324V353H184V321Z" fill="#D5CEB8"/>
+<path d="M198 251H338L324 321H184L198 251Z" fill="#C5BDA6"/>
+<path d="M589 280H824L832 310H591L589 280Z" fill="#F0ECE1"/>
+<path d="M141 409H196L192 443H136L141 409Z" fill="#9A8C72"/>
+<path d="M240 409H500L499 443H236L240 409Z" fill="#9A8C72"/>
+<path d="M543 409H753L758 448H542L543 409Z" fill="#002877"/>
+<path d="M543 409H753L756 433H542L543 409Z" fill="#E4E8E0"/>
+<path d="M823 422H834.267L836 434H823.867L823 422Z" fill="#F43131"/>
+<path d="M134 480H765L779.5 633H109L134 480Z" fill="#9A8C72"/>
+<path d="M204 623H700L703 677H199L204 623Z" fill="#9A8C72"/>
 </svg>

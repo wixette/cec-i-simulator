@@ -40,8 +40,23 @@ const LAMP_RED = 0xff1a14;
 const LAMP_GLOW = 1.1;
 /** How long the TV's button stays in after a press, s. */
 const BUTTON_S = 0.18;
+/** How near a key the plate and the lid count as among the keys, m: about half a key's pitch. */
+const KEY_NEAR_M = 0.009;
 /** How long the slot's flap takes to swing, s. */
 const FLAP_S = 0.35;
+/**
+ * The chips Inside lights as they work (docs/ui-design.md, U12), and their colours: one colour
+ * a kind of chip, as the TRS-80 simulator's (the processor amber, RAM violet, ROM green).
+ */
+const GLOW = /** @type {const} */ ({
+  cpu: { parts: ["part.u1"], colour: "#ff8a3d" },
+  ram: { parts: ["part.u5", "part.u6"], colour: "#d16cff" },
+  u7: { parts: ["part.u7"], colour: "#55d18a" },
+  u35: { parts: ["part.u35"], colour: "#3ddcb8" },
+  font: { parts: ["part.u33", "part.u34"], colour: "#ffd24a" },
+  latch: { parts: ["part.u32"], colour: "#ff5a46" },
+  chargen: { parts: ["part.u13"], colour: "#4a7dff" },
+});
 
 /**
  * @typedef {object} Hover what the pointer is over, for the stage's label
@@ -56,6 +71,8 @@ const FLAP_S = 0.35;
  * @property {(h: Hover | null, x: number, y: number) => void} [hover]
  * @property {(label: string) => void} [info] a click on a part that does nothing else: its label, to say
  * @property {() => void} [screenDoubleClick] a double-click on the TV's screen: the 2D view
+ * @property {(part: "tv" | "computer") => void} [partDoubleClick] a double-click on the TV's
+ *   body or the computer's case: that one brought close (the Screen view, the Keyboard view)
  * @property {(id: string) => void} [heldModifier] Ctrl, Shift or TEST clicked: held for the next key
  */
 
@@ -200,6 +217,12 @@ export class Machine3D {
     /** Whether the lid and the keyboard are glass (the Inside view). */
     this.inside = false;
 
+    // the chips Inside lights: each one's materials its own, with an emissive colour at 0
+    /** @private @type {Record<keyof typeof GLOW, { mats: THREE.MeshStandardMaterial[], level: number }>} */
+    this.glow = /** @type {any} */ (Object.fromEntries(
+      Object.entries(GLOW).map(([k, g]) => [k, { mats: g.parts.flatMap((n) => this.glowMaterials(this.node(n), g.colour)), level: 0 }]),
+    ));
+
     this.bindPointer();
     viewer.onFrame.push((dt) => this.tick(dt));
   }
@@ -253,6 +276,65 @@ export class Machine3D {
     return out;
   }
 
+  /**
+   * @private Every material under a node, cloned, with an emissive colour at 0.
+   * @param {THREE.Object3D} node
+   * @param {string} colour
+   * @returns {THREE.MeshStandardMaterial[]}
+   */
+  glowMaterials(node, colour) {
+    /** @type {THREE.MeshStandardMaterial[]} */
+    const out = [];
+    node.traverse((o) => {
+      const mesh = /** @type {THREE.Mesh} */ (o);
+      if (!mesh.isMesh) return;
+      const list = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map((x) => {
+        const c = /** @type {THREE.MeshStandardMaterial} */ (x.clone());
+        c.emissive = new THREE.Color(colour);
+        c.emissiveIntensity = 0;
+        out.push(c);
+        return c;
+      });
+      mesh.material = Array.isArray(mesh.material) ? list : list[0];
+    });
+    return out;
+  }
+
+  /**
+   * @private The chips lit by their share of the frame's memory traffic, eased: the RAM, U7,
+   * U35 and the font ROMs; the latch flashing as it is written; the character ROM while text is
+   * shown; the 6502 while it runs. Only Inside shows them: the lid hides them otherwise.
+   * @param {number} dt
+   */
+  tickGlow(dt) {
+    const s = this.system;
+    const m = s.machine;
+    const t = s.traffic;
+    const run = m.powered && !s.paused;
+    let ramN = t.lc;
+    for (const n of t.pages) ramN += n;
+    const total = ramN + t.u7 + t.u35 + t.font;
+    const ease = Math.min(1, dt * 8);
+    /** @param {keyof typeof GLOW} k @param {number} target */
+    const set = (k, target) => {
+      const g = this.glow[k];
+      g.level += (target - g.level) * ease;
+      for (const x of g.mats) x.emissiveIntensity = g.level;
+    };
+    /** @param {number} n */
+    const share = (n) => (run && total && n ? 0.25 + 0.65 * Math.sqrt(n / total) : 0);
+    set("cpu", run ? 0.6 : 0);
+    set("ram", share(ramN));
+    set("u7", share(t.u7));
+    set("u35", share(t.u35));
+    set("font", share(t.font));
+    // the latch: a flash for each write, fading
+    const latch = this.glow.latch;
+    latch.level = run && t.latch ? 1 : Math.max(0, latch.level - dt * 3);
+    for (const x of latch.mats) x.emissiveIntensity = latch.level;
+    set("chargen", m.powered && (m.text || m.mixed) ? 0.5 : 0);
+  }
+
   // ---- each frame -------------------------------------------------------------------------------
 
   /** @private @param {number} dt */
@@ -296,6 +378,7 @@ export class Machine3D {
     this.placeUnits((u) => s.motion.get(u)?.f ?? 0);
     this.ribbon.update(s.motion.get("keyboard")?.f ?? 0);
     this.ghostTvInTheWay();
+    if (this.inside) this.tickGlow(dt);
   }
 
   /** Shows the machine's picture on the TV. @param {import("./tv.js").Picture} p */
@@ -329,6 +412,8 @@ export class Machine3D {
     if (on === this.inside) return;
     this.inside = on;
     ghost([this.lid, this.keyboard], on);
+    // out of Inside, the chips dark again
+    if (!on) for (const g of Object.values(this.glow)) for (const x of g.mats) x.emissiveIntensity = g.level = 0;
   }
 
   /** As found (the plastic yellowed) or as new. @param {boolean} found */
@@ -341,11 +426,41 @@ export class Machine3D {
 
   /** @private The first visible, solid part under a point. @param {{ clientX: number, clientY: number }} e */
   pick(e) {
+    return this.hit(e.clientX, e.clientY)?.object ?? null;
+  }
+
+  /**
+   * @private The first drawn part under a point of the page, and how far away it is.
+   * @param {number} x @param {number} y
+   * @param {THREE.Object3D} [within] only this node's parts
+   */
+  hit(x, y, within = this.root) {
     const r = this.viewer.canvas.getBoundingClientRect();
-    const ndc = new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    const ndc = new THREE.Vector2(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1);
     const ray = new THREE.Raycaster();
     ray.setFromCamera(ndc, this.viewer.camera);
-    return ray.intersectObject(this.root, true).find((h) => shown(h.object) && !h.object.userData.ghost)?.object ?? null;
+    return ray.intersectObject(within, true).find((h) => shown(h.object) && !h.object.userData.ghost) ?? null;
+  }
+
+  /**
+   * @private Whether a point of the page lies between the keys: on the keyboard's plate or the
+   * lid's surround, with a key within KEY_NEAR_M of it. There the pointer is aiming at the keys,
+   * and the plate's or the lid's label is in the way.
+   * @param {number} x @param {number} y
+   * @param {THREE.Intersection} h what is under it
+   */
+  amongKeys(x, y, h) {
+    if (this.up(h.object, (o) => o.userData.key_id !== undefined)) return false;
+    if (!this.under(h.object, "keyboard") && !this.under(h.object, "case.lid")) return false;
+    const cam = /** @type {THREE.PerspectiveCamera} */ (this.viewer.camera);
+    const height = this.viewer.canvas.getBoundingClientRect().height;
+    const px = (KEY_NEAR_M * height) / (2 * h.distance * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)));
+    for (let i = 0; i < 8; i++) {
+      const a = (i * Math.PI) / 4;
+      const near = this.hit(x + px * Math.cos(a), y + px * Math.sin(a), this.keyboard);
+      if (near && this.up(near.object, (o) => o.userData.key_id !== undefined)) return true;
+    }
+    return false;
   }
 
   /** @private The nearest ancestor (or itself) that passes a test. @param {THREE.Object3D | null} o @param {(o: THREE.Object3D) => boolean} test */
@@ -421,7 +536,8 @@ export class Machine3D {
         this.on.hover?.(null, 0, 0);
         return;
       }
-      const h = this.describe(this.pick(e));
+      const at = this.hit(e.clientX, e.clientY);
+      const h = at && !this.amongKeys(e.clientX, e.clientY, at) ? this.describe(at.object) : null;
       canvas.style.cursor = h && h.action !== "none" ? (h.action === "turn" ? "grab" : "pointer") : "";
       this.on.hover?.(h, e.clientX, e.clientY);
     });
@@ -462,7 +578,15 @@ export class Machine3D {
       const o = this.pick(e);
       const knob = knobAt(o);
       if (knob) return void s.resetKnob(knob);
-      if (this.under(o, "tv.screen")) this.on.screenDoubleClick?.();
+      if (this.under(o, "tv.screen")) return void this.on.screenDoubleClick?.();
+      // not on what a click works (a key, a switch, the flap, a unit that comes out while the
+      // computer is off): there the two clicks have already done their work
+      if (!o || this.describe(o)?.action !== "none") return;
+      // nor between the keys, where a double-click is two missed keys
+      const at = this.hit(e.clientX, e.clientY);
+      if (at && this.amongKeys(e.clientX, e.clientY, at)) return;
+      if (this.under(o, "tv")) this.on.partDoubleClick?.("tv");
+      else if (this.under(o, "keyboard") || this.up(o, (x) => x.name.startsWith(nodeName("case.")))) this.on.partDoubleClick?.("computer");
     });
   }
 

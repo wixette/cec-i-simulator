@@ -23,6 +23,10 @@ import { readLink, writeLink } from "./link.js";
 import { ReferencesTool } from "./references.js";
 import { Stage } from "./stage.js";
 import { StartTool } from "./start.js";
+import { CpuTool } from "./tools/cpu.js";
+import { HanziTool } from "./tools/hanzi.js";
+import { KeyboardTool } from "./tools/keyboard.js";
+import { ScreenTool } from "./tools/screen.js";
 import { HelperStrip } from "./strip.js";
 import { TopBar } from "./topbar.js";
 
@@ -164,6 +168,10 @@ const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.rou
 dock.onResize = fitStatus;
 new StartTool($("pane-start"));
 new ReferencesTool($("pane-refs"));
+const cpuTool = new CpuTool($("pane-cpu"), system);
+const screenTool = new ScreenTool($("pane-screen"), system);
+const keyboardTool = new KeyboardTool($("pane-keyboard"), system, keyboardParams.keys);
+const hanziTool = new HanziTool($("pane-hanzi"), system);
 dock.start();
 
 // ---- the helper strip (U4) and the top bar (U8) -----------------------------------------------------
@@ -334,6 +342,10 @@ function frame() {
     flat.show({ on: system.machine.powered, pixels: system.video.pixels, border: [...system.video.border], display: system.video.display, colour: system.colourKnob });
     flat.setKeys(system.keysDown(), new Set(system.keyboard.caps ? ["capslock"] : []));
   }
+  if (dock.shows("cpu")) cpuTool.tick(dt);
+  if (dock.shows("screen")) screenTool.tick(dt);
+  if (dock.shows("keyboard")) keyboardTool.tick(dt);
+  if (dock.shows("hanzi")) hanziTool.tick(dt);
   stage.refresh();
   strip.refresh();
 }

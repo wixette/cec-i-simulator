@@ -90,10 +90,12 @@ export class Viewer {
     this.controls.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" };
     this.controls.listenToKeyEvents(this.canvas);
     // a faint warm sky, and the key light low from the front left: lit from high above, the
-    // case's top came out far lighter than its other faces, and no longer read as yellowed
+    // case's top came out far lighter than its other faces, and no longer read as yellowed.
+    // Swung well round to the left (its height kept, so the top's colour is kept): from nearer
+    // the front, its reflection sat on the TV's glass in the Screen view.
     this.scene.add(new THREE.HemisphereLight(0xefeae0, 0x202326, 0.3));
     const key = new THREE.DirectionalLight(0xffffff, 1.15);
-    key.position.set(-0.9, 0.6, 1.6);
+    key.position.set(-1.54, 0.6, 0.98);
     key.castShadow = true;
     key.shadow.mapSize.set(2048, 2048);
     key.shadow.camera.left = -0.9;

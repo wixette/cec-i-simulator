@@ -10,7 +10,7 @@ export default async function (h) {
   await h.until("typeof cec === 'object'", 20000);
   await h.sleep(1500);
   h.verify("?lang=zh: the page is in Chinese", (await h.js("document.documentElement.lang")) === "zh-Hans" && /中华学习机/.test(await h.js("document.title")));
-  const english = await h.js(`[...document.querySelectorAll("#topbar, #band, #helper-strip, .dock-bar, #status")].map((e) => e.innerText).join(" ").replace(/CEC-I|Ctrl-Reset|Page (Up|Down)|Enter|Return|2D|3D|简/g, "").match(/[A-Za-z]{3,}/g)`);
+  const english = await h.js(`[...document.querySelectorAll("#topbar, #band, #helper-strip, .dock-bar, #status")].map((e) => e.innerText).join(" ").replace(/CEC-I|CPU|Ctrl-Reset|Page (Up|Down)|Enter|Return|2D|3D|简/g, "").match(/[A-Za-z]{3,}/g)`);
   h.verify("no English left in the page's own controls", !english, english);
   await h.open();
   await h.choose("#lang", "简体中文");

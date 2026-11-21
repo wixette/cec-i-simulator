@@ -10,7 +10,7 @@
 
 ![The simulator: the CEC-I and its TV in 3D, the screen showing a BASIC program's Chinese output, the Start tab below](screenshots/app.jpg)
 
-> A pre-release (v0.0.1). Instruments that show how it works, programs, lessons and the cassette recorder are still to come ([roadmap](design/roadmap.md)).
+> A pre-release (v0.0.2). Below the machine, four instruments show how it works: the CPU and memory, the screen as memory, a Chinese character's path from the font chips to the screen, and the keyboard's matrix. Programs, lessons and the cassette recorder are still to come ([roadmap](design/roadmap.md)).
 
 ## What was the CEC-I?
 

@@ -17,63 +17,70 @@
     <meta property="og:url" content="https://wixette.github.io/cec-i-simulator/">
     <meta property="og:locale" content="zh_CN">
     <meta property="og:locale:alternate" content="en_US">
-    <link rel="icon" href="images/favicon.svg?v=0.0.1" type="image/svg+xml">
-    <link rel="stylesheet" href="css/style.css?v=0.0.1">
+    <link rel="icon" href="images/favicon.svg?v=0.0.2" type="image/svg+xml">
+    <link rel="stylesheet" href="css/style.css?v=0.0.2">
     <!-- Every file name here carries the version (?v=), and so does each module the
          scripts import, through this map. pnpm version writes them, or pnpm stamp
          (tools/stamp.mjs); do not edit them by hand. -->
     <script type="importmap">
     {
       "imports": {
-        "three": "./vendor/three/build/three.module.js?v=0.0.1",
-        "three/addons/controls/OrbitControls.js": "./vendor/three/examples/jsm/controls/OrbitControls.js?v=0.0.1",
-        "three/addons/loaders/GLTFLoader.js": "./vendor/three/examples/jsm/loaders/GLTFLoader.js?v=0.0.1",
-        "three/addons/utils/BufferGeometryUtils.js": "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js?v=0.0.1",
-        "three/addons/utils/SkeletonUtils.js": "./vendor/three/examples/jsm/utils/SkeletonUtils.js?v=0.0.1",
-        "./js/app/about.js": "./js/app/about.js?v=0.0.1",
-        "./js/app/dock.js": "./js/app/dock.js?v=0.0.1",
-        "./js/app/link.js": "./js/app/link.js?v=0.0.1",
-        "./js/app/main.js": "./js/app/main.js?v=0.0.1",
-        "./js/app/references.js": "./js/app/references.js?v=0.0.1",
-        "./js/app/selftest.js": "./js/app/selftest.js?v=0.0.1",
-        "./js/app/stage.js": "./js/app/stage.js?v=0.0.1",
-        "./js/app/start.js": "./js/app/start.js?v=0.0.1",
-        "./js/app/strip.js": "./js/app/strip.js?v=0.0.1",
-        "./js/app/topbar.js": "./js/app/topbar.js?v=0.0.1",
-        "./js/flat/bake-keys.js": "./js/flat/bake-keys.js?v=0.0.1",
-        "./js/flat/bake-rocker.js": "./js/flat/bake-rocker.js?v=0.0.1",
-        "./js/flat/flat.js": "./js/flat/flat.js?v=0.0.1",
-        "./js/l10n/en.js": "./js/l10n/en.js?v=0.0.1",
-        "./js/l10n/l10n.js": "./js/l10n/l10n.js?v=0.0.1",
-        "./js/l10n/locales.js": "./js/l10n/locales.js?v=0.0.1",
-        "./js/l10n/zh.js": "./js/l10n/zh.js?v=0.0.1",
-        "./js/scene/framing.js": "./js/scene/framing.js?v=0.0.1",
-        "./js/scene/ghost.js": "./js/scene/ghost.js?v=0.0.1",
-        "./js/scene/keyboard-motion.js": "./js/scene/keyboard-motion.js?v=0.0.1",
-        "./js/scene/knobs.js": "./js/scene/knobs.js?v=0.0.1",
-        "./js/scene/machine3d.js": "./js/scene/machine3d.js?v=0.0.1",
-        "./js/scene/ribbon.js": "./js/scene/ribbon.js?v=0.0.1",
-        "./js/scene/tv.js": "./js/scene/tv.js?v=0.0.1",
-        "./js/scene/viewer.js": "./js/scene/viewer.js?v=0.0.1",
-        "./js/sim/basic.js": "./js/sim/basic.js?v=0.0.1",
-        "./js/sim/chinese.js": "./js/sim/chinese.js?v=0.0.1",
-        "./js/sim/cpu6502.js": "./js/sim/cpu6502.js?v=0.0.1",
-        "./js/sim/host-keys.js": "./js/sim/host-keys.js?v=0.0.1",
-        "./js/sim/key-holds.js": "./js/sim/key-holds.js?v=0.0.1",
-        "./js/sim/keyboard.js": "./js/sim/keyboard.js?v=0.0.1",
-        "./js/sim/machine.js": "./js/sim/machine.js?v=0.0.1",
-        "./js/sim/roms.js": "./js/sim/roms.js?v=0.0.1",
-        "./js/sim/sound.js": "./js/sim/sound.js?v=0.0.1",
-        "./js/sim/system.js": "./js/sim/system.js?v=0.0.1",
-        "./js/sim/video.js": "./js/sim/video.js?v=0.0.1",
-        "./js/ui/components.js": "./js/ui/components.js?v=0.0.1",
-        "./vendor/material-symbols/icons.js": "./vendor/material-symbols/icons.js?v=0.0.1",
-        "./vendor/three/build/three.core.js": "./vendor/three/build/three.core.js?v=0.0.1",
-        "./vendor/three/build/three.module.js": "./vendor/three/build/three.module.js?v=0.0.1",
-        "./vendor/three/examples/jsm/controls/OrbitControls.js": "./vendor/three/examples/jsm/controls/OrbitControls.js?v=0.0.1",
-        "./vendor/three/examples/jsm/loaders/GLTFLoader.js": "./vendor/three/examples/jsm/loaders/GLTFLoader.js?v=0.0.1",
-        "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js": "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js?v=0.0.1",
-        "./vendor/three/examples/jsm/utils/SkeletonUtils.js": "./vendor/three/examples/jsm/utils/SkeletonUtils.js?v=0.0.1"
+        "three": "./vendor/three/build/three.module.js?v=0.0.2",
+        "three/addons/controls/OrbitControls.js": "./vendor/three/examples/jsm/controls/OrbitControls.js?v=0.0.2",
+        "three/addons/loaders/GLTFLoader.js": "./vendor/three/examples/jsm/loaders/GLTFLoader.js?v=0.0.2",
+        "three/addons/utils/BufferGeometryUtils.js": "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js?v=0.0.2",
+        "three/addons/utils/SkeletonUtils.js": "./vendor/three/examples/jsm/utils/SkeletonUtils.js?v=0.0.2",
+        "./js/app/about.js": "./js/app/about.js?v=0.0.2",
+        "./js/app/dock.js": "./js/app/dock.js?v=0.0.2",
+        "./js/app/link.js": "./js/app/link.js?v=0.0.2",
+        "./js/app/main.js": "./js/app/main.js?v=0.0.2",
+        "./js/app/references.js": "./js/app/references.js?v=0.0.2",
+        "./js/app/selftest.js": "./js/app/selftest.js?v=0.0.2",
+        "./js/app/stage.js": "./js/app/stage.js?v=0.0.2",
+        "./js/app/start.js": "./js/app/start.js?v=0.0.2",
+        "./js/app/strip.js": "./js/app/strip.js?v=0.0.2",
+        "./js/app/tools/cpu.js": "./js/app/tools/cpu.js?v=0.0.2",
+        "./js/app/tools/hanzi.js": "./js/app/tools/hanzi.js?v=0.0.2",
+        "./js/app/tools/keyboard.js": "./js/app/tools/keyboard.js?v=0.0.2",
+        "./js/app/tools/screen.js": "./js/app/tools/screen.js?v=0.0.2",
+        "./js/app/topbar.js": "./js/app/topbar.js?v=0.0.2",
+        "./js/flat/bake-keys.js": "./js/flat/bake-keys.js?v=0.0.2",
+        "./js/flat/bake-rocker.js": "./js/flat/bake-rocker.js?v=0.0.2",
+        "./js/flat/flat.js": "./js/flat/flat.js?v=0.0.2",
+        "./js/l10n/en.js": "./js/l10n/en.js?v=0.0.2",
+        "./js/l10n/l10n.js": "./js/l10n/l10n.js?v=0.0.2",
+        "./js/l10n/locales.js": "./js/l10n/locales.js?v=0.0.2",
+        "./js/l10n/zh.js": "./js/l10n/zh.js?v=0.0.2",
+        "./js/scene/framing.js": "./js/scene/framing.js?v=0.0.2",
+        "./js/scene/ghost.js": "./js/scene/ghost.js?v=0.0.2",
+        "./js/scene/keyboard-motion.js": "./js/scene/keyboard-motion.js?v=0.0.2",
+        "./js/scene/knobs.js": "./js/scene/knobs.js?v=0.0.2",
+        "./js/scene/machine3d.js": "./js/scene/machine3d.js?v=0.0.2",
+        "./js/scene/ribbon.js": "./js/scene/ribbon.js?v=0.0.2",
+        "./js/scene/tv.js": "./js/scene/tv.js?v=0.0.2",
+        "./js/scene/viewer.js": "./js/scene/viewer.js?v=0.0.2",
+        "./js/sim/basic.js": "./js/sim/basic.js?v=0.0.2",
+        "./js/sim/chinese.js": "./js/sim/chinese.js?v=0.0.2",
+        "./js/sim/cpu6502.js": "./js/sim/cpu6502.js?v=0.0.2",
+        "./js/sim/disasm.js": "./js/sim/disasm.js?v=0.0.2",
+        "./js/sim/glyphs.js": "./js/sim/glyphs.js?v=0.0.2",
+        "./js/sim/host-keys.js": "./js/sim/host-keys.js?v=0.0.2",
+        "./js/sim/key-holds.js": "./js/sim/key-holds.js?v=0.0.2",
+        "./js/sim/keyboard.js": "./js/sim/keyboard.js?v=0.0.2",
+        "./js/sim/machine.js": "./js/sim/machine.js?v=0.0.2",
+        "./js/sim/memmap.js": "./js/sim/memmap.js?v=0.0.2",
+        "./js/sim/roms.js": "./js/sim/roms.js?v=0.0.2",
+        "./js/sim/sound.js": "./js/sim/sound.js?v=0.0.2",
+        "./js/sim/system.js": "./js/sim/system.js?v=0.0.2",
+        "./js/sim/video.js": "./js/sim/video.js?v=0.0.2",
+        "./js/ui/components.js": "./js/ui/components.js?v=0.0.2",
+        "./vendor/material-symbols/icons.js": "./vendor/material-symbols/icons.js?v=0.0.2",
+        "./vendor/three/build/three.core.js": "./vendor/three/build/three.core.js?v=0.0.2",
+        "./vendor/three/build/three.module.js": "./vendor/three/build/three.module.js?v=0.0.2",
+        "./vendor/three/examples/jsm/controls/OrbitControls.js": "./vendor/three/examples/jsm/controls/OrbitControls.js?v=0.0.2",
+        "./vendor/three/examples/jsm/loaders/GLTFLoader.js": "./vendor/three/examples/jsm/loaders/GLTFLoader.js?v=0.0.2",
+        "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js": "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js?v=0.0.2",
+        "./vendor/three/examples/jsm/utils/SkeletonUtils.js": "./vendor/three/examples/jsm/utils/SkeletonUtils.js?v=0.0.2"
       }
     }
     </script>
@@ -81,7 +88,7 @@
   <body>
     <header id="topbar">
       <div class="brand">
-        <img class="brand-mark" src="images/logo.svg?v=0.0.1" alt="">
+        <img class="brand-mark" src="images/logo.svg?v=0.0.2" alt="">
         <span class="brand-name" data-l10n="app.name">中华学习机模拟器</span>
       </div>
       <button id="programs" class="btn tool-btn has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="article"></i><span class="label" data-l10n="bar.programs"></span><i data-icon="keyboard_arrow_down"></i></button>
@@ -104,6 +111,10 @@
     <section id="dock">
       <div class="dock-bar">
         <div id="dock-tabs" role="tablist">
+          <button id="tab-cpu" class="dock-tab" role="tab" aria-controls="pane-cpu" type="button"><i data-icon="memory"></i><span data-l10n="dock.cpu"></span></button>
+          <button id="tab-screen" class="dock-tab" role="tab" aria-controls="pane-screen" type="button"><i data-icon="grid_on"></i><span data-l10n="dock.screen"></span></button>
+          <button id="tab-hanzi" class="dock-tab" role="tab" aria-controls="pane-hanzi" type="button"><i data-icon="font_download"></i><span data-l10n="dock.hanzi"></span></button>
+          <button id="tab-keyboard" class="dock-tab" role="tab" aria-controls="pane-keyboard" type="button"><i data-icon="keyboard"></i><span data-l10n="dock.keyboard"></span></button>
           <button id="tab-start" class="dock-tab" role="tab" aria-controls="pane-start" type="button"><i data-icon="school"></i><span data-l10n="dock.start"></span></button>
           <button id="tab-refs" class="dock-tab" role="tab" aria-controls="pane-refs" type="button"><i data-icon="menu_book"></i><span data-l10n="dock.refs"></span></button>
         </div>
@@ -111,6 +122,10 @@
         <button id="dock-fold" class="btn icon-only" type="button"></button>
       </div>
       <div id="pane-start" class="dock-pane" role="tabpanel" aria-labelledby="tab-start"></div>
+      <div id="pane-cpu" class="dock-pane" role="tabpanel" aria-labelledby="tab-cpu" hidden></div>
+      <div id="pane-screen" class="dock-pane" role="tabpanel" aria-labelledby="tab-screen" hidden></div>
+      <div id="pane-hanzi" class="dock-pane" role="tabpanel" aria-labelledby="tab-hanzi" hidden></div>
+      <div id="pane-keyboard" class="dock-pane" role="tabpanel" aria-labelledby="tab-keyboard" hidden></div>
       <div id="pane-refs" class="dock-pane" role="tabpanel" aria-labelledby="tab-refs" hidden></div>
     </section>
 
@@ -119,6 +134,6 @@
       <p>CEC-I Simulator: the China Educational Computer of 1987, emulated in your browser, in 3D. It needs JavaScript and WebGL. The source is on <a href="https://github.com/wixette/cec-i-simulator">GitHub</a>.</p>
     </noscript>
     <footer id="status"><span id="status-text" role="status" aria-live="polite"></span></footer>
-    <script type="module" src="js/app/main.js?v=0.0.1"></script>
+    <script type="module" src="js/app/main.js?v=0.0.2"></script>
   </body>
 </html>

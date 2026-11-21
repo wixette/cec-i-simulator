@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// The dock under the stage (docs/ui-design.md, P3, U6): Start and References now, the
-// instruments and the lessons as they come, one at a time. It is resized by its top edge (a
+// The dock under the stage (docs/ui-design.md, P3, U6, U12): the four instruments, Start and
+// References (the lessons to come), one at a time. It is resized by its top edge (a
 // drag, or the arrow keys on the handle), folds to its tab bar, and remembers its tab and
 // height. What the machine does never switches its tab. As the TRS-80 simulator's dock
 // (https://github.com/wixette/trs-80-simulator, Apache-2.0, by the same author).
@@ -9,9 +9,9 @@
 import { t } from "../l10n/l10n.js";
 import { icon, setTip, tabs } from "../ui/components.js";
 
-/** @typedef {"start" | "refs"} ToolId */
-/** In the bar's order: Start (the default), then References. */
-export const TOOLS = /** @type {ToolId[]} */ (["start", "refs"]);
+/** @typedef {"cpu" | "screen" | "keyboard" | "hanzi" | "start" | "refs"} ToolId */
+/** In the bar's order: the instruments, the CPU first, then the two of the picture (the screen, and Chinese on it), then the keyboard; then the reading, Start (the default) and References. */
+export const TOOLS = /** @type {ToolId[]} */ (["cpu", "screen", "hanzi", "keyboard", "start", "refs"]);
 
 /** The dock's least open height, px. */
 const DOCK_MIN = 140;
