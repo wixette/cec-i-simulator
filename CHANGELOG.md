@@ -10,4 +10,6 @@ The first pre-release: the machine, on desktop and phone ([design/v0.0.1.md](des
 - Every key of the machine on the visitor's keyboard, or clicked; Ctrl, Shift and TEST held for the next key.
 - Type in (pasted text typed on the machine's keys, Chinese through 区位), Open a BASIC file, Save the program.
 - A colour TV, a black-and-white TV or a green monitor; the case as new or as found.
+- A silver-grey TV of the late 1980s beside the computer; the case as found today (yellowed) by default; soft 3D lighting, and the 2D view in the colours the 3D view shows.
+- Display (the set, the finish) beside the views; on a black-and-white TV the glass is grey, and the colour knob does nothing there or on the green monitor.
 - The page in 简体中文 and English; on a desktop and on a phone.
