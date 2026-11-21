@@ -25,3 +25,4 @@
 
 - **v0.0.1:** released 2026-11-21 as a pre-release ([the release](https://github.com/wixette/cec-i-simulator/releases/tag/v0.0.1)), live at <https://wixette.github.io/cec-i-simulator/>. Checked by the owner; the full 6502 suite, the unit tests and the browser checks pass.
 - **v0.0.2:** released 2026-11-21 as a pre-release ([v0.0.2.md](v0.0.2.md), [the release](https://github.com/wixette/cec-i-simulator/releases/tag/v0.0.2)). Checked by the owner; the full 6502 suite, the unit tests and the browser checks pass.
+- **v0.0.3:** being designed on `dev-v0.0.3` ([v0.0.3.md](v0.0.3.md)).
