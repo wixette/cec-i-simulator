@@ -28,6 +28,15 @@ export default async function (h) {
   await h.send("Input.dispatchKeyEvent", { type: "keyUp", key: "F12", code: "F12", modifiers: 2 });
   await h.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Control", code: "ControlLeft" });
   h.verify("and let go, the reset runs: back at the prompt, the program kept", await h.until("!cec.machine.resetLow && /^\\]/.test(cec.machine.screenText().filter((l) => l.trim()).at(-1)) && cec.listing().includes('GOTO')", 5000), await h.screen());
+  // Ctrl with a letter is the machine's, Ctrl-V included (D7): its code, 22, in the keyboard's latch
+  await h.js("cec.machine.strobe = false");
+  await h.send("Input.dispatchKeyEvent", { type: "rawKeyDown", key: "Control", code: "ControlLeft", modifiers: 2 });
+  await h.send("Input.dispatchKeyEvent", { type: "rawKeyDown", key: "v", code: "KeyV", modifiers: 2 });
+  const latch = await h.js("cec.machine.kbd");
+  await h.send("Input.dispatchKeyEvent", { type: "keyUp", key: "v", code: "KeyV", modifiers: 2 });
+  await h.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Control", code: "ControlLeft" });
+  h.verify("Ctrl-V reaches the machine as its own Ctrl-V (22)", latch === 22, latch);
+  await h.keyCode("Enter");
   const caps = await h.js("cec.keyboard.caps");
   await h.send("Input.dispatchKeyEvent", { type: "rawKeyDown", key: "CapsLock", code: "CapsLock", modifiers: 0 });
   await h.send("Input.dispatchKeyEvent", { type: "keyUp", key: "CapsLock", code: "CapsLock", modifiers: 0 });

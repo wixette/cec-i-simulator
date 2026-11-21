@@ -146,7 +146,7 @@ A strip of its own, centred at the stage's foot, just above the dock: *Computer*
 ### U7. Type in, Open, Save
 
 **Programs** in the top bar holds three items (D8):
-- **Type in…** opens a dialog with a text box: what is written or pasted there is typed on the machine's keys when *Type it in* is pressed. Pasting onto the page (⌘-V or Ctrl-V) opens it with the pasted text.
+- **Type in…** opens a dialog with a text box: what is written or pasted there is typed on the machine's keys when *Type it in* is pressed.
 - **Open a BASIC file…** types a text file (UTF-8, or GB 2312/GBK) in, after `NEW`.
 - **Save the program as a file** hands over the BASIC program in memory as `program.bas`; greyed, with why, when there is none.
 All three need the computer on, and say so.

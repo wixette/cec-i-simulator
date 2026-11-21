@@ -104,7 +104,7 @@ export default {
   "start.keys.machine": "The CEC-I",
   "start.keys.yours": "Your keyboard",
   "start.keys.or": "Or",
-  "start.keys.ctrl": "Ctrl-Reset (back to BASIC, the program kept) is [[Ctrl]]-[[F12]]; hold [[Ctrl]] and [[End]] and press [[F12]] for Ctrl-Reset-TEST, the machine's self-test. Ctrl, Shift and TEST clicked on the machine's own keys stay down for the next key. ⌘ (or Ctrl) and V pastes text into Type in.",
+  "start.keys.ctrl": "Ctrl-Reset (back to BASIC, the program kept) is [[Ctrl]]-[[F12]]; hold [[Ctrl]] and [[End]] and press [[F12]] for Ctrl-Reset-TEST, the machine's self-test. Ctrl, Shift and TEST clicked on the machine's own keys stay down for the next key.",
   "start.chinese.head": "Chinese on an 8-bit machine",
   "start.chinese.1": "In Chinese mode, [[F1]] types letters, [[F2]] pinyin (type the syllable, then a digit picks one of six characters shown on the status line; `<` and `>` page), [[F3]] 区位 (quwei): four digits, the row and the place in GB 2312, `1601` for 啊.",
   "start.chinese.2": "In a BASIC string a Chinese character is three bytes: 127, then its row and its place, each moved past `\"`, `,` and `:`. `LEN(\"中\")` is 3.",

@@ -204,8 +204,8 @@ function forThePage(e) {
   if (overlayOpen()) return true;
   // a control that acted on the key already (the dock's handle, a tab list's arrows)
   if (e.defaultPrevented) return true;
-  // ⌘ is the browser's; ⌘-V or Ctrl-V pastes (into Type in)
-  if (e.metaKey || ((e.ctrlKey || e.metaKey) && e.code === "KeyV")) return true;
+  // ⌘ is the browser's; Ctrl, with every key, is the machine's
+  if (e.metaKey) return true;
   const a = /** @type {HTMLElement | null} */ (document.activeElement);
   if (a && a !== document.body) {
     if (a.matches("input, textarea, select, [contenteditable]")) return true;
@@ -256,15 +256,6 @@ addEventListener("keyup", (e) => {
 addEventListener("blur", () => {
   hostDown.clear();
   system.releaseKeys();
-});
-// pasting onto the page opens Type in with the text (D8)
-document.addEventListener("paste", (e) => {
-  const a = /** @type {HTMLElement | null} */ (document.activeElement);
-  if (overlayOpen() || a?.matches("input, textarea, [contenteditable]")) return;
-  const text = e.clipboardData?.getData("text") ?? "";
-  if (!text) return;
-  e.preventDefault();
-  topBar.typeInDialog(text);
 });
 if (viewer) {
   // The 3D view's focus has two states, as the TRS-80 simulator's (U2): reached by Tab, it

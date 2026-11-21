@@ -201,14 +201,11 @@ export class TopBar {
 
   /**
    * Type in: a text box; what is written or pasted in it is typed on the machine's keys.
-   * Also opened by pasting onto the page (main.js), with the pasted text in it.
-   * @param {string} [text]
    */
-  typeInDialog(text = "") {
+  typeInDialog() {
     const s = this.system;
     if (!s.machine.powered) return void s.say({ key: "type.off" });
     const box = /** @type {HTMLTextAreaElement} */ (el("textarea", { class: "typein-box", spellcheck: "false", autocapitalize: "off", autocomplete: "off", placeholder: t("typein.placeholder"), "aria-label": t("typein.title") }));
-    box.value = text;
     const body = [el("p", { class: "dialog-text", text: t("typein.intro") }), box, el("p", { class: "dialog-text dim", text: t("typein.chinese") })];
     showDialog(t("typein.title"), body, [{ label: t("typein.cancel") }, { label: t("typein.go"), primary: true, icon: "keyboard", run: () => s.typeIn(box.value) }], { wide: true });
     // the text box, not the button, has the focus: the visitor writes first

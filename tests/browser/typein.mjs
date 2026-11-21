@@ -20,10 +20,6 @@ export default async function (h) {
   await h.js(`document.querySelector('dialog[open] textarea').value = 'PRINT "€"'`);
   await h.pressText("dialog[open] .dialog-actions button", "Type it in");
   h.verify("a character outside GB 2312 is refused, and said so", /€/.test(await h.status()) && !(await h.js("cec.typist.busy")), await h.status());
-  // pasting on the page opens Type in with the text
-  await h.js(`document.dispatchEvent(Object.assign(new Event("paste", { bubbles: true }), { clipboardData: { getData: () => "PRINT 1" } }))`);
-  h.verify("pasting onto the page opens Type in with the text", await h.until("document.querySelector('dialog[open] textarea')?.value === 'PRINT 1'", 2000));
-  await h.key("Escape");
   // Save: the menu item is there while a program is in memory
   await h.press("#programs");
   await h.sleep(200);

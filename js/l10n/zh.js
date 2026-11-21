@@ -103,7 +103,7 @@ export default {
   "start.keys.machine": "中华学习机",
   "start.keys.yours": "你的键盘",
   "start.keys.or": "或者",
-  "start.keys.ctrl": "Ctrl-Reset（回到 BASIC，程序保留）是 [[Ctrl]]-[[F12]]；按住 [[Ctrl]] 和 [[End]] 再按 [[F12]] 是 Ctrl-Reset-TEST，即学习机的自检。在学习机的键上点击 Ctrl、Shift 和 TEST，它们会保持按下，直到按下一个键。⌘（或 Ctrl）加 V 会把文字粘贴到“输入文字”中。",
+  "start.keys.ctrl": "Ctrl-Reset（回到 BASIC，程序保留）是 [[Ctrl]]-[[F12]]；按住 [[Ctrl]] 和 [[End]] 再按 [[F12]] 是 Ctrl-Reset-TEST，即学习机的自检。在学习机的键上点击 Ctrl、Shift 和 TEST，它们会保持按下，直到按下一个键。",
   "start.chinese.head": "八位机上的汉字",
   "start.chinese.1": "在汉字状态下，[[F1]] 输入字母，[[F2]] 是拼音（输入音节，状态行上出现六个字，按数字选字；`<` 和 `>` 翻页），[[F3]] 是区位码：四位数字，即在 GB 2312 中的区号和位号，`1601` 是“啊”。",
   "start.chinese.2": "在 BASIC 字符串里，一个汉字占三个字节：127，然后是区号和位号，各自错开 `\"`、`,` 和 `:` 三个字符。`LEN(\"中\")` 等于 3。",
