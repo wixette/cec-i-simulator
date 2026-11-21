@@ -8,7 +8,7 @@ This document holds the principles the simulator's page is laid out by, and the 
 
 The machine's own decisions (D1, D2, …) are in [../design/decisions.md](../design/decisions.md).
 
-**Status:** as built for v0.0.2 (first written for v0.0.1).
+**Status:** as built for v0.0.3 (first written for v0.0.1).
 
 ## Part 1. Principles
 
@@ -131,7 +131,7 @@ With the computer off, a click on the lid, the keyboard or the main board takes 
 
 ### U4. The helper strip
 
-A strip of its own, centred at the stage's foot, just above the dock: *Computer* (the power switch, lit green while on), *Ctrl-Reset* (Ctrl and RESET held together a moment, then let go), *TV* (its power, lit green while on). The machine's own controls stay clickable where they are too: the rocker on the computer's left side, the TV's button and knobs (a drag sideways or the wheel turns a knob, a double-click puts it back). A tab on the strip's top edge folds it away; the choice is remembered, and in a short window (a phone on its side) it starts folded. In a narrow window the buttons keep their icons and lose their names.
+A strip of its own, centred at the stage's foot, just above the dock: *Computer* (the power switch, lit green while on), *Ctrl-Reset* (Ctrl and RESET held together a moment, then let go), *TV* (its power, lit green while on), *Joystick* (plugged in or out, lit while in; design/v0.0.3.md, P2: the arrows move its stick and are the machine's no more, Space is button 0 and Ctrl button 1, both still typing too). On a touch screen, while the joystick is plugged in, a row under the picture holds its four arrows on the left and its buttons A and B on the right. The machine's own controls stay clickable where they are too: the rocker on the computer's left side, the TV's button and knobs (a drag sideways or the wheel turns a knob, a double-click puts it back). A tab on the strip's top edge folds it away; the choice is remembered, and in a short window (a phone on its side) it starts folded. In a narrow window the buttons keep their icons and lose their names.
 
 ### U5. Typing
 
@@ -144,9 +144,9 @@ A strip of its own, centred at the stage's foot, just above the dock: *Computer*
 
 The instruments first (U12): the CPU, the two of the picture (Screen, Chinese), the keyboard; then the reading: **Start** (the default on a first visit): what the machine is, a first few minutes, the machine's keys on the visitor's, and how Chinese goes in; **References:** further reading first, then what the simulator is built on and its source, and last, folded, what it simplifies. The lessons (v0.0.4) will join the reading. The dock remembers its tab, its height and whether it is folded; what the machine does never switches its tab.
 
-### U7. Type in, Open, Save
+### U7. Programs
 
-**Programs** in the top bar holds three items (D8):
+**Programs** in the top bar holds our own programs first (*(v0.0.3)* design/v0.0.3.md, P1), a submenu for each section: Learn, Chinese, Games, Utilities, Music, LOGO. A program's dialog says what it does and the mode it runs in (Western BASIC, the Chinese system, LOGO), shows its listing, and *Type it in* types it on the machine's keys from whatever the machine is doing (D14), and runs it. Then, under a line, the visitor's own (D8):
 - **Type in…** opens a dialog with a text box: what is written or pasted there is typed on the machine's keys when *Type it in* is pressed.
 - **Open a BASIC file…** types a text file (UTF-8, or GB 2312/GBK) in, after `NEW`.
 - **Save the program as a file** hands over the BASIC program in memory as `program.bas`; greyed, with why, when there is none.
