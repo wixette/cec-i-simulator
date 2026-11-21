@@ -10,7 +10,7 @@
 
 ![The simulator: the CEC-I and its TV in 3D, the screen showing a BASIC program's Chinese output, the Start tab below](screenshots/app.jpg)
 
-> A pre-release (v0.0.3). Fifteen programs of our own in Programs (games, Chinese, music, LOGO and more), a joystick on your keys, and four instruments below the machine that show how it works. Lessons and the cassette recorder are still to come ([roadmap](design/roadmap.md)).
+> A pre-release (v0.0.3). Sixteen programs of our own in Programs (games, Chinese, music, LOGO and more), a joystick on your keys, and four instruments below the machine that show how it works. Lessons and the cassette recorder are still to come ([roadmap](design/roadmap.md)).
 
 ## What was the CEC-I?
 

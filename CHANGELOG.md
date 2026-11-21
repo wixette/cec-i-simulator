@@ -4,7 +4,7 @@
 
 Programs of our own, and the joystick ([design/v0.0.3.md](design/v0.0.3.md)).
 
-- **Programs** lists fifteen of our own in six sections, each typed in on the machine's keys from whatever it is doing, in its mode: **Learn** (Guess my number, Bar chart, Hi-res curves, Big character, BASIC against machine code), **Chinese** (Idiom quiz, a whole-screen Word processor in machine code), **Games** (Snake, Bricks, Mine hunt), **Utilities** (Calendar, an analog Clock that keeps time by the screen's fields), **Music** (a Music box of tunes in 简谱, an Organ), **LOGO** (Kaleidoscope).
+- **Programs** lists sixteen of our own in six sections, each typed in on the machine's keys from whatever it is doing, in its mode: **Learn** (Guess my number, Bar chart, Hi-res curves, Big character, BASIC against machine code), **Chinese** (Idiom quiz, Reading numbers), **Games** (Snake, Bricks, Mine hunt on the text screen), **Utilities** (Calendar, an analog Clock that keeps time by the screen's fields, a whole-screen Text editor in machine code), **Music** (a Music box of tunes in 简谱, an Organ), **LOGO** (Kaleidoscope).
 - Machine code is kept as readable assembly beside each program and typed as DATA made from it.
 - **The joystick**, plugged in from the helper strip: the arrows move its stick, Space is button 0, Ctrl button 1; on a phone, a pad under the picture.
 
