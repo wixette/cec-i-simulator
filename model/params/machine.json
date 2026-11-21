@@ -1,0 +1,339 @@
+{
+  "_schema": "Every numeric entry is {v, unit, conf, src, note?}. Units: mm and deg, in the machine frame (Blender, Z up): origin at the centre of the case footprint on the table under its feet (the base's bottom face is at Z = 2.5, the feet's height), +X left to right as the operator sees the keyboard, +Y toward the back, +Z up. The case runs from Y = -135 (the lid's front edge) to Y = +135 (the back). 'yf' means a distance back from the lid's front edge (Y = yf - 135). conf: meas = measured on a real CEC-I (caliper or ruler); photo = scaled from photographs of it; est = an estimate; design = our own choice where the machine does not say. keyboard.json is generated from this file by model/tools/make_keyboard.py, board.json from the main board's photograph by model/tools/make_board.py; never edit them by hand.",
+  "version": "0.1.0",
+  "fidelity_target": "B",
+  "reference_machine": "A CEC-I, serial 87010305, made by Shanghai No. 4 Radio Factory (Kaige), main board ZH-1(875), late 1987",
+  "case": {
+    "width": {"v": 368.0, "unit": "mm", "conf": "meas", "src": "measured"},
+    "depth": {"v": 270.0, "unit": "mm", "conf": "meas", "src": "measured, including the lid's front overhang"},
+    "plan_corner_radius": {"v": 6.0, "unit": "mm", "conf": "est", "src": "measured ('various'); a photograph of the top, with a ruler", "note": "no longer used: the corners in plan are the 45-degree bevel (edge_bevel)"},
+    "wall": {"v": 2.0, "unit": "mm", "conf": "meas", "src": "measured, the lid; the base taken the same"},
+    "seam_z": {"v": 53.0, "unit": "mm", "conf": "meas", "src": "the lid's lower edge along the raised part, from the table: the raised part's top is 30 above it (83 - 30); the base's top edge is 49 above the base's bottom (2.5 + 49 = 51.5), the seam's line 1.5 between. Replaces a first measurement of 52"},
+    "front_overhang": {"v": 2.0, "unit": "mm", "conf": "meas", "src": "the base's lip reaches 268 from the back wall, measured level, so its front end is 2 behind the lid's front (270); the lid stands about 8 past the base's front wall"},
+    "lip_thickness": {"v": 12.0, "unit": "mm", "conf": "meas", "src": "measured: the lid's edge band, the same down the sides along the slope (a photograph of the left side)", "note": "the keyboard part's band at the front; its lower edge runs straight from here up to the back wall's foot at seam_z, so the band grows from 12 at the front to 15 at the back"},
+    "deck": {
+      "front_z": {"v": 42.0, "unit": "mm", "conf": "meas", "src": "measured"},
+      "back_z": {"v": 68.0, "unit": "mm", "conf": "meas", "src": "measured"},
+      "back_yf": {"v": 186.0, "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler: the deck's rear line, at the key photo's scale (4.33 px/mm at half size)"},
+      "front_radius": {"v": 6.5, "unit": "mm", "conf": "meas", "src": "measured: the deck's top front edge, the largest rounding (6-7)"}
+    },
+    "raised_part": {
+      "_note": "The profile from the deck's top rear line back (measured, and a photograph of the left side from behind, 9.64 px/mm): down 4, back a little, then one long slope of about 45 degrees up to the top's front line, the flat top (52 deep, measured), a rounding, a slope of about 59 degrees down the back to 64 mm, then the back face plumb down to the seam. The raised part is narrower than the keyboard part by side_overhang each side, and flush with the base.",
+      "top": {"v": [208.0, 83.0], "unit": "mm", "conf": "meas", "src": "measured (83); the flat top is 52 deep (measured, confirmed); the side photo puts its front line at yf 207-208"},
+      "back_slope": {"v": [64.0, 59.0], "unit": "mm, deg", "conf": "photo", "src": "a photograph of the left side from behind (28.9 px/mm zoomed): the back face rises plumb from the seam to 64 mm, then slopes forward at about 59 degrees from the horizontal to the top"},
+      "back_round": {"v": 9.0, "unit": "mm", "conf": "photo", "src": "a photograph of the left side from behind: the rounding between the back slope and the top"},
+      "wall_lean": {"v": 10.0, "unit": "deg", "conf": "photo", "src": "the keyboard part's back wall leans forward as it rises, about 10 degrees from the vertical; its foot at deck.back_yf"},
+      "ledge": {"v": [4.0, 2.0], "unit": "mm", "conf": "meas", "src": "measured (down 4): a ledge leaves the wall 4 mm below the deck's edge and runs back, rising with the deck, to the slope's foot 2 mm behind the wall's foot"}
+    },
+    "feet": {
+      "positions": {"v": [[-152.5, -98.0], [152.5, -98.0], [-152.5, 92.0], [152.5, 92.0]], "unit": "mm", "conf": "photo", "src": "a photograph of the underside"},
+      "base_diameter": {"v": 18.0, "unit": "mm", "conf": "meas", "src": "measured"},
+      "top_diameter": {"v": 14.0, "unit": "mm", "conf": "meas", "src": "measured"},
+      "height": {"v": 2.5, "unit": "mm", "conf": "meas", "src": "measured"}
+    },
+    "bottom_screws": {"v": [[-162.0, -111.0], [0.0, -111.0], [162.0, -111.0]], "unit": "mm", "conf": "est", "src": "a photograph of the underside; placed behind the base's front wall's foot (yf 18, Y -117): their exact place is an estimate"},
+    "bottom_vents": {
+      "_note": "Rows of short slots in the floor (a photograph of the underside), each row two lines of slots: [x0, x1, y_centre].",
+      "rows": {"v": [[-60.0, 178.0, 70.0], [-60.0, 178.0, 30.0], [-60.0, 135.0, -45.0], [-150.0, -90.0, 0.0], [-150.0, -90.0, -40.0], [-150.0, -90.0, -80.0]], "unit": "mm", "conf": "photo", "src": "a photograph of the underside, scaled 2.55 px/mm"},
+      "slot": {"v": [2.6, 7.0], "unit": "mm", "conf": "photo", "src": "a photograph of the underside"},
+      "pitch": {"v": 5.5, "unit": "mm", "conf": "photo", "src": "a photograph of the underside"},
+      "line_gap": {"v": 9.0, "unit": "mm", "conf": "photo", "src": "a photograph of the underside"}
+    },
+    "side_overhang": {"v": 3.75, "unit": "mm", "conf": "meas", "src": "measured: 3.5-4 mm each side. The 358 mm steel plate is wider than the base's inside (356.5): it sits above the base's side walls, inside the lid's band"},
+    "seam_groove": {"v": [1.5, 1.0], "unit": "mm", "conf": "meas", "src": "measured: the seam's line is 1.5 high: the base's outer face stops this far short of the lid (height, depth)"},
+    "edge_bevel": {"v": 1.25, "unit": "mm", "conf": "photo", "src": "every outer edge along the sides has a 45-degree bevel (not a rounding), except the seam's; at the keyboard part's back end it leaves a 2.5 mm straight step of the 3.75 mm overhang"},
+    "base_bottom_radius": {"v": 3.25, "unit": "mm", "conf": "photo", "src": "the base's two bottom corners, seen from the side, are rounded, about half the lid's top front rounding (6.5); the 45-degree edge bevel runs along them"},
+    "lid_front_lean": {"v": 15.0, "unit": "deg", "conf": "photo", "src": "the lid's front face leans back as it rises, from its foot at the very front into the deck's rounded edge"}
+  },
+  "lid_openings": {
+    "_note": "Openings in the lid's deck, in plan: x (machine) and yf (back from the lid's front edge), from a photograph of the keyboard from above, with a ruler at the keys' scale, checked against a photograph of the lid.",
+    "keys": {
+      "x": {"v": [-172.0, 116.0], "unit": "mm", "conf": "meas", "src": "measured: its left edge in line with the Quit hole's, 12 from the lid's left side; the right edge keeps the keys' margin (to measure)"},
+      "yf": {"v": [54.04, 130.74], "unit": "mm", "conf": "meas", "src": "measured: its rear edge 18 (along the deck) in front of the Quit hole; the depth, 76.7, kept from a photograph of the keyboard from above, with a ruler"},
+      "notch_x": {"v": [-130.5, 82.0], "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler, moved with the keys (+3)"},
+      "notch_front_yf": {"v": 34.84, "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler, moved with the main hole"}
+    },
+    "quit": {
+      "x": {"v": [-172.0, -146.0], "unit": "mm", "conf": "meas", "src": "measured: its left edge 12 from the lid's left side (the width, 26, kept from a photograph of the keyboard from above, with a ruler)"},
+      "yf": {"v": [148.56, 168.56], "unit": "mm", "conf": "meas", "src": "measured: its rear edge 15 (along the deck) from the deck's rear edge; the depth, 20, kept from a photograph of the keyboard from above, with a ruler"}
+    },
+    "fkeys": {
+      "x": {"v": [-126.0, -5.0], "unit": "mm", "conf": "meas", "src": "measured: 20 right of the Quit hole (the width, 121, kept from a photograph of the keyboard from above, with a ruler)"},
+      "yf": {"v": [148.56, 168.56], "unit": "mm", "conf": "meas", "src": "measured: its rear edge in line with the Quit hole's"}
+    },
+    "arrow_panel": {
+      "x": {"v": [121.25, 178.75], "unit": "mm", "conf": "meas", "src": "measured: the gaps from the main key hole (right edge 116) and from the lid's side (184) are equal: (68 - 57.5) / 2 = 5.25; the width, 57.5, kept from a photograph of the keyboard from above, with a ruler"},
+      "yf": {"v": [53.44, 129.94], "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler"},
+      "depth": {"v": 1.5, "unit": "mm", "conf": "est", "src": "a photograph of the lid"}
+    },
+    "arrow_hole": {
+      "centre": {"v": [151.5, 93.04], "unit": "mm", "conf": "photo", "src": "moved with the keys"},
+      "size": {"v": 51.0, "unit": "mm", "conf": "photo", "src": "a photograph of the lid"},
+      "corner_cut": {"v": 6.32, "unit": "mm", "conf": "meas", "src": "follows the arrow keys' outline (47 square, 5.15 corner chamfers) with the hole's 2 mm clearance"}
+    },
+    "led": {
+      "centre": {"v": [146.15, 159.4], "unit": "mm", "conf": "meas", "src": "measured: 32 right of the sticker; front to back kept from a photograph of the keyboard from above, with a ruler (to measure)"},
+      "size": {"v": 2.3, "unit": "mm", "conf": "meas", "src": "measured: a 2.3 mm square"}
+    },
+    "nameplate": {
+      "x": {"v": [15.0, 113.0], "unit": "mm", "conf": "meas", "src": "measured: 20 right of the F-key hole, 98 wide"},
+      "yf": {"v": [146.56, 168.56], "unit": "mm", "conf": "meas", "src": "measured: 22 high, its rear edge in line with the key holes'"}
+    },
+    "grille": {
+      "count": {"v": 18, "unit": "", "conf": "meas", "src": "18 grooves, the first 26 from the raised part's left side, 70 across (18 grooves and 17 ribs); from 9 above the front slope's foot to 3 short of the back slope's foot, measured along the surface"},
+      "from_side": {"v": 26.0, "unit": "mm", "conf": "meas", "src": "18 grooves, the first 26 from the raised part's left side, 70 across (18 grooves and 17 ribs); from 9 above the front slope's foot to 3 short of the back slope's foot, measured along the surface"},
+      "width": {"v": 70.0, "unit": "mm", "conf": "meas", "src": "18 grooves, the first 26 from the raised part's left side, 70 across (18 grooves and 17 ribs); from 9 above the front slope's foot to 3 short of the back slope's foot, measured along the surface"},
+      "groove": {"v": 2.2, "unit": "mm", "conf": "photo", "src": "a photograph of the grille: the grooves a little narrower than the ribs (ribs then 1.8)"},
+      "front_margin": {"v": 9.0, "unit": "mm", "conf": "meas", "src": "18 grooves, the first 26 from the raised part's left side, 70 across (18 grooves and 17 ribs); from 9 above the front slope's foot to 3 short of the back slope's foot, measured along the surface"},
+      "back_margin": {"v": 3.0, "unit": "mm", "conf": "meas", "src": "18 grooves, the first 26 from the raised part's left side, 70 across (18 grooves and 17 ribs); from 9 above the front slope's foot to 3 short of the back slope's foot, measured along the surface"},
+      "depth": {"v": 1.2, "unit": "mm", "conf": "est", "src": "a photograph of the grille: the grooves are sunk, their floor showing; the slits go through"},
+      "slit": {"v": 0.6, "unit": "mm", "conf": "photo", "src": "a photograph of the grille"},
+      "slits": {"v": [[0.04, 0.19], [0.21, 0.51], [0.54, 0.82]], "unit": "fraction of the groove's length from its front end", "conf": "photo", "src": "a photograph of the grille: three lengths of slit along each groove, none on the back slope"}
+    },
+    "slot": {
+      "outer": {"v": [116.0, 22.0], "unit": "mm", "conf": "meas", "src": "measured: the opening on the top surface, W x D"},
+      "inner": {"v": [112.0, 18.0], "unit": "mm", "conf": "meas", "src": "measured: at the foot of the bevel"},
+      "bevel_depth": {"v": 3.0, "unit": "mm", "conf": "meas", "src": "measured: the four edges bevel inward and down this far (corrected from 3.5)"},
+      "from_right": {"v": 56.0, "unit": "mm", "conf": "meas", "src": "measured: the outer rectangle's right edge to the raised part's right side"},
+      "from_top_front": {"v": 6.0, "unit": "mm", "conf": "meas", "src": "measured: its front edge behind the top surface's front edge"},
+      "guard_depth": {"v": 32.0, "unit": "mm", "conf": "meas", "src": "measured: the walls down the left, right and back of the inner rectangle; no front wall"},
+      "wall": {"v": 1.5, "unit": "mm", "conf": "est", "src": "the guard walls' and the collar's thickness"},
+      "flap_thickness": {"v": 1.5, "unit": "mm", "conf": "est", "src": "the flap, its top flush with the bevel's foot"},
+      "hinges": {"v": [0.25, 0.5, 0.75], "unit": "fraction of the width", "conf": "est", "src": "three plastic hinges along the inner rectangle's front edge"},
+      "open_deg": {"v": 90.0, "unit": "deg", "conf": "est", "src": "the flap swings down and forward to hang in the open front"}
+    }
+  },
+  "keyboard": {
+    "_note": "The keyboard assembly is built flat in its own frame: x across, y along the steel plate from its front edge, z up from the plate's top; then tilted and placed on the plate's measured heights.",
+    "plate": {
+      "size": {"v": [358.0, 150.0, 4.0], "unit": "mm", "conf": "meas", "src": "measured (the 4 is the folded rim)"},
+      "sheet": {"v": 1.2, "unit": "mm", "conf": "est", "src": "a photograph of the keyboard's edge"},
+      "front_top_z": {"v": 36.5, "unit": "mm", "conf": "meas", "src": "measured: 32 above the base's inside floor (Z = 4.5)"},
+      "back_top_z": {"v": 54.5, "unit": "mm", "conf": "meas", "src": "measured: 50 above the floor"},
+      "front_y": {"v": -108.0, "unit": "mm", "conf": "photo", "src": "images/photos/inside-keyboard-in-place.jpg: put so that the rows land where a photograph of the keyboard from above, with a ruler shows them"},
+      "groove_y": {"v": 114.8, "unit": "mm", "conf": "photo", "src": "across the plate between the F row and the main keys, in the middle of the gap between them (plate frame)"},
+      "groove": {"v": [5.0, 1.6], "unit": "mm", "conf": "est", "src": "wider and deeper than the first try (3.2 x 1): width at the top, depth"}
+    },
+    "pcb": {
+      "inset": {"v": [6.0, 6.0], "unit": "mm", "conf": "est", "src": "images/photos/keyboard-pcb.jpg"},
+      "below_plate": {"v": 10.0, "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard's edge"},
+      "thickness": {"v": 2.0, "unit": "mm", "conf": "meas", "src": "measured"},
+      "notch": {"v": [25.0, 36.0], "unit": "mm", "conf": "meas", "src": "measured: a rectangular notch in the corner under the arrow keys, width (x) and depth (y, the plug's width)"}
+    },
+    "pitch": {"v": 18.9, "unit": "mm", "conf": "meas", "src": "measured: Q to [ = 189"},
+    "slot_x0": {"v": -170.2, "unit": "mm", "conf": "photo", "src": "moved +3 with the main hole, keeping the keys' margin in it"},
+    "rows_y": {"v": {"f": 133.74, "r1": 95.82, "r2": 76.92, "r3": 58.02, "r4": 39.12, "r5": 20.22}, "unit": "mm", "conf": "photo", "src": "images/photos/inside-keyboard-in-place.jpg (plate frame); moved with the lid's holes"},
+    "fkeys": {
+      "quit_x": {"v": -159.0, "unit": "mm", "conf": "photo", "src": "centred in the Quit hole"},
+      "f1_x": {"v": -113.1, "unit": "mm", "conf": "photo", "src": "the five centred in the F-key hole"},
+      "pitch": {"v": 23.8, "unit": "mm", "conf": "photo", "src": "images/photos/inside-keyboard-in-place.jpg, a photograph of the keyboard from above, with a ruler"},
+      "cap": {"v": [22.4, 17.0], "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler: the F-keys touch"}
+    },
+    "arrows": {
+      "centre": {"v": [151.5, 66.72], "unit": "mm", "conf": "photo", "src": "images/photos/inside-keyboard-in-place.jpg (plate frame)"},
+      "size": {"v": 47.0, "unit": "mm", "conf": "meas", "src": "measured"},
+      "corner_cut": {"v": 5.15, "unit": "mm", "conf": "meas", "src": "measured: (47 - 36.7) / 2: each corner chamfer's leg along the square's side"},
+      "gap": {"v": 1.2, "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler"},
+      "long_edge": {"v": 36.7, "unit": "mm", "conf": "meas", "src": "measured: each arrow key's long outer edge, straight between its two 45-degree corner chamfers"},
+      "upper": {"v": [4.0, 4.0], "unit": "mm", "conf": "meas", "src": "measured: the top layer is 4 high; in it every edge but the long one slopes in at 45 degrees (4 in over 4 up)"}
+    },
+    "led": {"v": [146.15, 133.4], "unit": "mm", "conf": "photo", "src": "images/photos/inside-keyboard-in-place.jpg (plate frame); placed under the lid's lamp hole (lid_openings.led)", "note": "no longer used: the lamp is placed from lid_openings.led"},
+    "keycap": {
+      "bottom": {"v": [17.0, 17.0], "unit": "mm", "conf": "meas", "src": "measured"},
+      "top": {"v": [11.0, 13.0], "unit": "mm", "conf": "meas", "src": "measured"},
+      "height": {"v": 11.0, "unit": "mm", "conf": "meas", "src": "measured: 11 at the top edge, 10.5 at the centre"},
+      "dish": {"v": 0.6, "unit": "mm", "conf": "meas", "src": "measured: 0.5-0.7, cylindrical, left-right (Return: front-back; space: convex; arrows: flat)"},
+      "corner_radius": {"v": 1.0, "unit": "mm", "conf": "meas", "src": "measured"},
+      "bottom_z": {"v": 7.0, "unit": "mm", "conf": "design", "src": "above the plate: puts the tops 8-9.5 above the deck around them; pressed (3.5), the cap stays clear of the switch housing (2.5)"}
+    },
+    "travel": {"v": 3.5, "unit": "mm", "conf": "meas", "src": "measured: 3-4"},
+    "switch": {
+      "size": {"v": 14.0, "unit": "mm", "conf": "photo", "src": "a photograph of a key switch"},
+      "height": {"v": 2.5, "unit": "mm", "conf": "photo", "src": "a photograph of a key switch: the housing's part above the plate"},
+      "stem": {"v": [3.5, 6.5], "unit": "mm", "conf": "photo", "src": "a photograph of a key switch: a round stem, radius and height"}
+    },
+    "space": {"v": [150.0, 141.0], "unit": "mm", "conf": "meas", "src": "measured: bottom, top"},
+    "return": {"v": [27.0, 23.0], "unit": "mm", "conf": "meas", "src": "measured, read with a photograph of the keyboard from above, with a ruler: the upper part 27 wide, the lower part 23 (an inverted L)"},
+    "caps_lock_down": {"v": 2.2, "unit": "mm", "conf": "meas", "src": "seen on a real machine: locked, it sits about a fifth of its visible height lower"},
+    "legends": {
+      "bold": {"v": 0.05, "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler at full size (8.66 px/mm), a medium-weight sans"},
+      "letter": {"v": 3.6, "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler at full size (8.66 px/mm), capital height of the single letters"},
+      "pair": {"v": [2.7, 1.5], "unit": "mm", "conf": "photo", "src": "with the keyboard photo zoomed (26 px/mm): the pair keys' capital height and the gap between the lines; the block sits with equal padding above and below on the 13 mm top, which gives every key's top padding (3.05)"},
+      "word": {"v": 2.9, "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler at full size (8.66 px/mm), Esc, Tab, Ctrl, Shift, Return, Reset, Test"},
+      "fkey": {"v": 2.5, "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler, the F row: the F"},
+      "fkey_sub": {"v": [1.7, 0.4], "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler, the F row: the digit's height (on the F's baseline, a little below) and its gap"},
+      "caps_lock": {"v": [2.2, 1.2], "unit": "mm", "conf": "photo", "src": "with the keyboard photo zoomed (26 px/mm): centred both ways"},
+      "cjk": {"v": 3.6, "unit": "mm", "conf": "photo", "src": "with the keyboard photo zoomed (26 px/mm): 中文, 西文 in Noto Serif SC, centred"},
+      "arrow": {"v": [5.8, 4.0, 6.5, 0.35], "unit": "mm", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler at full size (8.66 px/mm), the arrow keys' triangle: base, height, its middle's distance from the key's long edge, stroke"},
+      "pad_left": {"v": 1.8, "unit": "mm", "conf": "photo", "src": "with the keyboard photo zoomed (26 px/mm): one left padding for every key"},
+      "pad_left_wide": {"v": 4.2, "unit": "mm", "conf": "photo", "src": "with the keyboard photo zoomed (26 px/mm): Tab, Ctrl, Return, Shift"},
+      "stroke": {"v": 0.13, "unit": "of the capital height", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler: the stroke of the drawn signs (* and ^)"},
+      "tall_sign": {"v": 1.0, "unit": "of the capital height", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler: | \\ / ( ) [ ] { } fill the capital height of their line, no more"}
+    },
+    "cable": {
+      "kb_header": {"v": [6.0, 3.6], "unit": "mm", "conf": "est", "src": "the 2 x 13 header stands on the board's components side (the top, facing the plate) along the notch's inner edge, the plug going in from the right: its body's depth and its pin rows' middle above the board"},
+      "length": {"v": 200.0, "unit": "mm", "conf": "est", "src": "about 200, between the plugs (soft, hard to measure)"},
+      "over_chips": {"v": 9.5, "unit": "mm", "conf": "photo", "src": "the folded ribbon's lower run lies on the chips (8 high) on the mainboard (a photograph of the folded cable)"},
+      "under_board": {"v": 7.5, "unit": "mm", "conf": "photo", "src": "its upper run just under the keyboard's board: this far below the keyboard plug's middle"},
+      "route": {"v": [62.0, 184.0], "unit": "mm", "conf": "design", "src": "the cable's route while the keyboard is out: up inside the case's right wall to this height (the wall's top is 51.5), then out past this x (the plate's edge is at 179, the case's side at 180.25), twisting on straight runs so it bends only flat-wise"}
+    },
+    "lamp": {
+      "diameter": {"v": 3.0, "unit": "mm", "conf": "est", "src": "a long red glass capsule with a round head, on two long leads from the keyboard's board; its head in the lid's 2.3 mm square hole"},
+      "length": {"v": 8.0, "unit": "mm", "conf": "est", "src": "the capsule's length, its head at the lid's hole"},
+      "plate_hole": {"v": 5.0, "unit": "mm", "conf": "est", "src": "the round hole in the plate the lamp stands through"}
+    }
+  },
+  "base": {
+    "bottom_z": {"v": 2.5, "unit": "mm", "conf": "meas", "src": "measured: the feet's height"},
+    "floor_z": {"v": 4.5, "unit": "mm", "conf": "meas", "src": "the feet (2.5) and the floor (2, as the walls, measured)"},
+    "_panel_z": "z on the back and side panels below is measured from the base's bottom edge (the photos show no feet); the build adds bottom_z",
+    "back_panel": {
+      "_note": "On the base's back face (Y = +135). x as seen from the front; z from the bottom. From a photograph of the back (2.24 px/mm across), a photograph of the video sockets (17.5 mm between the jacks).",
+      "label_plate": {
+        "x": {"v": [89.2, 166.1], "unit": "mm", "conf": "photo", "src": "a photograph of the back"},
+        "z": {"v": [12.0, 39.4], "unit": "mm", "conf": "photo", "src": "a photograph of the back"}
+      },
+      "drive": {
+        "x": {"v": [12.25, 58.25], "unit": "mm", "conf": "meas", "src": "measured: 46 wide, its edge 122 from the base's side (the left, seen from the back)"},
+        "z": {"v": [11.0, 29.0], "unit": "mm", "conf": "meas", "src": "measured: 18 high, its bottom 11 above the base's bottom"},
+        "header_inset": {"v": 4.0, "unit": "mm", "conf": "est", "src": "the header's body this far inside the back wall; its pins reach 6 mm out of it, short of the opening"},
+        "header_rows": {"v": [3.2, 7.1], "unit": "mm", "conf": "photo", "src": "the lower row's height above the board (the rows just above the opening's lower edge, at 13.5 above the table) and the body's height, about half the first try's 14"}
+      },
+      "jacks": {"v": [["monitor", -40.3, "监视器"], ["tv", -58.8, "电视"], ["blank", -77.3, ""]], "unit": "mm", "conf": "meas", "src": "measured: 4 mm between the holes (18.5 apart); the TV and the blank hole a little to the right of RF-1's middle seen from the back (their midpoint 2 mm toward +X of it)"},
+      "jack_z": {"v": 17.3, "unit": "mm", "conf": "photo", "src": "a photograph of the back"},
+      "jack_hole": {"v": 14.5, "unit": "mm", "conf": "meas", "src": "measured: 14-15"},
+      "warning": {
+        "x": {"v": [-125.4, -87.7], "unit": "mm", "conf": "meas", "src": "measured: photographs of the back: its edge by the mains panel right, the other edge 3 mm nearer it"},
+        "z": {"v": [23.0, 44.7], "unit": "mm", "conf": "photo", "src": "photographs of the back"}
+      },
+      "vents": {"v": [[-134.0, -101.0, 8], [-178.0, -156.0, 4]], "unit": "mm", "conf": "photo", "src": "a photograph of the back: [x0, x1, slots]"},
+      "vent_z": {"v": [2.5, 9.5], "unit": "mm", "conf": "photo", "src": "a photograph of the mains cord's exit"},
+      "screws": {"v": [158.9, -0.8, -81.0], "unit": "mm", "conf": "photo", "src": "a photograph of the back: three, into the lid's brass inserts"},
+      "screw_z": {"v": 45.5, "unit": "mm", "conf": "meas", "src": "measured: below the seam"},
+      "mains_panel": {
+        "from_side": {"v": 24.0, "unit": "mm", "conf": "meas", "src": "measured: its edge 24 from the case's side (the right, seen from the back)"},
+        "upper": {"v": [31.4, 22.0], "unit": "mm", "conf": "meas", "src": "measured: the rectangle 22 high (its width, 31.4, from a photograph of the mains cord's exit)"},
+        "lower": {"v": [20.0, 18.0], "unit": "mm", "conf": "photo", "src": "the lower part 18 high, its width read from a drawing (about two thirds of the top's), a round foot"},
+        "proud": {"v": 2.0, "unit": "mm", "conf": "meas", "src": "measured: it stands 2 out of the back"},
+        "cord_opening": {"v": [5.9, 7.4], "unit": "mm", "conf": "photo", "src": "the opening at its foot for the cord, width and height, round topped"},
+        "bottom_z": {"v": 9.0, "unit": "mm", "conf": "meas", "src": "measured: its foot above the base's bottom: the base's top edge (49) less 22 and 18"}
+      },
+      "screw_radius": {"v": 2.2, "unit": "mm", "conf": "photo", "src": "a little smaller"},
+      "rf_sleeve": {"v": 6.0, "unit": "mm", "conf": "est", "src": "RF-1's back face this far inside the back wall; the TV socket's and the blank hole's sleeves run from it to their holes"}
+    },
+    "left_side": {
+      "power_switch": {
+        "y": {"v": 86.0, "unit": "mm", "conf": "meas", "src": "measured: the hole's rear edge 36 from the back wall, 26 long: centre 135 - 36 - 13"},
+        "z": {"v": 36.75, "unit": "mm", "conf": "meas", "src": "measured: the hole's bottom edge 31.5 above the case's bottom, 10.5 high: centre 36.75 (above the bottom)"},
+        "opening": {"v": [26.0, 10.5], "unit": "mm", "conf": "meas", "src": "measured"},
+        "rocker": {
+          "size": {"v": [24.0, 8.5], "unit": "mm", "conf": "meas", "src": "measured: the hole less the 1 mm margin all round"},
+          "face": {"v": [5.0, 4.0], "unit": "mm", "conf": "photo", "src": "photographs of the power switch (23.8 px/mm): the face's height out from the wall at the ends and the middle, untilted; tilted, the tall end stands about 7.4 out, the low end 2.4"},
+          "end_slant": {"v": 20.0, "unit": "deg", "conf": "photo", "src": "photographs of the power switch: the ends lean in"},
+          "tilt": {"v": 12.0, "unit": "deg", "conf": "photo", "src": "photographs of the power switch: 5 mm between the ends' heights over 24 mm; off tips the front end out (back end pressed in), on the back end"},
+          "dot_s": {"v": -6.5, "unit": "mm", "conf": "meas", "src": "measured: towards the front end (the end pressed in for on)"},
+          "dot_size": {"v": 2.0, "unit": "mm", "conf": "meas", "src": "measured: the white pit is 2 x 2 mm"}
+        }
+      },
+      "vents": {
+        "y_centre": {"v": 84.0, "unit": "mm", "conf": "meas", "src": "measured: 16 slots over 62 mm, the rear end 20 mm from the back wall, the bottom 6 mm above the case's bottom, 10 mm high; slot and gap 2 mm each (16 x 2 + 15 x 2 = 62)"},
+        "count": {"v": 16, "unit": "", "conf": "meas", "src": "measured: 16 slots over 62 mm, the rear end 20 mm from the back wall, the bottom 6 mm above the case's bottom, 10 mm high; slot and gap 2 mm each (16 x 2 + 15 x 2 = 62)"},
+        "pitch": {"v": 4.0, "unit": "mm", "conf": "meas", "src": "measured: 16 slots over 62 mm, the rear end 20 mm from the back wall, the bottom 6 mm above the case's bottom, 10 mm high; slot and gap 2 mm each (16 x 2 + 15 x 2 = 62)"},
+        "slot": {"v": [2.0, 10.0], "unit": "mm", "conf": "meas", "src": "measured: 16 slots over 62 mm, the rear end 20 mm from the back wall, the bottom 6 mm above the case's bottom, 10 mm high; slot and gap 2 mm each (16 x 2 + 15 x 2 = 62)"},
+        "z0": {"v": 6.0, "unit": "mm", "conf": "meas", "src": "measured: 16 slots over 62 mm, the rear end 20 mm from the back wall, the bottom 6 mm above the case's bottom, 10 mm high; slot and gap 2 mm each (16 x 2 + 15 x 2 = 62)"}
+      }
+    },
+    "right_side": {
+      "joystick": {
+        "size": {"v": [23.0, 21.5, 15.0], "unit": "mm", "conf": "meas", "src": "measured: top width, bottom width, height (an inverted trapezoid)"},
+        "corner_radius": {"v": 1.0, "unit": "mm", "conf": "meas", "src": "measured"},
+        "from_back": {"v": 96.0, "unit": "mm", "conf": "meas", "src": "measured: the opening's back edge to the base's back surface"},
+        "from_bottom": {"v": 11.0, "unit": "mm", "conf": "meas", "src": "measured: its bottom edge above the base's bottom"},
+        "label": "游戏棒"
+      },
+      "cassette": {
+        "hole": {"v": 18.0, "unit": "mm", "conf": "meas", "src": "measured"},
+        "from_back": {"v": 40.0, "unit": "mm", "conf": "meas", "src": "measured: the hole's back edge to the base's back surface"},
+        "from_bottom": {"v": 11.0, "unit": "mm", "conf": "meas", "src": "measured: its bottom above the base's bottom"},
+        "label": "录音机",
+        "socket": {"v": 18.0, "unit": "mm", "conf": "meas", "src": "measured: the DIN socket on the board behind the hole, 18 x 18 x 18"}
+      }
+    },
+    "front": {
+      "bottom_depth": {"v": 252.0, "unit": "mm", "conf": "meas", "src": "measured: the base's bottom is 252 deep; its front wall leans back as it rises"},
+      "wall_top_yf": {"v": 8.0, "unit": "mm", "conf": "meas", "src": "measured (the lid stands 8 past the base): the wall rises to here, under the lid's overhang"},
+      "lip_thickness": {"v": 2.0, "unit": "mm", "conf": "est", "src": "a thin lip runs forward from the wall's top to 268 from the back (front_overhang) and carries the lid's overhang"}
+    }
+  },
+  "main_board": {
+    "size": {"v": [276.0, 239.0, 2.0], "unit": "mm", "conf": "meas", "src": "276 x 239, remeasured (measured first as 274 x 235)"},
+    "top_z": {"v": 12.5, "unit": "mm", "conf": "meas", "src": "the board's top is about 10 above the base's outer bottom (2.5 + 10), 1 below the 11 mm at which every socket's opening starts (游戏棒, 录音机, 驱动器, the video sockets), so each socket shows whole in its opening. The first measurement, 7 above the inside floor then implies a floor of 3, not the 2 assumed"},
+    "back_left": {"v": [-99.92, 133.0], "unit": "mm", "conf": "meas", "src": "measured: the 6.5 mm left over across the case shared out as three gaps of about 2.2 (wall to power box, power box to board, board to wall); its back edge at the rear wall"},
+    "j9": {
+      "from_front": {"v": 30.0, "unit": "mm", "conf": "meas", "src": "measured: the connector's front end (the plug's) 30 mm from the board's front edge; the photo agrees (the header's front end about 30 from it). Earlier taken to the header's middle"},
+      "gap_to_wall": {"v": 3.5, "unit": "mm", "conf": "meas", "src": "measured: the cable's plug ends 3-4 mm from the case's right wall; the ribbon turns up at once"},
+      "plug_depth": {"v": 9.0, "unit": "mm", "conf": "est", "src": "the cable's plug, along the cable"},
+      "body_depth": {"v": 6.0, "unit": "mm", "conf": "est", "src": "the right-angle header's body; its pins bend down into the board on its left"}
+    },
+    "parts_origin": {"v": [-94.3, 124.7], "unit": "mm", "conf": "photo", "src": "the corner board.json's part positions are measured from (images/photos/mainboard-top.jpg); kept when the board's outline grew, so no part moves"}
+  },
+  "power_supply": {
+    "box": {"v": [74.0, 75.0, 40.0], "unit": "mm", "conf": "meas", "src": "74 x 75 (measured first as 73 x 75); 40 high"},
+    "box_at": {"v": [-176.08, 133.0], "unit": "mm", "conf": "meas", "src": "measured: about 2.2 from the left wall, against the rear wall"},
+    "board": {"v": [-174.08, 128.0, -104.08, -32], "unit": "mm", "conf": "meas", "src": "measured: one long board, about half inside the box; the part outside 70 wide and 90 deep; at the mainboard's height: [x0, back y, x1, front y]"},
+    "transformer": {"v": [37.0, 16.0, 27.0], "unit": "mm", "conf": "meas", "src": "its black frame's width (37, measured), depth and height (estimated), astride the box's open front, against the inside of its right wall"},
+    "transformer_frame": {"v": 2.6, "unit": "mm", "conf": "est", "src": "a thicker frame"},
+    "coil_out": {"v": 10.0, "unit": "mm", "conf": "meas", "src": "measured: the coil and the frame's top lip stand about 10 mm beyond the TS0234 tape, at the front (and as much at the back)"},
+    "transformer_base": {"v": 5.0, "unit": "mm", "conf": "est", "src": "the frame's base, the lip's footprint, thicker than the lip; the coil stands on it"}
+  },
+  "speaker": {
+    "centre": {"v": [-132.0, -84.0], "unit": "mm", "conf": "photo", "src": "images/photos/mainboard-top.jpg"},
+    "diameter": {"v": 57.0, "unit": "mm", "conf": "meas", "src": "measured"},
+    "depth": {"v": 15.0, "unit": "mm", "conf": "meas", "src": "measured"},
+    "base_height": {"v": 5.0, "unit": "mm", "conf": "est", "src": "a flat cylinder about two-thirds the speaker's width, a cone from its top to the rim; its height from the photo (a photograph of the speaker)"}
+  },
+  "colours": {
+    "_note": "sRGB, as new and as found (yellowed). The case measured has yellowed beyond reading; new it was 'a clean off-white, perhaps faintly yellowish'. The model is built as new; the page swaps each material's colour for the as-found one. Each entry: [new, as found].",
+    "case_plastic": {"v": ["#DFDACC", "#DACAA4"], "conf": "design", "src": "the off-white a shade darker and less glossy than the first try (#E9E4D6), which looked too stark; as found, photographs of the case (a guide only)"},
+    "flap_grey": {"v": ["#D2D1C9", "#D3C4A2"], "conf": "design", "src": "the slot flap yellows with the case"},
+    "foot_white": {"v": ["#D4CEBC", "#CDBE98"], "conf": "design", "src": "the feet, case-coloured"},
+    "key_tan": {"v": ["#C9BDAB", "#BFA780"], "conf": "design", "src": "the keycaps a shade darker with the case; as found, a browner yellow"},
+    "ink": {"v": "#2A2622", "conf": "photo", "src": "a photograph of the keyboard from above, with a ruler"}
+  },
+  "take_apart": {
+    "conf": "photo",
+    "src": "photographs taken as the machine was opened: three screws at the back and three underneath; the lid lifts off in one piece; the keyboard turns over forward onto the table on its flat cable; the main board is screwed to the base",
+    "order": [
+      {
+        "unit": "case.lid",
+        "path": "up 120 mm, after the six screws",
+        "requires": []
+      },
+      {
+        "unit": "keyboard",
+        "path": "turned over forward onto the table, still on its cable",
+        "requires": ["case.lid"]
+      },
+      {
+        "unit": "board.main",
+        "path": "up 90 mm (its screws out, the cable unplugged)",
+        "requires": ["keyboard"]
+      }
+    ]
+  },
+  "tv": {
+    "size": {"v": [419.0, 210.0, 312.0], "unit": "mm", "conf": "est", "src": "a generic 14-inch colour TV of the 1980s, not a model of any set; W x D x H of the cabinet (feet included in H), within the class's typical overall size: 40-45 cm wide, 30-35 cm high, 29-35 cm deep; thin borders round the bezel"},
+    "rear": {"v": [300.0, 120.0, 240.0], "unit": "mm", "conf": "est", "src": "the tube's tapered back behind the cabinet, W x D x H: 330 mm deep overall, within the class's typical overall size: 40-45 cm wide, 30-35 cm high, 29-35 cm deep"},
+    "front_y": {"v": 262.0, "unit": "mm", "conf": "est", "src": "its front face's Y: behind the computer's back (135), so that a view from the front and above at 30-45 degrees sees the whole screen over the computer"},
+    "x": {"v": 0.0, "unit": "mm", "conf": "est", "src": "centred behind the computer"},
+    "screen_centre": {"v": [-38.0, 173.0], "unit": "mm", "conf": "est", "src": "the screen's centre (x from the TV's middle, z from the table): left of the control panel on the right, as sets of the time"},
+    "screen_opening": {"v": [300.0, 234.0, 44.0], "unit": "mm", "conf": "est", "src": "the opening in the bezel, W x H and corner radius, just round the glass's bowed outline (297 x 231); a short dark tunnel inside it reaches back to the glass's rim, hidden"},
+    "tube_face": {"v": [285.0, 215.0, 40.0], "unit": "mm", "conf": "est", "src": "the tube's glass, W x H and corner radius: a 14-inch tube (about 34 cm across the visible picture's diagonal)"},
+    "sphere_radius": {"v": 550.0, "unit": "mm", "conf": "est", "src": "the glass is a piece of a sphere (after a 12-inch tube at 450 mm, scaled): its corners about 29 mm behind its middle, its sides 18, its top and bottom 10"},
+    "outline_bow": {"v": [6.0, 8.0], "unit": "mm", "conf": "est", "src": "the glass's edges bow outward at their middles: the sides, the top and bottom"},
+    "rim_width": {"v": 5.0, "unit": "mm", "conf": "est", "src": "the dark band on the glass just inside its outline"},
+    "glass_proud": {"v": 8.0, "unit": "mm", "conf": "est", "src": "the glass's middle stands this far in front of the cabinet's face; its whole edge stays inside the opening (its top and bottom 2 mm in, its sides 10, its corners 21)"},
+    "bezel": {"v": [12.0, 0.3], "unit": "mm", "conf": "est", "src": "the surround round the screen, its width (it places the control panel); in the cabinet's colour and level with the front, so not drawn"},
+    "rear_end": {"v": [170.0, 130.0], "unit": "mm", "conf": "est", "src": "the tube's back tapers from its start (rear) to this end, W x H, as the sets of the 1980s; a little below the middle"}
+  }
+}

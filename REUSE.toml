@@ -1,0 +1,81 @@
+version = 1
+
+# Default: code is Apache-2.0; everything else of ours (docs, design and research notes,
+# parameters, the 3D model, images) is CC-BY-SA-4.0. More specific annotations override
+# these defaults. Third-party material has its own annotations at the end; the licence texts
+# are in LICENSES/ (docs/licensing.md).
+
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 cec-i-simulator contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["**/*.js", "**/*.mjs", "**/*.py", "**/*.html", "**/*.css", ".gitattributes", ".gitignore", ".editorconfig", ".npmrc", "package.json", "pnpm-lock.yaml", ".github/**", "tsconfig.json", "REUSE.toml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 cec-i-simulator contributors"
+SPDX-License-Identifier = "Apache-2.0"
+
+# The parameters and the generators' character lists are content, not code.
+[[annotations]]
+path = ["model/params/**", "model/tools/*.txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 cec-i-simulator contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# The photographs of the machine (images/photos/CREDITS.md).
+[[annotations]]
+path = "images/photos/*.jpg"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 wixette"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# ---- Third-party material ----------------------------------------------------
+
+# Vendored libraries, copied unchanged from npm (pnpm vendor); each keeps its LICENSE.
+[[annotations]]
+path = "vendor/three/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2010-2026 three.js authors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "vendor/roboto-flex/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2017 The Roboto Flex Project Authors"
+SPDX-License-Identifier = "OFL-1.1"
+
+[[annotations]]
+path = "vendor/material-symbols/**"
+precedence = "override"
+SPDX-FileCopyrightText = "Google LLC"
+SPDX-License-Identifier = "Apache-2.0"
+
+# The model's fonts: subsets of Noto Sans SC, Noto Serif SC and Arimo (model/assets/fonts/).
+[[annotations]]
+path = ["model/assets/fonts/NotoSansSC-*", "model/assets/fonts/NotoSerifSC-*", "model/assets/fonts/OFL.txt"]
+precedence = "override"
+SPDX-FileCopyrightText = "2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'"
+SPDX-License-Identifier = "OFL-1.1"
+
+[[annotations]]
+path = ["model/assets/fonts/Arimo-*"]
+precedence = "override"
+SPDX-FileCopyrightText = "The Arimo Project Authors (https://github.com/googlefonts/arimo)"
+SPDX-License-Identifier = "OFL-1.1"
+
+# The ROMs: not under the repository's licence (design/decisions.md, D2); roms/NOTICE says
+# whose they are and offers to remove them.
+[[annotations]]
+path = "roms/*.bin"
+precedence = "override"
+SPDX-FileCopyrightText = "The CEC-I joint design group and the machine's makers; parts Apple Computer, Microsoft and MIT"
+SPDX-License-Identifier = "LicenseRef-HistoricalROM"
+
+# A sample of Tom Harte's SingleStepTests for the 6502 (MIT).
+[[annotations]]
+path = "tests/data/harte6502-sample.json"
+precedence = "override"
+SPDX-FileCopyrightText = "2024 Thomas Harte et al"
+SPDX-License-Identifier = "MIT"
