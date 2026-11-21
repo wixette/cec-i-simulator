@@ -3,7 +3,8 @@
 // The helper strip (docs/ui-design.md, U4): the controls that are hard to reach on the machine
 // itself, as large buttons in one strip at the stage's foot, centred, in 2D and in 3D: the
 // computer's power switch (a rocker on its left side), Ctrl-Reset (two keys at once, at the
-// keyboard's two ends), and the TV's power button. They are not parts of the machine, so they
+// keyboard's two ends), the TV's power button, and the joystick plugged in or out
+// (design/v0.0.3.md, P2). They are not parts of the machine, so they
 // speak in the instrument's voice (P5). Each is the same operation as the control on the
 // machine (P2), and one that cannot act now is greyed and still answers, saying why (P6). A tab
 // on the strip's top edge folds it away, and the choice is remembered. As the TRS-80
@@ -37,9 +38,10 @@ export class HelperStrip {
     this.powerBtn = button("power_settings_new", t("strip.computer"), t("strip.computer.tip"), () => s.power(!s.machine.powered));
     this.resetBtn = button("restart_alt", t("strip.reset"), t("strip.reset.tip"), () => s.ctrlReset());
     this.tvBtn = button("tv", t("strip.tv"), t("strip.tv.tip"), () => s.tvPower(!s.tv.on));
+    this.joyBtn = button("joystick", t("strip.joystick"), t("strip.joystick.tip"), () => s.setJoystick(!s.joystick.on));
     this.body = el("div", { class: "strip-body", id: "strip-body", role: "group", "aria-label": t("strip.label") }, [
       el("div", { class: "strip-group" }, [this.powerBtn, this.resetBtn]),
-      el("div", { class: "strip-group" }, [this.tvBtn]),
+      el("div", { class: "strip-group" }, [this.tvBtn, this.joyBtn]),
     ]);
     this.tab = el("button", { class: "strip-tab", type: "button", "aria-controls": "strip-body" }, [icon("keyboard_arrow_down")]);
     this.tab.addEventListener("click", () => this.setFolded(!this.folded));
@@ -76,7 +78,7 @@ export class HelperStrip {
   /** The buttons' states: called each frame, and does the work only on a change. */
   refresh() {
     const s = this.system;
-    const key = `${s.machine.powered}${s.tv.on}`;
+    const key = `${s.machine.powered}${s.tv.on}${s.joystick.on}`;
     if (key === this.shownKey) return;
     this.shownKey = key;
     this.powerBtn.classList.toggle("lit", s.machine.powered);
@@ -84,5 +86,7 @@ export class HelperStrip {
     this.tvBtn.classList.toggle("lit", s.tv.on);
     this.tvBtn.setAttribute("aria-pressed", String(s.tv.on));
     this.resetBtn.setAttribute("aria-disabled", String(!s.machine.powered));
+    this.joyBtn.classList.toggle("lit", s.joystick.on);
+    this.joyBtn.setAttribute("aria-pressed", String(s.joystick.on));
   }
 }

@@ -12,6 +12,7 @@ import { Flat } from "../flat/flat.js";
 import { Machine3D } from "../scene/machine3d.js";
 import { Viewer } from "../scene/viewer.js";
 import { hostKeyId } from "../sim/host-keys.js";
+import { joystickKey } from "../sim/joystick.js";
 import { loadRoms, ROM_FILES } from "../sim/roms.js";
 import { Speaker } from "../sim/sound.js";
 import { System } from "../sim/system.js";
@@ -27,6 +28,7 @@ import { CpuTool } from "./tools/cpu.js";
 import { HanziTool } from "./tools/hanzi.js";
 import { KeyboardTool } from "./tools/keyboard.js";
 import { ScreenTool } from "./tools/screen.js";
+import { JoyPad } from "./joypad.js";
 import { HelperStrip } from "./strip.js";
 import { TopBar } from "./topbar.js";
 
@@ -176,6 +178,7 @@ dock.start();
 
 // ---- the helper strip (U4) and the top bar (U8) -----------------------------------------------------
 const strip = new HelperStrip($("helper-strip"), system);
+const joypad = new JoyPad($("helper-strip"), system);
 /** The case as found or as new, in 3D and in 2D. @param {boolean} found */
 const setFinish = (found) => {
   const c = machineParams.colours;
@@ -238,12 +241,41 @@ function capsLock(e) {
 }
 /** The machine's key each of the visitor's keys put down, by KeyboardEvent.code: its keyup lets that one go, with Alt or without. @type {Map<string, string>} */
 const hostDown = new Map();
+/** What each of the visitor's keys does to the joystick while it is held, by KeyboardEvent.code. @type {Map<string, NonNullable<ReturnType<typeof joystickKey>>>} */
+const stickDown = new Map();
+/**
+ * The joystick's share of a key (design/v0.0.3.md, P2): an arrow moves the stick and is the
+ * machine's no more; Space and Ctrl press a button and go on to the machine.
+ * @param {KeyboardEvent} e @param {boolean} down
+ * @returns {boolean} whether the key is the joystick's alone
+ */
+function joystickTakes(e, down) {
+  const js = system.joystick;
+  if (down) {
+    if (!js.on || e.altKey || e.metaKey) return false;
+    const role = joystickKey(e.code);
+    if (!role) return false;
+    if (!e.repeat && !stickDown.has(e.code)) {
+      stickDown.set(e.code, role);
+      if ("stick" in role) js.push(role.stick, true);
+      else js.button(role.button, true);
+    }
+    return "stick" in role;
+  }
+  const role = stickDown.get(e.code);
+  if (!role) return false;
+  stickDown.delete(e.code);
+  if ("stick" in role) js.push(role.stick, false);
+  else js.button(role.button, false);
+  return "stick" in role;
+}
 addEventListener("keydown", (e) => {
   speaker.unlock();
   if (forThePage(e)) {
     if (viewer && document.activeElement === viewer.canvas && e.key === "Home") stage.home();
     return;
   }
+  if (joystickTakes(e, true)) return void e.preventDefault();
   system.holds.sync(e);
   const id = hostKeyId(e);
   if (!id) return;
@@ -254,6 +286,7 @@ addEventListener("keydown", (e) => {
   system.keyDown(id, "key");
 });
 addEventListener("keyup", (e) => {
+  if (joystickTakes(e, false)) return;
   system.holds.sync(e);
   if (e.code === "CapsLock") return void capsLock(e);
   const id = hostDown.get(e.code);
@@ -263,6 +296,7 @@ addEventListener("keyup", (e) => {
 });
 addEventListener("blur", () => {
   hostDown.clear();
+  stickDown.clear();
   system.releaseKeys();
 });
 if (viewer) {
@@ -348,6 +382,7 @@ function frame() {
   if (dock.shows("hanzi")) hanziTool.tick(dt);
   stage.refresh();
   strip.refresh();
+  joypad.refresh();
 }
 requestAnimationFrame(frame);
 
