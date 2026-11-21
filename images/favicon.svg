@@ -1,24 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
-  <!-- The simulator's mark: a television showing 中 in dots, over the one-box computer with its keyboard, drawn plain. Our own drawing, not the machine's or a maker's logo. -->
-  <rect x="8" y="3" width="48" height="37" rx="5" fill="#2c2d30"/>
-  <rect x="11.5" y="6.5" width="33" height="30" rx="5" fill="#16231f"/>
-  <g fill="#eef3d6">
-    <rect x="26" y="10" width="4" height="23"/>
-    <rect x="17" y="15" width="22" height="3.2"/>
-    <rect x="17" y="15" width="3.2" height="11"/>
-    <rect x="35.8" y="15" width="3.2" height="11"/>
-    <rect x="17" y="22.8" width="22" height="3.2"/>
-  </g>
-  <circle cx="50.5" cy="13" r="2.6" fill="#0c0c0d"/>
-  <circle cx="50.5" cy="21" r="2.6" fill="#0c0c0d"/>
-  <rect x="49.6" y="27" width="1.8" height="7" rx="0.6" fill="#c9cacd"/>
-  <circle cx="53.3" cy="28.2" r="0.9" fill="#ff3b2e"/>
-  <path d="M3 61 L7 47 Q8 44 11 44 H53 Q56 44 57 47 L61 61 Z" fill="#dfdacc"/>
-  <path d="M10 58 L12.5 49 H45 L47.5 58 Z" fill="#2b2c2e"/>
-  <g fill="#c9bdab">
-    <rect x="14" y="50.3" width="3.4" height="2.2" rx="0.5"/><rect x="18.6" y="50.3" width="3.4" height="2.2" rx="0.5"/><rect x="23.2" y="50.3" width="3.4" height="2.2" rx="0.5"/><rect x="27.8" y="50.3" width="3.4" height="2.2" rx="0.5"/><rect x="32.4" y="50.3" width="3.4" height="2.2" rx="0.5"/><rect x="37" y="50.3" width="3.4" height="2.2" rx="0.5"/><rect x="41.4" y="50.3" width="2.4" height="2.2" rx="0.5"/>
-    <rect x="13.2" y="53.6" width="3.4" height="2.2" rx="0.5"/><rect x="17.8" y="53.6" width="22" height="2.2" rx="0.5"/><rect x="41" y="53.6" width="3.4" height="2.2" rx="0.5"/>
-  </g>
-  <path d="M51.5 48.2 L55.5 52.2 L51.5 56.2 L47.5 52.2 Z" fill="#c9bdab"/>
+  <!-- The simulator's mark: the CEC-I from above, drawn low poly and simplified, to read at 16 px: the case, the raised back with its grille and slot, the keys in their dark well, the nameplate, the arrow keys' panel. Our own drawing, not the machine's or a maker's logo. -->
+  <polygon points="6,9 58,9 61,12 61,52 58,55 6,55 3,52 3,12" fill="#aaa497"/>
+  <polygon points="6,9 58,9 61,12 59.4,12.6 6.6,10.6 4.6,12.6 3,12" fill="#bfb9ac"/>
+  <polygon points="6.6,10.6 57.4,10.6 59.4,12.6 59.4,51.2 57.2,53 6.6,53 4.6,51.2 4.6,12.6" fill="#d6d1c4"/>
+  <polygon points="5.6,11.4 58.4,11.4 58.4,19.2 5.6,19.2" fill="#ddd8cc"/>
+  <polygon points="5.6,19.2 58.4,19.2 57.4,21.6 6.6,21.6" fill="#b8b2a5"/>
+  <rect x="8.5" y="12.2" width="1.4" height="5.4" fill="#8f897d"/>
+  <rect x="11.5" y="12.2" width="1.4" height="5.4" fill="#8f897d"/>
+  <rect x="14.5" y="12.2" width="1.4" height="5.4" fill="#8f897d"/>
+  <rect x="17.5" y="12.2" width="1.4" height="5.4" fill="#8f897d"/>
+  <rect x="38" y="13.2" width="16" height="3.6" rx="0.6" fill="#c6c0b3"/>
+  <rect x="36" y="24.2" width="12" height="3.4" rx="0.4" fill="#2456b8"/>
+  <polygon points="6.8,30 46.2,30 46.2,47.2 38.5,47.2 38.5,51.2 14.2,51.2 14.2,47.2 6.8,47.2" fill="#2b2c2e"/>
+  <rect x="8.6" y="32" width="35.8" height="2.6" rx="0.4" fill="#c4b8a6"/>
+  <rect x="8.6" y="37.4" width="35.8" height="2.6" rx="0.4" fill="#c4b8a6"/>
+  <rect x="8.6" y="42.8" width="35.8" height="2.6" rx="0.4" fill="#c4b8a6"/>
+  <rect x="16.4" y="47.9" width="20.4" height="2.2" rx="0.4" fill="#c4b8a6"/>
+  <rect x="45.8" y="32.6" width="14.8" height="14.8" rx="1.2" fill="#c9c3b6"/>
+  <polygon points="46.6,33.8 59.8,33.8 53.2,39.77" fill="#ddd4c3"/>
+  <polygon points="59.4,33.4 59.4,46.6 53.43,40" fill="#c3b7a4"/>
+  <polygon points="59.8,46.2 46.6,46.2 53.2,40.23" fill="#ab9f8c"/>
+  <polygon points="47,46.6 47,33.4 52.97,40" fill="#cfc5b3"/>
 </svg>
