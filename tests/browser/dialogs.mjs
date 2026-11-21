@@ -18,11 +18,11 @@ export default async function (h) {
   h.verify("Display ▸ A green monitor: the picture in green", (await h.js("cec.video.display")) === "green");
   await h.open({ keep: true });
   h.verify("the set is remembered", (await h.js("cec.video.display")) === "green");
-  h.verify("the case is as found (yellowed) at first", await h.js("app.model()?.finishMats.some(([m, , old]) => m.color.equals(old))"));
-  await h.choose("#display", "As new");
-  h.verify("As new is said", /off-white/.test(await h.status()), await h.status());
+  h.verify("the case is as new at first", await h.js("app.model()?.finishMats.every(([m, nu]) => m.color.equals(nu))"));
   await h.choose("#display", "As found");
   h.verify("As found is said", /yellowed/.test(await h.status()), await h.status());
+  await h.choose("#display", "As new");
+  h.verify("As new is said", /off-white/.test(await h.status()), await h.status());
   await h.press("#dock-fold");
   h.verify("the dock folds", await h.js("app.dock.folded"));
   await h.press("#tab-start");

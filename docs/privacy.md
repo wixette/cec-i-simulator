@@ -16,6 +16,6 @@ The simulator runs entirely in your browser. It has no server of its own beyond 
 | `ceci.strip` | the helper strip folded or not |
 | `ceci.drawer` | the 2D view's keyboard drawer open or closed |
 | `ceci.display` | the set the computer is plugged into (colour TV, black-and-white TV, green monitor) |
-| `ceci.finish` | the case as found (the default) or as new |
+| `ceci.finish` | the case as new (the default) or as found |
 
 Nothing else: the machine's memory is not kept, and is gone when the page closes (design/decisions.md, D10). Clearing this site's data in your browser forgets all of it. In a private window, or with site data blocked, nothing is kept and the page works the same.

@@ -87,8 +87,8 @@ export class TopBar {
   constructor(system, o) {
     this.system = system;
     this.o = o;
-    /** The case as found (yellowed, as the machine looks today: the default), or as new. */
-    this.found = load(FINISH_STORE) !== "new";
+    /** The case as new (the default), or as found (yellowed, as the machine looks today: left for the visitor to find in Display). */
+    this.found = load(FINISH_STORE) === "found";
     const programs = /** @type {HTMLButtonElement} */ (document.getElementById("programs"));
     const display = /** @type {HTMLButtonElement} */ (document.getElementById("display"));
     const about = /** @type {HTMLButtonElement} */ (document.getElementById("about"));

@@ -11,6 +11,7 @@ Instruments that show how it works ([design/v0.0.2.md](design/v0.0.2.md)): four 
 - **Inside** lights the chips as they work: the 6502, the RAM, U7, U35, the font ROMs, the latch U32, the character ROM.
 - A new logo and favicon: the CEC-I from the front, in flat shapes.
 - Display ▸ Reset the knobs puts brightness and colour back where they start. A double-click brings the TV (the Screen view) or the computer (the Keyboard view) close.
+- The case as new by default again; as found today (yellowed) is left in Display for the visitor to find.
 - Fewer labels in the way: none between the keys, and a part a click does nothing to waits a second before saying what it is. The 3D key light no longer shows in the TV's glass.
 
 ## v0.0.1 (pre-release)
