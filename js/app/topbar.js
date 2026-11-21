@@ -13,6 +13,7 @@
 
 import { locale, t } from "../l10n/l10n.js";
 import { LOCALE_NAMES, LOCALE_SHORT, LOCALE_STORE, LOCALES } from "../l10n/locales.js";
+import { listing, SAMPLES, SECTIONS } from "../sim/samples.js";
 import { el, icon, setTip, showDialog, showMenu } from "../ui/components.js";
 
 /** @typedef {import("../sim/system.js").System} System */
@@ -24,6 +25,8 @@ const DISPLAY_STORE = "ceci.display";
 const FINISH_STORE = "ceci.finish";
 /** The sets, in the menu's order. @type {Display[]} */
 const DISPLAYS = ["colour", "bw", "green"];
+/** Each of our programs' sections' icon in Programs. @type {Record<import("../sim/samples.js").Section, import("../ui/components.js").IconName>} */
+const SECTION_ICONS = { learn: "school", chinese: "translate", games: "sports_esports", utilities: "construction", music: "music_note", logo: "draw" };
 
 /** Whether site data can be kept: if not, a language chosen goes in the address. */
 const remembered = () => {
@@ -163,8 +166,16 @@ export class TopBar {
     const s = this.system;
     const off = s.machine.powered ? undefined : t("bar.switchOnFirst");
     const program = s.listing();
+    /** @type {import("../ui/components.js").MenuItem[]} */
+    const ours = [];
+    // a submenu for each section of our programs, then the visitor's own text and files
+    for (const sec of SECTIONS) {
+      const list = SAMPLES.filter((sm) => sm.section === sec).map((sm) => ({ label: t(`sample.${sm.id}.title`), run: () => this.program(sm) }));
+      if (list.length) ours.push({ label: t(`programs.${sec}`), icon: SECTION_ICONS[sec], items: list });
+    }
     return [
-      { label: t("programs.typein"), icon: "content_paste", disabled: off, run: () => this.typeInDialog() },
+      ...ours,
+      { label: t("programs.typein"), icon: "content_paste", divider: ours.length ? true : undefined, disabled: off, run: () => this.typeInDialog() },
       { label: t("programs.open"), icon: "upload_file", disabled: off, run: () => (s.machine.powered ? this.file.click() : s.say({ key: "type.off" })) },
       { label: t("programs.save"), icon: "download", divider: true, disabled: off ?? (program ? undefined : t("programs.save.none")), run: () => this.save() },
     ];
@@ -205,6 +216,29 @@ export class TopBar {
       });
     }
     return items;
+  }
+
+  /** Opens one of our programs' dialogs, as Programs does (a lesson's step). @param {string} id */
+  openProgram(id) {
+    const sm = SAMPLES.find((x) => x.id === id);
+    if (sm) this.program(sm);
+  }
+
+  /**
+   * One of our programs (design/v0.0.3.md, P1): what it does, the mode it runs in, its listing,
+   * and Type it in, which gets the machine to that mode and types it on the keys.
+   * @private @param {import("../sim/samples.js").Sample} sm
+   */
+  program(sm) {
+    const s = this.system;
+    const title = t(`sample.${sm.id}.title`);
+    const body = [
+      el("p", { class: "dialog-text", text: t(`sample.${sm.id}.about`) }),
+      el("p", { class: "dialog-text dim", text: t(`program.mode.${sm.mode}`) }),
+      el("pre", { class: "program-listing", text: listing(sm) }),
+    ];
+    const off = s.machine.powered ? undefined : t("bar.switchOnFirst");
+    showDialog(title, body, [{ label: t("typein.cancel") }, { label: t("program.type"), primary: true, icon: "keyboard", disabled: off, run: () => void s.typeProgram(sm, title) }], { wide: true });
   }
 
   /**

@@ -146,7 +146,11 @@ export class Typist {
   /** @param {import("./machine.js").Machine} m */
   constructor(m) {
     this.m = m;
-    /** Codes to type, or a pause of that many cycles ({ wait }). @type {(number | { wait: number })[]} */
+    /**
+     * Codes to type, a pause of that many cycles ({ wait }), Ctrl-Reset ({ reset }), or a
+     * question asked of the machine when reached, whose answer is typed next ({ then }).
+     * @type {(number | { wait: number } | { reset: true } | { then: (m: import("./machine.js").Machine) => string })[]}
+     */
     this.queue = [];
     /** @private cycle of the last key */
     this.last = -1e12;
@@ -158,13 +162,15 @@ export class Typist {
 
   /**
    * Text to type: \n is Return; {name} a key by its code's name (CODES); {wait:s} a pause of s
-   * seconds, for a mode change to finish. Other characters as their 7-bit codes.
+   * seconds, for a mode change to finish; {reset} Ctrl-Reset (the RESET line, low and high
+   * again: whatever runs stops, and BASIC's prompt comes back). Other characters as their 7-bit codes.
    * @param {string} text
    */
   type(text) {
     for (const part of text.split(/(\{[a-z0-9]+(?::[0-9.]+)?\})/)) {
       const named = /^\{([a-z0-9]+)(?::([0-9.]+))?\}$/.exec(part);
       if (named && named[1] === "wait") this.queue.push({ wait: Math.round(Number(named[2] ?? 1) * CLOCK_HZ) });
+      else if (named && named[1] === "reset") this.queue.push({ reset: true });
       else if (named && named[1] in CODES) this.queue.push(CODES[named[1]]);
       else for (const ch of part.replace(/\r\n?/g, "\n").replace(/\n/g, "\r")) this.queue.push(ch.charCodeAt(0) & 0x7f);
     }
@@ -172,6 +178,11 @@ export class Typist {
 
   get busy() {
     return this.queue.length > 0;
+  }
+
+  /** Types what `then` answers when the typist reaches this point (after what is queued now). @param {(m: import("./machine.js").Machine) => string} then */
+  ask(then) {
+    this.queue.push({ then });
   }
 
   /** Forgets what is still to type. */
@@ -183,7 +194,21 @@ export class Typist {
     const m = this.m;
     const next = this.queue[0];
     if (next === undefined) return;
-    if (typeof next === "object") {
+    if (typeof next === "object" && "then" in next) {
+      this.queue.shift();
+      const rest = this.queue.splice(0);
+      this.type(next.then(m));
+      this.queue.push(...rest);
+      return;
+    }
+    if (typeof next === "object" && "reset" in next) {
+      this.queue.shift();
+      m.holdReset(true);
+      m.holdReset(false);
+      this.last = m.cycles;
+      return;
+    }
+    if (typeof next === "object" && "wait" in next) {
       if (m.cycles - this.last < next.wait) return;
       this.queue.shift();
       this.last = m.cycles;

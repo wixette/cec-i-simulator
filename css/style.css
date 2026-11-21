@@ -4,9 +4,9 @@
    status line. The page never scrolls. Every colour, corner and state is a token
    (css/theme.css, P11). */
 
-@import url("theme.css?v=0.0.2");
-@import url("fonts.css?v=0.0.2");
-@import url("flat.css?v=0.0.2");
+@import url("theme.css?v=0.0.3");
+@import url("fonts.css?v=0.0.3");
+@import url("flat.css?v=0.0.3");
 
 :root {
   font-family: var(--font);
@@ -284,7 +284,7 @@ button.region:focus-visible { outline: 2px solid var(--md-primary); outline-offs
 .switches { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 8px; }
 .switch-chip { padding: 2px 8px; border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-outline); font-family: var(--mono); font-size: 12px; }
 .switch-chip.on { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
-.page-grid { display: grid; grid-template-columns: 34px repeat(40, 22px); gap: 1px; padding: 4px; background: var(--md-well); border-radius: var(--radius-m); font-family: var(--mono); font-size: 10.5px; max-width: 100%; overflow-x: auto; }
+.page-grid { display: grid; grid-template-columns: 34px repeat(40, minmax(17px, 22px)); gap: 1px; padding: 4px; background: var(--md-well); border-radius: var(--radius-m); font-family: var(--mono); font-size: 10.5px; max-width: 100%; overflow-x: auto; }
 .page-grid .rowhead { color: var(--md-outline); text-align: right; padding-right: 4px; line-height: 16px; }
 .page-cell { height: 16px; padding: 0; border: 0; border-radius: 2px; background: var(--md-surface-high); color: var(--md-on-surface-variant); font: inherit; line-height: 16px; text-align: center; cursor: pointer; }
 .page-cell.picked { outline: 2px solid var(--md-primary); outline-offset: -1px; color: var(--md-primary-text); }
@@ -350,6 +350,7 @@ kbd { display: inline-block; min-width: 1.6em; padding: 0 6px; border: 1px solid
 
 /* ---- Type in: the text box in its dialog ---- */
 .typein-box { display: block; width: 100%; min-height: 12em; max-height: 50dvh; margin: 4px 0 0; padding: 8px 10px; border: 1px solid var(--md-outline); border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface); font-family: var(--mono); font-size: 13px; line-height: 1.45; resize: vertical; user-select: text; -webkit-user-select: text; }
+.program-listing { max-height: 40dvh; overflow: auto; margin: 6px 0 0; padding: 8px 10px; border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface-variant); font-family: var(--mono); font-size: 12px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; user-select: text; -webkit-user-select: text; }
 .typein-box:focus { outline: 2px solid var(--md-primary); outline-offset: -1px; }
 .typein-faster { margin: 10px 0 0 -4px; }
 .dialog.wide { width: min(640px, calc(100vw - 24px)); }

@@ -8,7 +8,7 @@ This document holds the principles the simulator's page is laid out by, and the 
 
 The machine's own decisions (D1, D2, …) are in [../design/decisions.md](../design/decisions.md).
 
-**Status:** as built for v0.0.2 (first written for v0.0.1).
+**Status:** as built for v0.0.3 (first written for v0.0.1).
 
 ## Part 1. Principles
 
@@ -90,7 +90,7 @@ Every control takes its colours, corners, type and states from one set of design
 ```
 ┌ [logo] CEC-I Simulator   [▤ Programs ▾]                                [🔊] [文A 简 ▾] [ⓘ] ┐  top bar
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                         [▭ Display ▾] [Keyboard] [⌂] [− +] [Front ▾]  [2D | 3D]           │  stage band
+│                         [Keyboard] [⌂] [− +] [Front ▾] [▭ Display ▾]  [2D | 3D]           │  stage band
 │ ╭─────────────────────────────────────────────────────────────────────────────────────╮ │
 │ │            THE STAGE: the computer and its TV in 3D, or the TV and keyboard flat     │ │
 │ │                                                                  [Put it all back]  │ │
@@ -113,7 +113,7 @@ The page is a fixed frame of top bar, stage, dock and status line, and never scr
 - **3D is the default** on a first visit. After that the choice is remembered, and a link can carry it (`#view=3d`, `#view=2d`). A link's view wins over the remembered one.
 - **Going to 2D, the camera flies** to the TV's screen, then the flat view cross-fades in. Going back, it fades out and the camera flies back. With `prefers-reduced-motion`, both are a cut. A double-click on the TV's screen in 3D goes to 2D.
 - **Under 2D the 3D scene stops rendering.** The machine keeps running.
-- **The band** holds **Display** (U8) and the 2D | 3D toggle in both views, the 3D view's own tools (⌂, zoom, Views) in 3D, and the Keyboard drawer's toggle in 2D: everything that changes what is seen. The helper strip is under the stage in both.
+- **The band** holds, from the left, the 3D view's own tools (⌂ first, zoom, Views) in 3D or the Keyboard drawer's toggle in 2D, then **Display** (U8) and the 2D | 3D toggle in both views, Display beside the toggle so that it keeps its place in either: everything that changes what is seen. The helper strip is under the stage in both.
 
 ### U2. The 3D views
 
@@ -144,9 +144,9 @@ A strip of its own, centred at the stage's foot, just above the dock: *Computer*
 
 The instruments first (U12): the CPU, the two of the picture (Screen, Chinese), the keyboard; then the reading: **Start** (the default on a first visit): what the machine is, a first few minutes, the machine's keys on the visitor's, and how Chinese goes in; **References:** further reading first, then what the simulator is built on and its source, and last, folded, what it simplifies. The lessons (v0.0.4) will join the reading. The dock remembers its tab, its height and whether it is folded; what the machine does never switches its tab.
 
-### U7. Type in, Open, Save
+### U7. Programs
 
-**Programs** in the top bar holds three items (D8):
+**Programs** in the top bar holds our own programs first (*(v0.0.3)* design/v0.0.3.md, P1), a submenu for each section: Learn, Chinese, Games, Utilities, Music, LOGO. A program's dialog says what it does and the mode it runs in (Western BASIC, the Chinese system, LOGO), shows its listing, and *Type it in* types it on the machine's keys from whatever the machine is doing (D14), and runs it. Then, under a line, the visitor's own (D8):
 - **Type in…** opens a dialog with a text box: what is written or pasted there is typed on the machine's keys when *Type it in* is pressed.
 - **Open a BASIC file…** types a text file (UTF-8, or GB 2312/GBK) in, after `NEW`.
 - **Save the program as a file** hands over the BASIC program in memory as `program.bas`; greyed, with why, when there is none.
