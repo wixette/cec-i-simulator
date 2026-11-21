@@ -395,4 +395,6 @@ export default {
   "sample.kaleidoscope.about": "LOGO draws random shapes, each eight times round the centre, in colour, a new picture every few seconds. The machine's LOGO keeps colour off; one .DEPOSIT to the $C0B0 latch lets it through.",
   "sample.idioms.title": "Idiom quiz",
   "sample.idioms.about": "Ten idioms, each with a character missing: choose it from three. In the Chinese system, its text in Chinese.",
+  "sample.wordproc.title": "Word processor",
+  "sample.wordproc.about": "A whole-screen Chinese editor with as little as it needs, in the manner of WordStar and WPS: the arrows go anywhere; F3 and four digits type a character by its 区位 code, F1 goes back to letters; F2 deletes; Return starts a new line; Quit ends. All in machine code: it draws every character itself, 16 × 16 dots from the font. Nothing is saved yet: the cassette recorder comes later.",
 };

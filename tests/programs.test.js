@@ -7,7 +7,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { planTyping } from "../js/sim/chinese.js";
-import { glyphPlace } from "../js/sim/glyphs.js";
+import { findOnScreen, glyphPlace } from "../js/sim/glyphs.js";
 import { CLOCK_HZ } from "../js/sim/machine.js";
 import { listing, machineCode, SAMPLES, SECTIONS, typingPlan } from "../js/sim/samples.js";
 import { System } from "../js/sim/system.js";
@@ -345,5 +345,46 @@ describe("our programs: Chinese", () => {
     for (let i = 0; i < 50 && line(p.m) !== 250; i++) p.run(0.1);
     assert.equal(basicVar(p.m, "S"), 10);
     assert.equal(line(p.m), 250, "asks to play again");
+  });
+  it("Word processor: letters full width, Chinese by 区位, new lines; editing in the middle; a long text wraps and scrolls", () => {
+    const p = typed("wordproc");
+    assert.ok(p.s.chineseOn);
+    for (let i = 0; i < 100 && line(p.m) !== 90; i++) p.run(0.1);
+    p.keys(" ");
+    p.run(1);
+    const word = (/** @type {number} */ a) => p.m.ram[a] | (p.m.ram[a + 1] << 8);
+    const text = () => {
+      /** @type {string[]} */
+      const out = [];
+      for (let a = 0x7000; a < word(0x6c04); a += 2) out.push(p.m.ram[a] === 0 ? "\n" : p.m.ram[a] === 3 ? String.fromCharCode(p.m.ram[a + 1] + 32) : p.m.ram[a] === 1 && p.m.ram[a + 1] === 1 ? " " : `[${p.m.ram[a]}-${p.m.ram[a + 1]}]`);
+      return out.join("");
+    };
+    p.keys("HELLO, CEC-I{f3}54482710{f1}\nOK");
+    p.run(1);
+    assert.equal(text(), "HELLO, CEC-I[54-48][27-10]\nOK");
+    assert.equal(word(0x6c06), 16, "16 characters, the new line not counted");
+    // 中 on the screen: the first line's 13th cell, as the font has it
+    const place = glyphPlace(4721);
+    const zhong = [...p.m.font.subarray(place.bank * 0x4000 + place.window - 0x4000, place.bank * 0x4000 + place.window - 0x4000 + 32)];
+    const at = findOnScreen(p.m.ram, 2, zhong);
+    assert.deepEqual(at && [at.x, at.y], [12 * 16, 0]);
+    // three to the left, delete, a letter in its place
+    p.keys("{left}{left}{left}{f2}X");
+    p.run(1);
+    assert.equal(text(), "HELLO, CEC-I[54-48]X\nOK");
+    // down to the second line's end (column 2), up to the first line's column 2, Return splits it there
+    p.keys("{down}{up}\n");
+    p.run(1);
+    assert.equal(text(), "HE\nLLO, CEC-I[54-48]X\nOK");
+    // a long text before OK: lines of 17 wrap, and the screen scrolls to keep the cursor on it
+    p.keys("{down}{down}" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".repeat(8));
+    p.run(2);
+    assert.equal(text(), `HE\nLLO, CEC-I[54-48]X\n${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".repeat(8)}OK`);
+    assert.ok(word(0x6c02) > 0x7000, "the top of the screen moved down the text");
+    assert.equal(word(0x6c00), word(0x6c04) - 4, "the cursor before OK");
+    assert.ok(p.m.ram[0x6c2a] < 10, "the cursor on the screen");
+    p.keys("\x03");
+    for (let i = 0; i < 30 && line(p.m) !== 100; i++) p.run(0.1);
+    assert.equal(line(p.m), 100, "Quit: back to BASIC, which asks to edit again");
   });
 });

@@ -66,7 +66,8 @@ export function listing(s) {
  * What the typist types for a sample (design/v0.0.3.md, P1), as an owner did, from whatever the
  * machine is doing: Ctrl-Reset, which stops whatever runs and brings BASIC's prompt back, or,
  * from LOGO, the monitor's (then Ctrl-B, BASIC started afresh); then the sample's mode (中文
- * for the Chinese system, LG for LOGO), NEW, the listing, and what starts it. The answer to the
+ * for the Chinese system, after the lines without Chinese; LG for LOGO), NEW, the listing, and
+ * what starts it. The answer to the
  * monitor's question is asked of the machine when the typist reaches it.
  * @param {Sample} s
  * @returns {{ before: string, monitor: (screen: string[]) => string, after: string }}
@@ -78,9 +79,14 @@ export function typingPlan(s) {
   let after;
   // LOGO: TO opens its editor; Ctrl-C defines all that was typed in it
   if (s.mode === "logo") after = `LG\n{wait:${LOGO_START_S}}${body}\n\x03{wait:2}${s.run ?? ""}`;
-  else {
-    const text = `NEW\n${body}\n${s.run ?? "RUN\n"}`;
-    after = s.mode === "chinese" ? `{zhongwen}{wait:${CHINESE_START_S}}${planTyping(text).keys}` : planTyping(text).keys;
-  }
+  else if (s.mode === "chinese") {
+    // the lines without Chinese typed in Western BASIC, which takes them faster (the Chinese
+    // system draws each key it echoes on its hi-res screen); then 中文, which keeps the
+    // program, and the lines with Chinese, through 区位
+    const lines = body.split("\n");
+    const western = lines.filter((l) => !planTyping(l).chinese);
+    const chinese = lines.filter((l) => planTyping(l).chinese);
+    after = `${planTyping(`NEW\n${western.join("\n")}\n`).keys}{zhongwen}{wait:${CHINESE_START_S}}${planTyping(`${chinese.join("\n")}\n${s.run ?? "RUN\n"}`).keys}`;
+  } else after = planTyping(`NEW\n${body}\n${s.run ?? "RUN\n"}`).keys;
   return { before, monitor, after };
 }

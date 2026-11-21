@@ -394,4 +394,6 @@ export default {
   "sample.kaleidoscope.about": "LOGO 随机画出各种图形，每个都绕中心重复八次，彩色的，每隔几秒换一幅新图。学习机的 LOGO 本来关闭了彩色；向 $C0B0 锁存器 .DEPOSIT 一个字节，就能让彩色显示出来。",
   "sample.idioms.title": "成语填空",
   "sample.idioms.about": "十个成语，每个缺一个字，从三个字里选出它来。在汉字系统中运行，界面是中文的。",
+  "sample.wordproc.title": "文字处理",
+  "sample.wordproc.about": "一个功能最少的全屏幕中文编辑器，有点像 WordStar 和 WPS：方向键移到任何地方；F3 加四位数字按区位码输入一个字，F1 回到字母；F2 删字；Return 另起一行；Quit 结束。全部用机器码写成，每个字都由它自己从字库取出 16 × 16 点阵画上屏幕。现在还不能保存：录音机以后才有。",
 };

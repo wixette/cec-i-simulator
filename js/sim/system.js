@@ -38,6 +38,12 @@ export const BACK_S = 0.25;
 const TYPED_MS = 90;
 /** Seconds the Chinese system takes to start, after the 中文 key, before typing goes on. */
 const CHINESE_START_S = 2.5;
+/**
+ * Cycles between the keys the typist presses: a quick typist's 30 a second; our programs',
+ * which are long, 300 (the typist still waits for each key to be read before the next).
+ */
+const KEY_GAP = Math.round(CLOCK_HZ / 30);
+const PROGRAM_GAP = Math.round(CLOCK_HZ / 300);
 /** Where the TV's knobs start, and a double-click puts them back. */
 export const KNOB_START = /** @type {const} */ ({ brightness: 0.5, colour: 0.75 });
 
@@ -286,6 +292,7 @@ export class System {
       this.say({ key: "type.off" });
       return false;
     }
+    if (!this.typist.busy) this.typist.gap = KEY_GAP;
     this.typist.type(keys);
     return true;
   }
@@ -317,6 +324,7 @@ export class System {
       return false;
     }
     let keys = (o.program ? "NEW\n" : "") + plan.keys;
+    this.typist.gap = KEY_GAP;
     if (plan.chinese && !this.chineseOn) keys = `{zhongwen}{wait:${CHINESE_START_S}}${keys}`;
     this.typist.type(keys);
     this.say({ key: plan.chinese && !this.chineseOn ? "type.chinese" : "type.typing" });
@@ -337,6 +345,7 @@ export class System {
     }
     const plan = typingPlan(sample);
     this.typist.clear();
+    this.typist.gap = PROGRAM_GAP;
     this.typist.type(plan.before);
     this.typist.ask((m) => plan.monitor(m.screenText()));
     this.typist.type(plan.after);
