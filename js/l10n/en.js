@@ -271,6 +271,7 @@ export default {
   "screen.page": "The text page in memory",
   "screen.cell": "A cell",
   "screen.hires": "A hi-res line",
+  "screen.hires.note": "The hi-res picture is 192 lines of 280 dots, 40 bytes a line, 7 dots a byte. Pick a line with the slider: its address is worked out (the lines are not in order in memory), and its 40 bytes are drawn as dots, bit 0 the left one; a byte with bit 7 set, its dots shifted half a dot, is marked.",
   "screen.line": "Which hi-res line",
   "screen.lineIs": "Line {y}",
   "screen.sw.text": "TEXT: text mode ($C051 on, $C050 off)",

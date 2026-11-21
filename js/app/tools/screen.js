@@ -56,7 +56,7 @@ export class ScreenTool {
         el("section", { class: "cpu-box tool-card" }, [el("h3", { text: t("screen.page") }), this.switches, this.shows, this.grid]),
         el("div", { class: "tool-side" }, [
           el("section", { class: "cpu-box tool-card" }, [el("h3", { text: t("screen.cell") }), this.inspector]),
-          el("section", { class: "cpu-box tool-card" }, [el("h3", { text: t("screen.hires") }), el("div", { class: "line-pick" }, [this.lineRange, this.lineLabel]), this.lineAddr, this.lineBytes]),
+          el("section", { class: "cpu-box tool-card" }, [el("h3", { text: t("screen.hires") }), el("p", { class: "tool-note dim", text: t("screen.hires.note") }), el("div", { class: "line-pick" }, [this.lineRange, this.lineLabel]), this.lineAddr, this.lineBytes]),
         ]),
       ]),
     );
