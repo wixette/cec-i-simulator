@@ -158,7 +158,8 @@ export const GAMES = [
       line: 1000,
       source: `; Mine hunt's board, in machine code: BASIC would take seconds to open a
 ; field of empty squares. 16 x 16 squares on the text screen, a character
-; each, two columns apart: . not open, a number, a blank, F a flag, * a mine.
+; each, two columns apart: - not open (a sign at the cell's middle, so that
+; the rows sit level), a number, a blank, F a flag, * a mine.
 ; Square I = 16*Y+X. BASIC lays the mines and keeps the rules; these draw
 ; the squares, count the mines round each, and open them.
 XX = $06            ; a square, from BASIC
@@ -228,7 +229,7 @@ DRAWSQ  JSR SPLIT
         BNE PUT
 NOSHOW  LDA STATE,X
         BNE NOTHID
-        LDA #'.'
+        LDA #'-'
         BNE PUT
 NOTHID  CMP #2
         BNE OPENSQ
