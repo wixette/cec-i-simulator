@@ -368,7 +368,7 @@ export default {
   "sample.versus.title": "BASIC against machine code",
   "sample.versus.about": "One picture drawn twice, side by side: the left half by BASIC, the right by machine code, with the same sums and the same PLOT routine in the ROM. Watch how long each takes.",
   "sample.snake.title": "Snake",
-  "sample.snake.about": "Steer a snake round the lo-res screen with the arrows. Coins of three colours are worth 1, 2 and 5, and every bite makes you longer; don't hit the wall or yourself.",
+  "sample.snake.about": "Steer a snake round the lo-res screen with the arrows. Coins of three colours are worth 1, 2 and 5, each bite chirps (higher for more) and makes you longer; don't hit the wall or yourself.",
   "sample.bricks.title": "Bricks",
   "sample.bricks.about": "Keep the ball up with the bat, on the arrows. A pink brick takes three hits, an orange two, a yellow one, and each changes colour as it weakens. Three balls.",
   "sample.minehunt.title": "Mine hunt",

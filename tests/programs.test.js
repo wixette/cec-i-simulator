@@ -154,6 +154,7 @@ describe("our programs: Games", () => {
   it("Snake: steered on the arrows to a coin, it eats it and grows", () => {
     const p = typed("snake");
     p.keys(" ");
+    p.m.speaker.length = 0;
     p.run(2);
     let dir = "right";
     for (let i = 0; i < 300 && !/COINS [1-9]/.test(p.screen()); i++) {
@@ -171,6 +172,7 @@ describe("our programs: Games", () => {
       p.run(0.05);
     }
     assert.match(p.screen(), /COINS [1-9]\d* +LENGTH 5/);
+    assert.ok(p.m.speaker.length > 20, "a chirp at the bite");
   });
   it("Bricks: six rows of nine, pink, orange and yellow; the bat kept under the ball scores", () => {
     const p = typed("bricks");

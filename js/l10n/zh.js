@@ -367,7 +367,7 @@ export default {
   "sample.versus.title": "BASIC 与机器码",
   "sample.versus.about": "同一幅图画两遍，左右并排：左半边由 BASIC 画，右半边由机器码画，算法相同，调用的也是 ROM 中同一个 PLOT 子程序。看看各用了多长时间。",
   "sample.snake.title": "贪吃蛇",
-  "sample.snake.about": "用方向键在低分辨率屏幕上操纵一条蛇。三种颜色的金币分别值 1、2、5，每吃一口身子就长一节；别撞墙，也别咬到自己。",
+  "sample.snake.about": "用方向键在低分辨率屏幕上操纵一条蛇。三种颜色的金币分别值 1、2、5，每吃一口都会“啾”一声（值越多声音越高），身子也长一节；别撞墙，也别咬到自己。",
   "sample.bricks.title": "打砖块",
   "sample.bricks.about": "用方向键移动球拍，别让球掉下去。粉色砖块要打三下，橙色两下，黄色一下，每挨一下就变一种颜色。一共三个球。",
   "sample.minehunt.title": "探雷",
