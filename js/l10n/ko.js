@@ -120,7 +120,6 @@ export default {
   "about.title": "정보",
   "about.version": "버전 {version}",
   "about.what": "1987년 중국의 교육용 컴퓨터 CEC-I 중화학습기(中华学习机)를 3D로 재현했습니다. 에뮬레이션한 6502에서 진짜 ROM을 실행하고, 중국어 시스템과 키보드, 그 시절의 TV까지 갖췄습니다.",
-  "about.prerelease": "프리릴리스입니다. 버전 1.0 전에 전체를 꼼꼼히 다시 살펴봅니다.",
   "about.source": "GitHub의 소스 코드",
   "about.issues": "문제 신고",
   "about.licences": "라이선스",

@@ -49,22 +49,6 @@ export function el(tag, attrs = {}, children = []) {
 }
 
 /**
- * A switch (Material 3): its track and thumb, then its label.
- * @param {string} label
- * @param {boolean} on
- * @param {(on: boolean) => void} change
- */
-export function toggle(label, on, change) {
-  const b = el("button", { class: "switch", type: "button", role: "switch", "aria-checked": String(on) }, [el("span", { class: "switch-track" }, [el("span", { class: "switch-thumb" })]), el("span", { text: label })]);
-  b.addEventListener("click", () => {
-    const now = b.getAttribute("aria-checked") !== "true";
-    b.setAttribute("aria-checked", String(now));
-    change(now);
-  });
-  return b;
-}
-
-/**
  * Replace each <i data-icon="name"> placeholder under root with its icon.
  * @param {ParentNode} root
  */
@@ -152,7 +136,7 @@ export function setTip(e, text) {
 let openMenu = null;
 
 /** Close the open menu, if any. */
-export function closeMenu() {
+function closeMenu() {
   if (!openMenu) return;
   const { box, anchor, sub } = openMenu;
   openMenu = null;

@@ -224,3 +224,23 @@ describe("LOGO and the green picture", () => {
     assert.ok(!v.greenText, "中文 is white");
   });
 });
+
+describe("the game port, nothing plugged in", () => {
+  it("the buttons read up ($C061-$C063 bit 7 clear); the paddles, triggered at $C070, time out as a paddle at 255 does (about 11 cycles a step)", () => {
+    const m = new Machine(ROMS);
+    m.powerOn();
+    for (const a of [0xc061, 0xc062, 0xc063]) assert.equal(m.read(a) & 0x80, 0, `$${a.toString(16)}`);
+    m.read(0xc070);
+    assert.equal(m.read(0xc064) & 0x80, 0x80, "timing at first");
+    m.cpu.cycles += 255 * 11 - 20;
+    assert.equal(m.read(0xc064) & 0x80, 0x80, "still timing just before 255 steps");
+    m.cpu.cycles += 40;
+    assert.equal(m.read(0xc064) & 0x80, 0, "timed out after 255 steps");
+    // what a stick plugged in would set (the port is the machine's, ready for one)
+    m.buttons[0] = true;
+    m.paddles[1] = 0;
+    m.read(0xc070);
+    assert.equal(m.read(0xc061) & 0x80, 0x80, "a button down");
+    assert.equal(m.read(0xc065) & 0x80, 0, "a paddle at 0 times out at once");
+  });
+});

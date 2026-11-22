@@ -49,12 +49,12 @@ It says what just happened, and why something is greyed. It keeps one line's hei
 
 ### P8. A link is a public contract, from 1.0.0
 
-Once released, a link field is never renamed, dropped or read differently; new fields may be added. It lives in one module with nothing of the page in it (`js/app/link.js`), and its own test pins it down (`tests/link.test.js`).
+*Frozen at 1.0.0* ([stability.md](stability.md)). Once released, a link field is never renamed, dropped or read differently; new fields may be added. It lives in one module with nothing of the page in it (`js/app/link.js`), and its own test pins it down (`tests/link.test.js`).
 
 | In the address | What | Values |
 |---|---|---|
 | `#view=` | the view the page opens in | `3d`, `2d`; anything else is ignored |
-| `?lang=` | the language (U11) | `zh`, `en`, or a tag that maps to one (`zh-CN`, `en-GB`); else the visitor's choice or the browser's, else `zh` |
+| `?lang=` | the language (U11) | one of the ten (`zh`, `en`, `zh-TW`, `ja`, `ko`, `es`, `fr`, `de`, `it`, `pt-BR`), or a tag that maps to one (`zh-CN`, `zh-HK`, `en-GB`, `pt-PT`); anything else is ignored: the visitor's choice or the browser's, else `zh` |
 
 `?debug` and `?selftest` are for development ([development.md](development.md)), not part of the contract.
 

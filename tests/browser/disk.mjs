@@ -3,7 +3,9 @@
 // The disk drive and saving (design/v0.0.5.md): a disk image of our own dropped on the page
 // is inserted, the dialog offers to start from it, and it boots (the drive on the strip,
 // always there, its lamp lit while it reads); Save the disk image is offered; Eject empties the drive; a blank
-// disk goes in without starting; Save the program asks for a name, its first REM line's.
+// disk goes in without starting; Save the program asks for a name, its first REM line's, and
+// saves under the name asked; the disk image is saved under its name; a BASIC file and a .logo
+// file dropped on the page are typed in; the sound button.
 
 import { bootDisk } from "../disks.js";
 
@@ -50,5 +52,26 @@ export default async function (h) {
   await h.typed(60000);
   await h.choose("#programs", "Save the program");
   h.verify("Save the program asks for a name: the first REM line's", await h.until("document.querySelector('dialog[open] .name-box')?.value === 'MY GAME'", 2000), await h.js("document.querySelector('dialog[open] .name-box')?.value"));
-  await h.key("Escape");
+  // saved: the file handed over is named as asked (a download, recorded here, not made)
+  await h.js(`(() => { window.saved = []; HTMLAnchorElement.prototype.click = function () { window.saved.push(this.download); }; })()`);
+  await h.js("document.querySelector('dialog[open] .name-box').value = 'my game.bas'");
+  await h.pressText("dialog[open] .dialog-actions button", "Save");
+  h.verify("… and the file is named as asked", await h.until("window.saved.includes('my game.bas')", 2000), await h.js("window.saved"));
+  // the disk image saved, under its own name
+  await h.choose("#programs", "Disk ▸ Save the disk image");
+  h.verify("Save the disk image hands over the disk under its name", await h.until("window.saved.includes('blank.dsk')", 2000), await h.js("window.saved"));
+  // a BASIC file dropped on the page is typed in; a .logo file goes into LOGO
+  const drop = (/** @type {string} */ name, /** @type {string} */ text) =>
+    h.js(`(() => { const dt = new DataTransfer(); dt.items.add(new File([${JSON.stringify(text)}], ${JSON.stringify(name)})); document.dispatchEvent(new DragEvent("drop", { dataTransfer: dt, bubbles: true, cancelable: true })); })()`);
+  await drop("hello.bas", '10 PRINT "FROM A FILE"\n');
+  await h.typed(60000);
+  h.verify("a BASIC file dropped on the page is typed in", ((await h.js("cec.listing()")) ?? "").includes("FROM A FILE"), await h.js("cec.listing()"));
+  await drop("square.logo", "TO SQUARE\nREPEAT 4 [FD 30 RT 90]\nEND\n");
+  await h.typed(120000);
+  h.verify("a .logo file dropped on the page goes into LOGO", await h.until("cec.logoRunning", 10000));
+  // the sound button turns the sound off and on, and says so
+  await h.press("#sound");
+  const off = await h.status();
+  await h.press("#sound");
+  h.verify("the sound button turns the sound off and on again, and says so", /Sound off/.test(off) && /Sound on/.test(await h.status()), [off, await h.status()]);
 }

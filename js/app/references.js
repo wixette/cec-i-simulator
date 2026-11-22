@@ -11,18 +11,15 @@ import { t } from "../l10n/l10n.js";
 import { LEGEND } from "../sim/host-keys.js";
 import { el } from "../ui/components.js";
 import { REPO } from "./about.js";
+import { parts } from "./markup.js";
 
 /**
  * A message's text, its `code` and [[keys]] as elements.
  * @param {string} text
  * @returns {(Node | string)[]}
  */
-export function rich(text) {
-  return text.split(/(`[^`]+`|\[\[[^\]]+\]\])/).filter(Boolean).map((part) => {
-    if (part.startsWith("`")) return el("code", { text: part.slice(1, -1) });
-    if (part.startsWith("[[")) return el("kbd", { text: part.slice(2, -2) });
-    return part;
-  });
+function rich(text) {
+  return parts(text).map((p) => (p.kind === "code" ? el("code", { text: p.text }) : p.kind === "key" ? el("kbd", { text: p.text }) : p.text));
 }
 
 /** @param {string} href @param {string} text */

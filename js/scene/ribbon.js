@@ -58,7 +58,7 @@ let textures = null;
  * 4 along (they repeat along it). Each wire a rounded ridge: its normal tilts across the
  * wire as on a cylinder's top, flattening into the shallow groove between two wires.
  */
-export function ribbonTextures() {
+function ribbonTextures() {
   if (textures) return textures;
   const per = 32;
   const W = WIRES * per;
@@ -97,7 +97,7 @@ export function ribbonTextures() {
 }
 
 /** @param {THREE.Vector3[]} pts */
-export function polylineLength(pts) {
+function polylineLength(pts) {
   let s = 0;
   for (let i = 1; i < pts.length; i++) s += pts[i].distanceTo(pts[i - 1]);
   return s;
@@ -110,7 +110,7 @@ export function polylineLength(pts) {
  * @param {THREE.Vector3} S @param {THREE.Vector3} dS @param {THREE.Vector3} E @param {THREE.Vector3} dE
  * @param {number} length
  */
-export function freeShape(S, dS, E, dE, length) {
+function freeShape(S, dS, E, dE, length) {
   let lo = 0;
   let hi = length;
   /** @type {THREE.Vector3[]} */

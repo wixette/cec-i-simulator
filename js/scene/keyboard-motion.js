@@ -7,9 +7,9 @@
 import * as THREE from "three";
 
 /** How far it lifts before it turns (m). */
-export const LIFT = 0.03;
+const LIFT = 0.03;
 /** The part of the motion spent lifting (the rest is the turn). */
-export const LIFT_PART = 0.25;
+const LIFT_PART = 0.25;
 
 export class KeyboardMotion {
   /**

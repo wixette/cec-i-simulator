@@ -19,6 +19,7 @@ import { LOCALE_NAMES, LOCALE_SHORT, LOCALE_STORE, LOCALES } from "../l10n/local
 import { blankDisk, readDisk, writeDisk } from "../sim/disk-image.js";
 import { listing, SAMPLES, SECTIONS } from "../sim/samples.js";
 import { el, icon, setTip, showDialog, showMenu } from "../ui/components.js";
+import { decodeText, fileName, programName } from "./files.js";
 
 /** @typedef {import("../sim/system.js").System} System */
 /** @typedef {import("../sim/video.js").Display} Display */
@@ -70,34 +71,6 @@ function download(data, name) {
   a.download = name;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-}
-
-/**
- * A program's name for its file: its first REM line's words, else PROGRAM; what a file's name
- * cannot hold taken out.
- * @param {string} text the listing
- */
-export function programName(text) {
-  const rem = /^\d+\s*REM\s*(.+)$/m.exec(text)?.[1] ?? "";
-  const name = rem.replace(/[\\/:*?"<>|\x00-\x1f]/g, "").replace(/\s+/g, " ").trim().slice(0, 40);
-  return name || "PROGRAM";
-}
-
-/**
- * A text file's bytes as text: UTF-8, else GB18030 (GBK and GB2312 files, common for Chinese
- * listings), else null.
- * @param {Uint8Array} bytes
- * @returns {string | null}
- */
-export function decodeText(bytes) {
-  for (const enc of ["utf-8", "gb18030"]) {
-    try {
-      return new TextDecoder(enc, { fatal: true }).decode(bytes).replace(/^﻿/, "");
-    } catch {
-      // the next
-    }
-  }
-  return null;
 }
 
 export class TopBar {
@@ -388,7 +361,7 @@ export class TopBar {
     const s = this.system;
     const box = /** @type {HTMLInputElement} */ (el("input", { class: "name-box", type: "text", value: suggested, "aria-label": t("save.name"), spellcheck: "false" }));
     const go = () => {
-      const name = box.value.replace(/[\\/:*?"<>|\x00-\x1f]/g, "").trim().replace(new RegExp(`\\.${ext}$`, "i"), "") || "PROGRAM";
+      const name = fileName(box.value.replace(new RegExp(`\\.${ext}\\s*$`, "i"), ""));
       download(text, `${name}.${ext}`);
       s.say({ key: "save.done", params: { name: `${name}.${ext}`, lines: text.split("\n").length - 1 } });
     };

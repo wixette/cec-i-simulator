@@ -121,7 +121,6 @@ export default {
   "about.title": "关于",
   "about.version": "版本 {version}",
   "about.what": "在浏览器里 3D 再现 1987 年的 CEC-I 中华学习机：模拟的 6502 处理器运行它自己的 ROM，汉字系统、键盘和一台那个年代的电视机一应俱全。",
-  "about.prerelease": "这是预发布版：1.0 版之前还会全面检查一遍。",
   "about.source": "GitHub 上的源代码",
   "about.issues": "报告问题",
   "about.licences": "许可证",

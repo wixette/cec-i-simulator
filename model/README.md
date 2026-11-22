@@ -5,9 +5,9 @@
 | File | What |
 |---|---|
 | `params/machine.json` | every dimension and angle, in mm and degrees, each with its source (`src`) and how it is known (`conf`: measured, from a photograph, estimated, or our design) |
-| `params/keyboard.json` | the 69 keys' places and shapes, generated from `machine.json` by `tools/make_keyboard.py` |
-| `params/keyboard_matrix.json` | each key's place in the keyboard matrix, read from the keyboard ROM U26 by `tools/make_matrix.py` |
-| `params/board.json` | the main board's parts, read off its photograph by `tools/make_board.py` |
+| `params/keyboard.json` | the 69 keys' places and shapes, generated from `machine.json` by `model/tools/make_keyboard.py` |
+| `params/keyboard_matrix.json` | each key's place in the keyboard matrix, read from the keyboard ROM U26 by `model/tools/make_matrix.py` |
+| `params/board.json` | the main board's parts, read off its photograph by `model/tools/make_board.py` |
 | `blender/scripts/build_machine.py` | builds the model from the params (`pnpm build:model`) |
 | `blender/scripts/render_previews.py` | check renders, into `blender/out/` (not committed) |
 | `assets/stickers/` | the nameplate, the maker's plate and the mains warning, drawn as SVG |

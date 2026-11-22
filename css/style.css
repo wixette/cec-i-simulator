@@ -4,9 +4,9 @@
    status line. The page never scrolls. Every colour, corner and state is a token
    (css/theme.css, P11). */
 
-@import url("theme.css?v=0.0.6");
-@import url("fonts.css?v=0.0.6");
-@import url("flat.css?v=0.0.6");
+@import url("theme.css?v=1.0.0");
+@import url("fonts.css?v=1.0.0");
+@import url("flat.css?v=1.0.0");
 
 :root {
   font-family: var(--font);
@@ -30,7 +30,11 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 [hidden] { display: none !important; }
-.references, .dialog-body, #status { user-select: text; -webkit-user-select: text; }
+/* what is read can be selected and copied (a dialog's words, the references, a lesson, the status
+   line); a control never is, wherever it stands, nor is an icon or a picture dragged off */
+.references, .dialog-body, article.lesson, #status { user-select: text; -webkit-user-select: text; }
+button, summary, [role="tab"], [role^="menuitem"], .icon, .tick, .step-n { user-select: none; -webkit-user-select: none; }
+img, svg { -webkit-user-drag: none; }
 button, input, select { font: inherit; color: inherit; }
 a { color: var(--link); }
 :focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
@@ -95,13 +99,6 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .segmented button[aria-checked="true"] { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 .segmented .icon { width: 18px; height: 18px; }
 
-/* a switch (Material 3) */
-.switch { display: inline-flex; align-items: center; gap: 10px; height: 32px; padding: 0 12px 0 4px; border: 0; border-radius: var(--radius-full); background: none; color: var(--md-on-surface); cursor: pointer; font-weight: 560; }
-.switch:hover { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); }
-.switch-track { position: relative; width: 44px; height: 24px; border-radius: 12px; border: 2px solid var(--md-outline); background: var(--md-surface-highest); transition: background 120ms var(--ease), border-color 120ms var(--ease); flex: none; }
-.switch-thumb { position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--md-outline); transition: all 120ms var(--ease); }
-.switch[aria-checked="true"] .switch-track { background: var(--md-primary); border-color: var(--md-primary); }
-.switch[aria-checked="true"] .switch-thumb { left: 22px; top: 2px; width: 16px; height: 16px; background: var(--md-on-primary); }
 
 /* an outlined text field, and a select */
 .field { height: 32px; padding: 0 8px; border: 1px solid var(--md-outline); border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface); font-size: 13px; }
@@ -215,20 +212,21 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .insp-value { margin: 4px 0; }
 .bits { display: flex; gap: 3px; margin: 6px 0 10px; }
 .bit { display: flex; flex-direction: column; align-items: center; width: 28px; padding: 2px 0; border-radius: var(--radius-xs); background: var(--md-surface-high); font-family: var(--mono); }
-.bit small { color: var(--md-outline); font-size: 10px; }
+.bit small { color: var(--md-on-surface-variant); font-size: 10px; }
 .bit.on { background: var(--md-secondary-container); }
+.bit.on small { color: var(--md-on-secondary-container); }
 .bit.rebuilt { outline: 1px dashed var(--md-primary); }
 .glyph { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
 .dots { display: inline-grid; grid-template-columns: repeat(var(--w), 12px); gap: 2px; padding: 6px; background: #0c0d0d; border-radius: var(--radius-xs); }
 .dot { width: 12px; height: 12px; border-radius: 2px; background: #1b201f; }
 .dot.on { background: var(--md-on-surface); }
-.dot-rows { display: grid; grid-auto-rows: 14px; font-size: 11px; color: var(--md-outline); padding-top: 6px; }
+.dot-rows { display: grid; grid-auto-rows: 14px; font-size: 11px; color: var(--md-on-surface-variant); padding-top: 6px; }
 .blocks { display: grid; grid-template-columns: repeat(2, 40px); grid-auto-rows: 36px; gap: 3px; padding: 6px; background: #0c0d0d; border-radius: var(--radius-xs); }
 
 /* the Keyboard tool */
 .matrix { display: inline-grid; gap: 2px; padding: 6px; background: var(--md-well); border-radius: var(--radius-m); font-size: 12px; max-width: 100%; overflow-x: auto; }
 .matrix-row { display: grid; grid-template-columns: 64px repeat(8, 54px) 64px 96px; gap: 2px; align-items: center; border-radius: var(--radius-xs); }
-.matrix-head { color: var(--md-outline); font-size: 11px; }
+.matrix-head { color: var(--md-on-surface-variant); font-size: 11px; }
 .matrix-row.read .mx-addr { color: var(--md-primary-text); }
 .matrix-row.read { background: color-mix(in srgb, var(--md-primary) 10%, transparent); }
 .mx-addr { padding-left: 4px; color: var(--md-on-surface-variant); }
@@ -258,46 +256,46 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .regs { display: grid; gap: 4px; }
 .reg-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .reg { display: inline-flex; flex-direction: column; min-width: 54px; padding: 2px 6px; border-radius: var(--radius-xs); background: var(--md-well); }
-.reg small { font-size: 10px; color: var(--md-outline); }
+.reg small { font-size: 10px; color: var(--md-on-surface-variant); }
 .reg b { font-weight: 500; font-size: 13px; }
 .reg.changed b { color: var(--md-primary-text); }
 .flags { display: flex; gap: 4px; margin-top: 8px; }
-.flag { min-width: 32px; padding: 2px 6px; text-align: center; border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-outline); font-family: var(--mono); font-size: 12px; }
+.flag { min-width: 32px; padding: 2px 6px; text-align: center; border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface-variant); font-family: var(--mono); font-size: 12px; }
 .flag.on { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 .code { margin: 0; padding: 0; list-style: none; font-size: 12.5px; }
 .code li { display: grid; grid-template-columns: 44px 98px 1fr; gap: 8px; padding: 1px 6px; border-radius: var(--radius-xs); }
 .code li.at-pc { background: color-mix(in srgb, var(--md-primary) 18%, transparent); color: var(--md-primary-text); }
-.code li.undoc .c-text::after { content: " *"; color: var(--md-outline); }
-.c-addr, .c-bytes { color: var(--md-outline); }
+.code li.undoc .c-text::after { content: " *"; color: var(--md-on-surface-variant); }
+.c-addr, .c-bytes { color: var(--md-on-surface-variant); }
 .code li.at-pc .c-addr { color: var(--md-primary-text); }
 .memmap { display: flex; height: 26px; margin: 8px 0; border-radius: var(--radius-xs); overflow: hidden; gap: 1px; background: var(--md-outline-variant); }
 .region { --lit: 0; position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; background: color-mix(in srgb, var(--md-primary) calc(var(--lit) * 70%), var(--md-surface-high)); font-size: 10px; color: var(--md-on-surface-variant); cursor: pointer; overflow: hidden; }
 button.region { padding: 0; border: 0; border-radius: 0; font: inherit; font-size: 10px; }
 button.region:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -2px; }
 .region span { white-space: nowrap; overflow: hidden; text-overflow: clip; padding: 0 2px; }
-.region.none, .region.high, .region.ei { background: var(--md-well); color: var(--md-outline); }
+.region.none, .region.high, .region.ei { background: var(--md-well); color: var(--md-on-surface-variant); }
 .dump { font-size: 12px; overflow-x: auto; }
 .dump-row { display: flex; gap: 12px; white-space: nowrap; }
-.d-addr { color: var(--md-outline); }
+.d-addr { color: var(--md-on-surface-variant); }
 .d-bytes { display: inline-flex; gap: 0.6ch; }
 .d-bytes span { border-radius: 2px; }
 .d-bytes .at-pc { background: color-mix(in srgb, var(--md-primary) 30%, transparent); color: var(--md-primary-text); }
 .d-bytes .at-sp { outline: 1px solid var(--story); }
-.d-ascii { color: var(--md-outline); letter-spacing: 0.05em; }
+.d-ascii { color: var(--md-on-surface-variant); letter-spacing: 0.05em; }
 
 
 /* the Screen tool: the switches, the text page's grid, a hi-res line */
 .switches { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 8px; }
-.switch-chip { padding: 2px 8px; border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-outline); font-family: var(--mono); font-size: 12px; }
+.switch-chip { padding: 2px 8px; border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface-variant); font-family: var(--mono); font-size: 12px; }
 .switch-chip.on { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 .page-grid { display: grid; grid-template-columns: 34px repeat(40, minmax(17px, 22px)); gap: 1px; padding: 4px; background: var(--md-well); border-radius: var(--radius-m); font-family: var(--mono); font-size: 10.5px; max-width: 100%; overflow-x: auto; }
-.page-grid .rowhead { color: var(--md-outline); text-align: right; padding-right: 4px; line-height: 16px; }
+.page-grid .rowhead { color: var(--md-on-surface-variant); text-align: right; padding-right: 4px; line-height: 16px; }
 .page-cell { height: 16px; padding: 0; border: 0; border-radius: 2px; background: var(--md-surface-high); color: var(--md-on-surface-variant); font: inherit; line-height: 16px; text-align: center; cursor: pointer; }
 .page-cell.picked { outline: 2px solid var(--md-primary); outline-offset: -1px; color: var(--md-primary-text); }
 .page-cell.flash { background: color-mix(in srgb, var(--md-primary) 35%, var(--md-surface-high)); }
 .lores-cell { display: inline-block; width: 22px; height: 11px; border-radius: 2px; }
 .hires-line { display: flex; flex-wrap: wrap; gap: 3px; margin: 6px 0; }
-.hires-byte { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 3px; border-radius: var(--radius-xs); background: var(--md-well); font-family: var(--mono); font-size: 10px; color: var(--md-outline); }
+.hires-byte { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 3px; border-radius: var(--radius-xs); background: var(--md-well); font-family: var(--mono); font-size: 10px; color: var(--md-on-surface-variant); }
 .hires-dots { display: flex; gap: 1px; }
 .hires-dots i { width: 5px; height: 8px; border-radius: 1px; background: #1b201f; }
 .hires-dots i.on { background: var(--md-on-surface); }
@@ -313,11 +311,11 @@ button.region:focus-visible { outline: 2px solid var(--md-primary); outline-offs
 
 /* the Chinese tool: the string, the latch, the glyph, its dots */
 .hz-string { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
-.hz-char { display: flex; flex-direction: column; align-items: center; padding: 4px 6px; border-radius: var(--radius-s); background: var(--md-well); font-family: var(--mono); font-size: 11px; color: var(--md-outline); }
+.hz-char { display: flex; flex-direction: column; align-items: center; padding: 4px 6px; border-radius: var(--radius-s); background: var(--md-well); font-family: var(--mono); font-size: 11px; color: var(--md-on-surface-variant); }
 .hz-char b { font-family: var(--font); font-size: 20px; font-weight: 500; color: var(--md-on-surface); }
 .hz-char.cjk { outline: 1px solid color-mix(in srgb, var(--md-primary) 50%, transparent); }
 .banks { display: grid; grid-template-columns: repeat(16, 1fr); gap: 2px; margin: 6px 0; }
-.bank { padding: 3px 0; border-radius: 2px; background: var(--md-well); color: var(--md-outline); font-family: var(--mono); font-size: 10.5px; text-align: center; }
+.bank { padding: 3px 0; border-radius: 2px; background: var(--md-well); color: var(--md-on-surface-variant); font-family: var(--mono); font-size: 10.5px; text-align: center; }
 .bank.on { background: var(--md-primary); color: var(--md-on-primary); }
 .glyph16 { display: grid; grid-template-columns: repeat(16, 10px); gap: 1px; padding: 6px; background: #0c0d0d; border-radius: var(--radius-xs); }
 .glyph16 i { width: 10px; height: 10px; border-radius: 1px; background: #1b201f; }
@@ -326,7 +324,7 @@ button.region:focus-visible { outline: 2px solid var(--md-primary); outline-offs
 .kv { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 6px 0; font-size: 13px; }
 .kv dt { color: var(--md-on-surface-variant); }
 .kv dd { margin: 0; font-family: var(--mono); overflow-wrap: anywhere; min-width: 0; }
-.caveat { margin: 0 auto 8px; max-width: 1400px; color: var(--md-outline); font-size: 12px; }
+.caveat { margin: 0 auto 8px; max-width: 1400px; color: var(--md-on-surface-variant); font-size: 12px; }
 
 /* a view pointed at (a lesson's Show me): the stage's edge glows once, so a press is seen even when the view is already there */
 #stage-view.pointed::after { content: ""; position: absolute; inset: 0; z-index: 30; border-radius: inherit; pointer-events: none; animation: pointed 900ms var(--ease) forwards; }
@@ -362,13 +360,13 @@ kbd { display: inline-block; min-width: 1.6em; padding: 0 6px; border: 1px solid
 .menu button { position: relative; isolation: isolate; display: flex; align-items: center; gap: 10px; width: 100%; height: 40px; padding: 0 16px 0 12px; border: 0; background: none; text-align: left; cursor: pointer; }
 .menu button:focus-visible { outline: none; background: color-mix(in srgb, var(--md-on-surface) 12%, transparent); }
 .menu button[aria-disabled="true"] > span { color: color-mix(in srgb, var(--md-on-surface) 38%, transparent); }
-.menu .why { margin-left: auto; padding-left: 16px; color: var(--md-outline); font-size: 12px; }
+.menu .why { margin-left: auto; padding-left: 16px; color: var(--md-on-surface-variant); font-size: 12px; }
 .menu .check { width: 20px; }
-.menu button.has-sub > .icon:last-child { margin-left: auto; color: var(--md-outline); }
+.menu button.has-sub > .icon:last-child { margin-left: auto; color: var(--md-on-surface-variant); }
 .menu button.has-sub[aria-expanded="true"] { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); }
 .menu .menu-back { font-weight: 640; border-bottom: 1px solid var(--md-outline-variant); margin-bottom: 4px; }
 .menu-divider { margin: 6px 0; border-top: 1px solid var(--md-outline-variant); }
-.menu-divider span { display: block; padding: 8px 16px 2px; font-size: 12px; color: var(--md-outline); }
+.menu-divider span { display: block; padding: 8px 16px 2px; font-size: 12px; color: var(--md-on-surface-variant); }
 .tooltip { position: fixed; z-index: 60; max-width: 320px; padding: 6px 10px; border-radius: var(--radius-xs); background: var(--md-on-surface); color: var(--md-surface); font-size: 12px; pointer-events: none; }
 /* Material's dialog, as the 8800 simulator's: a title band with its close button, the body,
    the actions at the bottom right, the one it is for filled */
@@ -438,7 +436,7 @@ kbd { display: inline-block; min-width: 1.6em; padding: 0 6px; border: 1px solid
 .lesson-bar.compact .lesson-tab:not([aria-selected="true"]) span { display: none; }
 .lesson-body { display: flex; gap: 16px; align-items: flex-start; padding-top: 14px; }
 .lesson { flex: 1 1 auto; max-width: var(--reading); margin: 0 auto; min-width: 0; }
-.lesson-of { margin: 0; color: var(--md-outline); font-size: 11px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
+.lesson-of { margin: 0; color: var(--md-on-surface-variant); font-size: 11px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
 .lesson h3 { margin: 2px 0 4px; font-size: 20px; font-weight: 650; line-height: 1.3; color: var(--md-on-surface); }
 .lesson .lead { margin: 0 0 18px; color: var(--md-on-surface-variant); }
 /* the steps: numbered down a thin line */
@@ -456,7 +454,7 @@ kbd { display: inline-block; min-width: 1.6em; padding: 0 6px; border: 1px solid
 @container (max-width: 560px) {
   .photo { float: none; width: auto; max-width: 420px; margin: 10px 0 4px; }
 }
-.photo figcaption { margin-top: 6px; font-size: 12px; color: var(--md-outline); }
+.photo figcaption { margin-top: 6px; font-size: 12px; color: var(--md-on-surface-variant); }
 .photo figcaption a { color: inherit; }
 .listing { margin: 8px 0; padding: 10px 14px; border: 1px solid var(--md-outline-variant); border-radius: var(--radius-s); background: var(--md-well); color: var(--md-on-surface); font-size: 13px; line-height: 1.5; overflow-x: auto; }
 /* a step's chips: what to press, in amber (Material's assist chip) */

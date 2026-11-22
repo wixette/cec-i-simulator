@@ -33,7 +33,7 @@ import { el, icon, setTip, showMenu } from "../ui/components.js";
  * metres, for before the model is in.
  * @type {Record<ViewName, { dir: Vec, nodes: string[], fill: number, back?: number, pos: Vec, target: Vec }>}
  */
-export const VIEWS = {
+const VIEWS = {
   // the way in: straight on from the front, 32 degrees above, the TV and the computer framed
   // together, the whole screen over the computer, ready to type
   front: { dir: [0, 0.53, 0.85], nodes: ["tv", "case.base", "case.lid"], fill: 0.94, pos: [0, 0.5, 0.78], target: [0, 0.13, -0.1] },
@@ -89,6 +89,9 @@ export class Stage {
     /** @private what was fitted when the camera flew to 2D, to come back to */
     this.fittedBefore = /** @type {ViewName | null} */ (null);
     this.view3d = /** @type {HTMLElement} */ (document.getElementById("view3d"));
+    // the 3D picture, named for a screen reader as its tip names it
+    this.view3d.setAttribute("role", "img");
+    this.view3d.setAttribute("aria-label", t("stage.3d.tip"));
     this.view2d = /** @type {HTMLElement} */ (document.getElementById("view2d"));
     const band = /** @type {HTMLElement} */ (document.getElementById("band"));
     // the 3D tools

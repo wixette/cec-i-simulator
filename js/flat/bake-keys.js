@@ -9,7 +9,7 @@
 import * as THREE from "three";
 
 /** Picture pixels a millimetre. */
-export const BAKE_PX_MM = 10;
+const BAKE_PX_MM = 10;
 
 /**
  * @param {THREE.Object3D} keyboard the model's keyboard node: its keys are its children with

@@ -11,6 +11,7 @@
 // model()) (docs/development.md).
 
 import { execFileSync, spawn } from "node:child_process";
+import { addCoverage } from "./coverage.mjs";
 import { existsSync, mkdtempSync, readFileSync, rmSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { tmpdir } from "node:os";
@@ -133,12 +134,15 @@ const NAMED = {
  * @param {string} chromePath
  * @param {string} base the served repository
  * @param {string} [query] more of the address's query, after ?debug ("&lang=de")
+ * @param {{ coverage?: boolean }} [o] coverage: V8's precise coverage, taken before each page load and at the end (tests/browser/coverage.mjs)
  */
-export async function start(chromePath, base, query = "") {
+export async function start(chromePath, base, query = "", o = {}) {
   const url = `${base}?debug${query}`;
   const profile = mkdtempSync(join(tmpdir(), "cec-i-browser-"));
-  // the GPU, for the 3D view: without it three.js falls back, or fails, in headless Chrome
-  const chrome = spawn(chromePath, ["--headless=new", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "--no-first-run", "--no-default-browser-check", "--lang=en-US", "--enable-gpu", "--use-angle=metal", "--autoplay-policy=no-user-gesture-required", "--window-size=1440,900", "about:blank"], { stdio: "ignore" });
+  // a GPU for the 3D view: the Mac's own; elsewhere (CI's Linux, which has none) Chrome's
+  // software one, slower but whole
+  const gpu = process.platform === "darwin" ? ["--enable-gpu", "--use-angle=metal"] : ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"];
+  const chrome = spawn(chromePath, ["--headless=new", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "--no-first-run", "--no-default-browser-check", "--lang=en-US", ...gpu, "--autoplay-policy=no-user-gesture-required", "--window-size=1440,900", "about:blank"], { stdio: "ignore" });
   /** @type {Live} */
   const live = { chrome, profile, exited: false };
   LIVE.add(live);
@@ -200,7 +204,18 @@ export async function start(chromePath, base, query = "") {
     pending.clear();
   });
   /** @param {string} method @param {object} [params] @returns {Promise<any>} */
-  const send = (method, params = {}) =>
+  const send = async (method, params = {}) => {
+    // a page about to go: what of its code ran is taken first
+    if (o.coverage && method === "Page.navigate") await takeCoverage();
+    return raw(method, params);
+  };
+  /** The page's coverage so far, added to the run's (tests/browser/coverage.mjs). */
+  const takeCoverage = async () => {
+    const r = await raw("Profiler.takePreciseCoverage");
+    if (r.result?.result) addCoverage(r.result.result);
+  };
+  /** @param {string} method @param {object} [params] @returns {Promise<any>} */
+  const raw = (method, params = {}) =>
     new Promise((ok, fail) => {
       const n = ++id;
       const timer = setTimeout(() => {
@@ -212,6 +227,10 @@ export async function start(chromePath, base, query = "") {
     });
   await send("Page.enable");
   await send("Runtime.enable");
+  if (o.coverage) {
+    await send("Profiler.enable");
+    await send("Profiler.startPreciseCoverage", { callCount: false, detailed: true });
+  }
 
   /** Evaluates an expression in the page, awaiting a promise. @param {string} expr @returns {Promise<any>} */
   const js = async (expr) => {
@@ -366,6 +385,7 @@ export async function start(chromePath, base, query = "") {
     console.log(`  ${ok ? "PASS" : "FAIL"} ${name}${!ok && info !== "" ? `  | ${typeof info === "string" ? info : JSON.stringify(info)}` : ""}`);
   };
   const stop = async () => {
+    if (o.coverage) await takeCoverage().catch(() => {});
     ws.close();
     await stopChrome(live);
   };

@@ -28,10 +28,13 @@ These rules keep the model, the parameters, the code and the tests consistent. R
 
   | Folder | Holds | Rule |
   |---|---|---|
-  | `js/sim/` | the machine: the 6502, memory and soft switches, video, keyboard, speaker, the set-up's rules, Chinese text, BASIC listings | no DOM, no three.js; runs in Node (sound.js's player aside) |
+  | `js/sim/` | the machine: the 6502, memory and soft switches, video, keyboard, speaker, the disk drive and disk images, the set-up's rules, Chinese text, BASIC listings, the assembler and disassembler, our programs' typing | no DOM, no three.js; runs in Node (sound.js's player aside) |
+  | `js/programs/` | our programs: BASIC, machine code as assembly, LOGO | data; no DOM |
+  | `js/lessons/` | the lessons: each step's keys, Show me, program and check | data and checks; no DOM |
   | `js/scene/` | the 3D view: viewer, framing, the model's bindings, the TV's screen | three.js |
   | `js/flat/` | the 2D view | DOM |
-  | `js/app/` | the page: top bar, stage, strip, dock and its tabs, status line, About | DOM |
+  | `js/app/` | the page: top bar, stage, strip, dock and its tabs, the lessons' tab, References, status line, About; `files.js`, `markup.js` and `link.js` hold its pure logic, with no DOM, for the tests | DOM |
+  | `js/app/tools/` | the four instruments: CPU & Memory, Screen, Chinese, Keyboard | DOM |
   | `js/ui/` | shared components: menu, dialog, tabs, tooltip, icons | DOM |
   | `js/l10n/` | the messages, a file per language | data |
 
@@ -45,7 +48,7 @@ These rules keep the model, the parameters, the code and the tests consistent. R
 - **Node's own runner,** `pnpm test`: `tests/**/*.test.js` and `tools/*.test.mjs`, with `node:assert`. No browser, GPU or network. The full 6502 suite, which downloads about 750 MB once, is opt-in: `pnpm test:6502`.
 - **The machine is tested on its own ROMs** against what a real CEC-I does (research/README.md): its banner and beep, its timing, its checksums, its keys' codes, its Chinese.
 - **Tests are written from the sources,** not from the code's output. A test's expected value cites its source, or a decision when the value is ours.
-- **The browser checks,** `pnpm test:browser`, drive the page in a headless Chrome; they are run by hand before a release ([development.md](development.md)).
+- **The browser checks,** `pnpm test:browser`, drive the page in a headless Chrome; they are run locally, the whole set before each release, not in CI ([development.md](development.md)). A logic of the page that needs no DOM goes in a module of its own, so that a unit test can reach it.
 
 ## No developer pages
 

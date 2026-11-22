@@ -68,6 +68,11 @@ await useLocale(lang);
 document.documentElement.lang = LOCALE_TAGS[lang];
 document.title = t("app.title");
 applyIcons(document);
+// nothing of the page is dragged off by the mouse: a picture, an icon, a button's face (a file
+// dragged in from outside is the drop's, js/app/topbar.js)
+document.addEventListener("dragstart", (e) => {
+  if (e.target instanceof Element && e.target.closest("img, svg, button, [role=tab], [role^=menuitem]")) e.preventDefault();
+});
 applyL10n(document);
 // a button whose words a narrow window hides keeps them as its name
 for (const b of document.querySelectorAll("#programs, .dock-tab")) {
@@ -399,5 +404,5 @@ function stickerTint(pair) {
   return `#${[16, 8, 0].map((s) => Math.min(255, Math.round((255 * ch(b, s)) / ch(a, s))).toString(16).padStart(2, "0")).join("")}`;
 }
 
-if (new URLSearchParams(location.search).has("debug")) Object.assign(window, { cec: system, app: { stage, dock, flat, viewer, model: () => model } });
+if (new URLSearchParams(location.search).has("debug")) Object.assign(window, { cec: system, app: { stage, dock, flat, viewer, lessons, topBar, model: () => model } });
 if (new URLSearchParams(location.search).has("selftest")) import("./selftest.js").then((m) => m.selftest(system));

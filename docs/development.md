@@ -5,6 +5,7 @@ How to run, check, change and release the simulator. Related documents:
 - the page's design: [ui-design.md](ui-design.md)
 - the plan, release by release: [../design/roadmap.md](../design/roadmap.md)
 - the machine's decisions: [../design/decisions.md](../design/decisions.md)
+- what 1.0 promises, and how a change is versioned: [stability.md](stability.md)
 
 ## Running it
 
@@ -48,11 +49,49 @@ reuse lint          # every file's licence is declared (REUSE.toml, LICENSES/)
 ### The browser checks
 
 ```
-pnpm test:browser              # every check, a few minutes
-pnpm test:browser boot keys    # just these
+pnpm test:browser                 # every check, about six minutes
+pnpm test:browser boot keys       # just these
+pnpm test:browser --coverage      # and what of the page's code they reach, file by file
 ```
 
-`tests/browser/` drives the page itself in a headless Chrome, with real mouse and key events: switching on and typing, the visitor's keys as the machine's (中文, Ctrl-F12, Caps Lock), Type in with Chinese, the 3D views and taking it apart, the 2D view and its drawer, the layout at desktop and phone sizes, the menus and dialogs, and the languages. They need Chrome and take a few minutes, so they are run by hand before a release, not in CI.
+`tests/browser/` drives the page itself in a headless Chrome, with real mouse and key events. Its checks, in the order they run (`tests/browser/run.mjs`):
+
+| Check | What it drives |
+|---|---|
+| `boot` | a first visit on a live machine, typing, the strip's switches, what stays off, the page's own self-test, the ROMs missing |
+| `keys` | the visitor's keys as the machine's (中文, Ctrl-F12, Caps Lock, Ctrl-V), after a click on the 3D view too |
+| `typein` | Type in, with Chinese through 区位; a character the machine has not; Save offered |
+| `views` | the 3D views, taking it apart and putting it back, Display |
+| `labels` | the parts' labels under a resting mouse, quiet between the keys |
+| `flat` | the 2D view, its keyboard drawer, the TV's button and knobs |
+| `programs` | our programs, typed in from any state |
+| `lessons` | the lessons: Type it, Show me, the ticks, a program's step |
+| `disk` | the disk drive: a disk dropped and booted, saved, ejected; files opened and saved |
+| `tools` | the four instruments |
+| `layout` | desktop, laptop and phone sizes, upright and on its side: the page fits, the stage keeps its room |
+| `dialogs` | About, References, Display's choices, the dock folding |
+| `access` | the keyboard alone, names on a phone, selection and dragging |
+| `lang` | the ten languages |
+
+They need Chrome (`CHROME` names it if it is not found). On a Mac they use its GPU; elsewhere Chrome's software one, much slower. They take several minutes, so they are run locally: the checks a change touches as it is made, every check before each release. CI stays fast and does not run them.
+
+**Other browsers.** The checks drive Chrome. Before 1.0.0 the page was also tried in Firefox (headless, over WebDriver BiDi: it starts, BASIC answers, the Chinese system types, the 3D view draws with WebGL 2, no errors) and the owner checked it by hand in Safari on macOS, in Firefox and on an iPhone. Safari's automation needs Develop ▸ Allow Remote Automation.
+
+**The 6502.** `pnpm test:6502` runs all 1.51 million SingleStepTests cases (about 750 MB, downloaded once into `tests/.cache/`); a sample of them runs in `pnpm check`. Run it before a release that touches `js/sim/cpu6502.js`.
+
+## Screenshots and clips
+
+```
+pnpm shots                    # ~/Downloads/cec-i-simulator-v<version>-media/shots/<lang>/
+pnpm shots --readme           # and the README's pictures, screenshots/zh/ and screenshots/en/
+pnpm shots --only screen      # the shots whose name holds "screen"
+pnpm video                    # ~/Downloads/cec-i-simulator-v<version>-media/videos/<lang>/
+pnpm video --only music       # one clip
+```
+
+Both take `--lang` (default `zh,en`; any of the ten) and `--out`. They open the page with `?debug` in headless Chrome and set it up through its handles (`tools/page-helpers.mjs`), so a setup names no label and works in every language. `shots` also makes the GitHub page's social preview (`social-preview.jpg`, 1280 × 640), uploaded by hand in the repository's settings. The README's copies are written by ffmpeg without metadata (`tests/photos.test.js`).
+
+**How a clip gets its sound.** A screen recorder would hear nothing in headless Chrome, and would not keep the picture and the sound together when the page runs slower than real time. So `video` records neither in real time. It replaces the page's clock with one that moves a frame at a time, captures each frame, and replaces the speaker's `frame()` (`js/sim/sound.js`) with one that renders that frame's speaker clicks to samples with the page's own filter, placed at the frame's time. The machine's sound (the power-on beep, `MUSIC`, the games) is in the clip as the page plays it, in step with the picture; ffmpeg muxes the samples as AAC with the H.264 frames. The typist types at the machine's own speed while recording, so what is heard is what a visitor hears.
 
 ## The 3D model
 

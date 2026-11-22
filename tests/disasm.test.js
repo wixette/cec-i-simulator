@@ -5,7 +5,7 @@
 
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { disassemble, listing } from "../js/sim/disasm.js";
+import { disassemble, listing, parseHex } from "../js/sim/disasm.js";
 import { Machine } from "../js/sim/machine.js";
 import { ROMS } from "./boot.js";
 
@@ -56,5 +56,16 @@ describe("the disassembler", () => {
     assert.equal(list[0].addr, start);
     for (let i = 1; i < 4; i++) assert.equal(list[i].addr, (list[i - 1].addr + list[i - 1].length) & 0xffff);
     assert.ok(list.every((x) => !x.undocumented), list.map((x) => x.text).join("; "));
+  });
+});
+
+describe("an address the visitor types", () => {
+  it("in hex: with or without $, any case, up to four digits; else null", () => {
+    assert.equal(parseHex("FD1B"), 0xfd1b);
+    assert.equal(parseHex(" $c0b0 "), 0xc0b0);
+    assert.equal(parseHex("0"), 0);
+    assert.equal(parseHex("12345"), null);
+    assert.equal(parseHex("G0"), null);
+    assert.equal(parseHex(""), null);
   });
 });

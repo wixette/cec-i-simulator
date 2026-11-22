@@ -13,6 +13,12 @@ const OPERAND = /** @type {const} */ ({ imp: 0, acc: 0, imm: 1, zp: 1, zpx: 1, z
 /** @param {number} n @param {number} d */
 export const hex = (n, d) => n.toString(16).toUpperCase().padStart(d, "0");
 
+/** A hex address typed by the visitor ($ or none before it), or null. @param {string} s */
+export function parseHex(s) {
+  const m = s.trim().toUpperCase().match(/^\$?([0-9A-F]{1,4})$/);
+  return m ? parseInt(m[1], 16) : null;
+}
+
 /**
  * @typedef {object} Instruction
  * @property {number} addr where it is

@@ -8,6 +8,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { CLOCK_HZ } from "../js/sim/machine.js";
 import { FAST_TYPING, KNOB_START, System } from "../js/sim/system.js";
+import { blankDisk } from "../js/sim/disk-image.js";
 import { MATRIX, ROMS, screenLines } from "./boot.js";
 
 const ORDER = [
@@ -277,5 +278,39 @@ describe("Type in and Save the program", () => {
     s.power(true);
     frames(s, 4);
     assert.ok(screenLines(s.machine).some((l) => l.startsWith("]")));
+  });
+});
+
+describe("what is refused, and said", () => {
+  it("without ROMs the computer will not switch on; switched off, typing is refused", () => {
+    const { s, said } = rig();
+    s.hasRoms = false;
+    assert.equal(s.power(true), false);
+    assert.equal(said.at(-1), "power.noRoms");
+    s.hasRoms = true;
+    assert.equal(s.type("A"), false);
+    assert.equal(said.at(-1), "type.off");
+    assert.equal(s.typeProgram({ id: "x", section: "learn", mode: "western", text: "10 END" }, "x"), false);
+    assert.equal(said.at(-1), "type.off");
+  });
+  it("a disk in and out is said; an empty drive emptied says nothing; starting from a disk switches off and on", () => {
+    const { s, said } = rig();
+    s.insertDisk(null);
+    assert.ok(!said.includes("disk.out"));
+    s.insertDisk(blankDisk("blank.dsk"));
+    assert.equal(said.at(-1), "disk.in");
+    s.insertDisk(null);
+    assert.equal(said.at(-1), "disk.out");
+    s.power(true);
+    s.startFromDisk();
+    assert.ok(s.machine.powered);
+    assert.deepEqual(said.slice(-3), ["power.off", "power.onTvOff", "disk.start"]);
+  });
+  it("LOGO's procedures are asked of LOGO only", () => {
+    const { s } = rig();
+    s.power(true);
+    frames(s, 4);
+    assert.equal(s.logoRunning, false);
+    assert.equal(s.logoProcedures(() => {}), false);
   });
 });

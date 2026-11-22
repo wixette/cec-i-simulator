@@ -43,7 +43,7 @@ describe("the lessons", () => {
         const keys = [`lesson.${l.id}.${st.id}.title`, `lesson.${l.id}.${st.id}.text`, ...(st.more ? [`lesson.${l.id}.${st.id}.more`] : [])];
         for (const k of keys) assert.ok(en[k] && zh[k], k);
         if (st.program) assert.ok(SAMPLES.some((x) => x.id === st.program), st.program);
-        if (st.photo) assert.ok(existsSync(new URL(`../images/photos/${st.photo}`, import.meta.url)), st.photo);
+        if (st.photo) assert.ok(existsSync(new URL(`../images/photos/${st.photo}`, import.meta.url)) && existsSync(new URL(`../images/photos/web/${st.photo}`, import.meta.url)), `${st.photo} and its web copy`);
       }
     }
   });

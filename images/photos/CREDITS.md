@@ -12,3 +12,6 @@ Factory), the machine the simulator's 3D model was measured from. © 2026 wixett
 | [keyboard-pcb.jpg](keyboard-pcb.jpg) | The keyboard's circuit board from below, its keys' names printed beside their switches |
 | [inside-keyboard-in-place.jpg](inside-keyboard-in-place.jpg) | The lid off: the keyboard on its steel plate over the main board |
 | [mainboard-top.jpg](mainboard-top.jpg) | The main board ZH-1(875) from above, with the power supply and the speaker |
+
+**Web copies** of the same six photographs, 1200 pixels wide, for the page (the lessons show them at most a few hundred pixels across); made by `ffmpeg -vf scale=1200:-2 -q:v 4 -map_metadata -1 -flags:v +bitexact` (no metadata, not even an encoder comment):
+[web/cec-i-front-left.jpg](web/cec-i-front-left.jpg), [web/cec-i-front-right.jpg](web/cec-i-front-right.jpg), [web/cec-i-back-left.jpg](web/cec-i-back-left.jpg), [web/keyboard-pcb.jpg](web/keyboard-pcb.jpg), [web/inside-keyboard-in-place.jpg](web/inside-keyboard-in-place.jpg), [web/mainboard-top.jpg](web/mainboard-top.jpg).
