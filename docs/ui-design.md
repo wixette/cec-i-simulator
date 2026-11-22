@@ -174,6 +174,7 @@ The TV takes the stage, its picture large and sharp on the tube's lit glass, its
 The page speaks 简体中文 and English (D9); v0.0.6 brings ten.
 - **What is translated:** every text of the page's own, and the parts' labels. **What is not:** the machine's own words (P5).
 - **The language button** is in the top bar's right: a translate icon and the language's short name (简, EN). Its menu lists each language as it names itself. A choice is remembered, and the page opens again in it (the machine starts again, as on any visit).
+- **Simplified Chinese is written, not translated:** it is the page's first language, the one the machine's users read. Its messages and lessons are drafted in Chinese for Chinese readers (Chinese sentence order, a named subject rather than a pronoun or an ellipsis, the terms Chinese manuals use, titles and buttons that say what they are about or do), keeping with English only the facts, placeholders, `code` and [[keys]]. The other languages (v0.0.6) may be translated from English or the Chinese (CONTRIBUTING.md).
 - **One file per language,** `js/l10n/<locale>.js`, with English's keys. `tests/l10n.test.js` fails while any message is missing, or its placeholders, its `code` or its [[keys]] differ from English's.
 
 ### U12. The instruments

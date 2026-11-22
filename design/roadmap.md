@@ -9,7 +9,7 @@
 | **v0.0.3** | Programs of our own, in BASIC, machine code and LOGO, showing what the machine could do: Chinese input and output, lo-res and hi-res colour games, learning, a 1980s word processor and other utilities, music. Each with a test that runs it |
 | **v0.0.4** | Lessons built round those programs, for a class or a self-learner, with teacher notes: write Chinese on an 8-bit machine and find your name's bytes; the screen as memory; the keyboard; machine code |
 | **v0.0.5** | The cassette recorder (an unbranded Chinese single-deck recorder, the TRS-80 simulator's recorder logic and Cassette tool, Apple II tape format, `.wav` both ways); Apple II software the visitor brings: files read out of DOS 3.3 `.dsk` images and loaded without a disk drive, and tapes. No disk drive, no printer |
-| **v0.0.6** | The page in ten languages, as the TRS-80 simulator's |
+| **v0.0.6** | The page in ten languages, as the TRS-80 simulator's; translated from English or from the Simplified Chinese, which is itself written in Chinese, not translated (docs/ui-design.md, U11) |
 | **v1.0.0** | **Feature frozen:** a thorough review of the code, the docs and the resources, and fixes; the README in full, with screenshots; the link format frozen |
 | **After v1.0.0** | A joystick on the game port, for the era's own games loaded by the visitor; not needed by our own programs (built in v0.0.3, taken out at the owner's review: it slowed the arrows in our games and added a control; the machine's game port itself stays, reading as nothing plugged in) |
 

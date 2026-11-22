@@ -13,7 +13,7 @@ export default {
 
   // the top bar
   "bar.programs": "Programs",
-  "bar.programs.tip": "Type text in on the machine's keys, open a BASIC file, or save the program in memory",
+  "bar.programs.tip": "Our programs to type in and run; or type text in, open a BASIC file, or save the program in memory",
   "bar.display": "Display",
   "bar.display.tip": "The set the computer is plugged into, and the case's colour",
   "bar.sound.on": "Sound on (click to turn it off)",
@@ -122,7 +122,7 @@ export default {
   "about.title": "About",
   "about.version": "Version {version}",
   "about.what": "The CEC-I 中华学习机 (China Educational Computer, 1987) in 3D, running its own ROMs on an emulated 6502, with its Chinese system, its keyboard and a TV of the time.",
-  "about.prerelease": "A pre-release: the lessons, the instruments that show how it works, the programs and the cassette recorder are still to come.",
+  "about.prerelease": "A pre-release: the cassette recorder and more languages are still to come.",
   "about.source": "Source code on GitHub",
   "about.issues": "Report a problem",
   "about.licences": "Licences",
