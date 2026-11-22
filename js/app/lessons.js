@@ -14,6 +14,7 @@
 import { t } from "../l10n/l10n.js";
 import { LESSONS } from "../lessons/lessons.js";
 import { el, icon, setTip, tabs } from "../ui/components.js";
+import { markup } from "./markup.js";
 
 /** @typedef {import("../sim/system.js").System} System */
 /** @typedef {import("../lessons/lessons.js").Show} Show */
@@ -21,15 +22,6 @@ import { el, icon, setTip, tabs } from "../ui/components.js";
 const STORE = "ceci.lessons";
 /** How often the steps are checked, ms. */
 const CHECK_MS = 250;
-
-/**
- * A message's text as HTML: escaped, then `code` and **bold**.
- * @param {string} s
- */
-export function markup(s) {
-  const esc = s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  return esc.replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-}
 
 /** @returns {{ lesson?: string, done?: Record<string, string[]> }} */
 function load() {
@@ -66,6 +58,8 @@ export class LessonsTool {
     this.bar = el("div", { class: "lesson-bar", role: "tablist", "aria-label": t("lessons.bar") });
     for (const [i, l] of LESSONS.entries()) {
       const b = el("button", { class: "lesson-tab", role: "tab", id: `lesson-tab-${l.id}`, type: "button" }, [el("b", { text: String(i + 1) }), el("span", { text: t(`lesson.${l.id}.title`) })]);
+      // its title is its name, kept when a narrow bar shows only its number
+      b.setAttribute("aria-label", `${i + 1} ${t(`lesson.${l.id}.title`)}`);
       b.setAttribute("data-tip-describes", "");
       setTip(b, t(`lesson.${l.id}.title`));
       this.bar.append(b);

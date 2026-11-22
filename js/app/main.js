@@ -68,6 +68,11 @@ await useLocale(lang);
 document.documentElement.lang = LOCALE_TAGS[lang];
 document.title = t("app.title");
 applyIcons(document);
+// nothing of the page is dragged off by the mouse: a picture, an icon, a button's face (a file
+// dragged in from outside is the drop's, js/app/topbar.js)
+document.addEventListener("dragstart", (e) => {
+  if (e.target instanceof Element && e.target.closest("img, svg, button, [role=tab], [role^=menuitem]")) e.preventDefault();
+});
 applyL10n(document);
 // a button whose words a narrow window hides keeps them as its name
 for (const b of document.querySelectorAll("#programs, .dock-tab")) {

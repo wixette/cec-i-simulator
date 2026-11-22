@@ -9,7 +9,7 @@
 // TRS-80 simulator's CPU tool (https://github.com/wixette/trs-80-simulator, Apache-2.0).
 
 import { t } from "../../l10n/l10n.js";
-import { disassemble, hex, listing } from "../../sim/disasm.js";
+import { disassemble, hex, listing, parseHex } from "../../sim/disasm.js";
 import { REGIONS, regionShares } from "../../sim/memmap.js";
 import { el, icon, setTip } from "../../ui/components.js";
 
@@ -32,12 +32,6 @@ const LIST = 8;
 const DUMP_ROWS = 8;
 
 /** @typedef {{ a: number, x: number, y: number, s: number, p: number, pc: number }} Registers */
-
-/** A hex address typed by the visitor ($ or none before it), or null. @param {string} s */
-export function parseHex(s) {
-  const m = s.trim().toUpperCase().match(/^\$?([0-9A-F]{1,4})$/);
-  return m ? parseInt(m[1], 16) : null;
-}
 
 export class CpuTool {
   /** @param {HTMLElement} host @param {System} system */

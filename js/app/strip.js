@@ -29,6 +29,8 @@ export class HelperStrip {
     /** @param {import("../ui/components.js").IconName} ic @param {string} label @param {string} tip @param {() => void} run */
     const button = (ic, label, tip, run) => {
       const b = el("button", { class: "btn tonal small has-icon", type: "button" }, [icon(ic), el("span", { class: "strip-label", text: label })]);
+      // its words are its name, kept when a narrow window hides them (the tip describes it)
+      if (label) b.setAttribute("aria-label", label);
       b.setAttribute("data-tip-describes", "");
       setTip(b, tip);
       // the strip's buttons never take the keyboard's focus from the machine
@@ -96,7 +98,9 @@ export class HelperStrip {
     this.tvBtn.classList.toggle("lit", s.tv.on);
     this.tvBtn.setAttribute("aria-pressed", String(s.tv.on));
     this.resetBtn.setAttribute("aria-disabled", String(!s.machine.powered));
-    /** @type {HTMLElement} */ (this.driveBtn.querySelector(".strip-label")).textContent = disk?.name ?? t("strip.noDisk");
+    const driveLabel = disk?.name ?? t("strip.noDisk");
+    /** @type {HTMLElement} */ (this.driveBtn.querySelector(".strip-label")).textContent = driveLabel;
+    this.driveBtn.setAttribute("aria-label", driveLabel);
     this.lamp.classList.toggle("on", spinning);
   }
 }

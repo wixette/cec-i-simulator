@@ -3,17 +3,18 @@
 // The browser checks: the page itself, in a headless Chrome, for what the Node tests cannot
 // reach: clicks, keys, menus, dialogs, the 3D and 2D views, the layout at a phone's width.
 //
-//     pnpm test:browser              every check
-//     pnpm test:browser boot tape    just these
+//     pnpm test:browser                   every check
+//     pnpm test:browser boot disk         just these
+//     pnpm test:browser --coverage        and what of the page's code they reach
 //
-// They take a few minutes and need Chrome (or CHROME set to its path), so they are run by
-// hand before a release, not in CI; `pnpm test` is what CI runs (docs/development.md). Each
-// check gets a fresh browser profile. As the TRS-80 simulator's.
+// They need Chrome (or CHROME set to its path); CI runs them in a job of their own
+// (docs/development.md). Each check gets a fresh browser profile. As the TRS-80 simulator's.
 
 import { existsSync } from "node:fs";
+import { hasCoverage, printCoverage } from "./coverage.mjs";
 import { findChrome, killAll, serve, start } from "./harness.mjs";
 
-const CHECKS = ["boot", "keys", "typein", "views", "labels", "flat", "programs", "lessons", "disk", "tools", "layout", "dialogs", "lang"];
+const CHECKS = ["boot", "keys", "typein", "views", "labels", "flat", "programs", "lessons", "disk", "tools", "layout", "dialogs", "access", "lang"];
 
 const chrome = findChrome();
 if (!chrome || !existsSync(chrome)) {
@@ -26,7 +27,8 @@ for (const signal of /** @type {const} */ (["SIGINT", "SIGTERM"])) {
     process.exit(130);
   });
 }
-const wanted = process.argv.slice(2);
+const coverage = process.argv.includes("--coverage");
+const wanted = process.argv.slice(2).filter((a) => a !== "--coverage");
 const unknown = wanted.filter((n) => !CHECKS.includes(n));
 if (unknown.length) {
   console.error(`No such check: ${unknown.join(", ")}. The checks are: ${CHECKS.join(", ")}`);
@@ -42,7 +44,7 @@ for (const name of wanted.length ? wanted : CHECKS) {
   /** @type {import("./harness.mjs").Harness | null} */
   let h = null;
   try {
-    h = await start(chrome, server.url);
+    h = await start(chrome, server.url, "", { coverage });
     await module.default(h);
   } catch (e) {
     if (!h) {
@@ -60,5 +62,6 @@ for (const name of wanted.length ? wanted : CHECKS) {
   failed += h.results.filter((r) => !r.ok).length;
 }
 server.close();
+if (coverage && hasCoverage()) printCoverage();
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);

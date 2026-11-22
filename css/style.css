@@ -30,7 +30,11 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 [hidden] { display: none !important; }
-.references, .dialog-body, #status { user-select: text; -webkit-user-select: text; }
+/* what is read can be selected and copied (a dialog's words, the references, a lesson, the status
+   line); a control never is, wherever it stands, nor is an icon or a picture dragged off */
+.references, .dialog-body, article.lesson, #status { user-select: text; -webkit-user-select: text; }
+button, summary, [role="tab"], [role^="menuitem"], .icon, .tick, .step-n { user-select: none; -webkit-user-select: none; }
+img, svg { -webkit-user-drag: none; }
 button, input, select { font: inherit; color: inherit; }
 a { color: var(--link); }
 :focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
@@ -95,13 +99,6 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .segmented button[aria-checked="true"] { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 .segmented .icon { width: 18px; height: 18px; }
 
-/* a switch (Material 3) */
-.switch { display: inline-flex; align-items: center; gap: 10px; height: 32px; padding: 0 12px 0 4px; border: 0; border-radius: var(--radius-full); background: none; color: var(--md-on-surface); cursor: pointer; font-weight: 560; }
-.switch:hover { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); }
-.switch-track { position: relative; width: 44px; height: 24px; border-radius: 12px; border: 2px solid var(--md-outline); background: var(--md-surface-highest); transition: background 120ms var(--ease), border-color 120ms var(--ease); flex: none; }
-.switch-thumb { position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--md-outline); transition: all 120ms var(--ease); }
-.switch[aria-checked="true"] .switch-track { background: var(--md-primary); border-color: var(--md-primary); }
-.switch[aria-checked="true"] .switch-thumb { left: 22px; top: 2px; width: 16px; height: 16px; background: var(--md-on-primary); }
 
 /* an outlined text field, and a select */
 .field { height: 32px; padding: 0 8px; border: 1px solid var(--md-outline); border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface); font-size: 13px; }

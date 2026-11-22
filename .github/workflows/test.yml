@@ -27,3 +27,18 @@ jobs:
       # and the import map, and the reference check's own tests. The full 6502 suite is
       # opt-in (pnpm test:6502).
       - run: pnpm test
+
+  # The page itself in a headless Chrome (tests/browser/): clicks, keys, menus, dialogs, the
+  # 3D and 2D views, the layout at a phone's width, the lessons, the disk drive, the languages.
+  # The runner's Chrome, with its software GPU. Also reports what of the page's code they reach.
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:browser --coverage
