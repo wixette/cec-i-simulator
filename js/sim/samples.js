@@ -41,7 +41,7 @@ export const SAMPLES = [...LEARN, ...CHINESE, ...GAMES, ...UTILITIES, ...MUSIC, 
 
 /** How long the Chinese system takes to start once 中文 is pressed, and LOGO once LG is typed, s. */
 const CHINESE_START_S = 2.5;
-const LOGO_START_S = 3;
+export const LOGO_START_S = 3;
 
 /** A sample's machine code, assembled. @param {Sample} s */
 export function machineCode(s) {

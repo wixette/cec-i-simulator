@@ -1,13 +1,29 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // The References tab (docs/ui-design.md, U6), in one column down the middle of the dock,
-// looked up rather than read in order: further reading first, what the simulator is built on,
-// its source; then what it simplifies, folded, for the few who want it. About's References
-// button opens it.
+// looked up rather than read in order: the machine's keys on the visitor's, how Chinese goes
+// in; further reading, what the simulator is built on, its source; then what it simplifies,
+// folded, for the few who want it. About's References button opens it.
+//
+// A message may mark code with `backticks` and a key with [[brackets]].
 
 import { t } from "../l10n/l10n.js";
+import { LEGEND } from "../sim/host-keys.js";
 import { el } from "../ui/components.js";
 import { REPO } from "./about.js";
+
+/**
+ * A message's text, its `code` and [[keys]] as elements.
+ * @param {string} text
+ * @returns {(Node | string)[]}
+ */
+export function rich(text) {
+  return text.split(/(`[^`]+`|\[\[[^\]]+\]\])/).filter(Boolean).map((part) => {
+    if (part.startsWith("`")) return el("code", { text: part.slice(1, -1) });
+    if (part.startsWith("[[")) return el("kbd", { text: part.slice(2, -2) });
+    return part;
+  });
+}
 
 /** @param {string} href @param {string} text */
 const link = (href, text) => el("a", { href, target: "_blank", rel: "noopener", text });
@@ -35,8 +51,19 @@ export class ReferencesTool {
   /** @param {HTMLElement} host */
   constructor(host) {
     const list = (/** @type {[string, string][]} */ items) => el("ul", { class: "link-list" }, items.map(([key, href]) => el("li", {}, [link(href, t(key))])));
+    const keys = el("table", { class: "keymap" }, [
+      el("thead", {}, [el("tr", {}, [el("th", { text: t("refs.keys.machine") }), el("th", { text: t("refs.keys.yours") }), el("th", { text: t("refs.keys.or") })])]),
+      el("tbody", {}, LEGEND.map(([machine, yours, alt]) => el("tr", {}, [el("td", {}, [el("kbd", { text: machine })]), el("td", {}, [el("kbd", { text: yours })]), el("td", {}, [el("kbd", { text: alt })])]))),
+    ]);
+    const chinese = el("ul", {}, Array.from({ length: 3 }, (_, i) => el("li", {}, rich(t(`refs.chinese.${i + 1}`)))));
     host.append(
       el("article", { class: "references" }, [
+        el("h3", { text: t("refs.keys") }),
+        el("p", {}, rich(t("refs.keys.intro"))),
+        keys,
+        el("p", {}, rich(t("refs.keys.ctrl"))),
+        el("h3", { text: t("refs.chinese") }),
+        chinese,
         el("h3", { text: t("refs.reading") }),
         list(READING),
         el("h3", { text: t("refs.credits") }),

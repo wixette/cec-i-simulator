@@ -218,18 +218,22 @@ export class TopBar {
     return items;
   }
 
-  /** Opens one of our programs' dialogs, as Programs does (a lesson's step). @param {string} id */
-  openProgram(id) {
+  /**
+   * Opens one of our programs' dialogs, as Programs does (a lesson's step).
+   * @param {string} id
+   * @param {() => void} [typing] what to do as its typing starts (a lesson turns to the screen)
+   */
+  openProgram(id, typing) {
     const sm = SAMPLES.find((x) => x.id === id);
-    if (sm) this.program(sm);
+    if (sm) this.program(sm, typing);
   }
 
   /**
    * One of our programs (design/v0.0.3.md, P1): what it does, the mode it runs in, its listing,
    * and Type it in, which gets the machine to that mode and types it on the keys.
-   * @private @param {import("../sim/samples.js").Sample} sm
+   * @private @param {import("../sim/samples.js").Sample} sm @param {() => void} [typing]
    */
-  program(sm) {
+  program(sm, typing) {
     const s = this.system;
     const title = t(`sample.${sm.id}.title`);
     const body = [
@@ -238,7 +242,7 @@ export class TopBar {
       el("pre", { class: "program-listing", text: listing(sm) }),
     ];
     const off = s.machine.powered ? undefined : t("bar.switchOnFirst");
-    showDialog(title, body, [{ label: t("typein.cancel") }, { label: t("program.type"), primary: true, icon: "keyboard", disabled: off, run: () => void s.typeProgram(sm, title) }], { wide: true });
+    showDialog(title, body, [{ label: t("typein.cancel") }, { label: t("program.type"), primary: true, icon: "keyboard", disabled: off, run: () => void (s.typeProgram(sm, title) && typing?.()) }], { wide: true });
   }
 
   /**

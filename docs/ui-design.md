@@ -8,7 +8,7 @@ This document holds the principles the simulator's page is laid out by, and the 
 
 The machine's own decisions (D1, D2, …) are in [../design/decisions.md](../design/decisions.md).
 
-**Status:** as built for v0.0.3 (first written for v0.0.1).
+**Status:** as built for v0.0.4 (first written for v0.0.1).
 
 ## Part 1. Principles
 
@@ -26,7 +26,7 @@ If a control is wanted somewhere else, move it, or make both places visible at o
 
 ### P3. Tools live in one dock, one at a time
 
-The four instruments (CPU & Memory, Screen, Chinese, Keyboard), Start and References, and the lessons as they come, share one dock under the stage. You choose which one it shows, how big it is, and whether it is open at all.
+The four instruments (CPU & Memory, Screen, Chinese, Keyboard), the Lessons and References share one dock under the stage. You choose which one it shows, how big it is, and whether it is open at all.
 
 ### P4. Occasional actions go in menus and dialogs
 
@@ -97,7 +97,7 @@ Every control takes its colours, corners, type and states from one set of design
 │ ╰─────────────────────────────────────────────────────────────────────────────────────╯ │
 │                          [⏻ Computer | ↺ Ctrl-Reset] [▭ TV]                               │  helper strip
 ├══════════════════════════════════════ drag ═════════════════════════════════════════════┤
-│ CPU & Memory  Screen  Chinese  Keyboard   Start  References                            ▾ │  dock
+│ CPU & Memory  Screen  Chinese  Keyboard   Lessons  References                          ▾ │  dock
 │ …                                                                                       │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
 │ Ready. Type on your keyboard: Enter is Return, Page Up 中文, Page Down 西文 …             │  status line
@@ -138,11 +138,11 @@ A strip of its own, centred at the stage's foot, just above the dock: *Computer*
 - **The machine starts switched on,** the computer and the TV, at `ZHONG HUA XUE XI JI` and BASIC's prompt: a first visit opens on a live machine. After that both are as the visitor left them.
 - **The visitor's keyboard is the CEC-I's** whenever no menu, dialog or text box has it (D7). A held key holds the machine's key; the machine repeats it, as its own keyboard does.
 - **The machine's keys** can be clicked or tapped, in 3D and in 2D. Ctrl, Shift and TEST clicked stay down for the next key, so that Ctrl-Reset and Ctrl-Reset-TEST can be clicked.
-- **The keys' legend** is in the Start tab and in the first status message.
+- **The keys' legend** is in References and in the first status message.
 
 ### U6. The dock's tabs
 
-The instruments first (U12): the CPU, the two of the picture (Screen, Chinese), the keyboard; then the reading: **Start** (the default on a first visit): what the machine is, a first few minutes, the machine's keys on the visitor's, and how Chinese goes in; **References:** further reading first, then what the simulator is built on and its source, and last, folded, what it simplifies. The lessons (v0.0.4) will join the reading. The dock remembers its tab, its height and whether it is folded; what the machine does never switches its tab.
+The instruments first (U12): the CPU, the two of the picture (Screen, Chinese), the keyboard; then the reading: the **Lessons** (U13; the default on a first visit), whose first lesson is what the machine is and a first few minutes with it; **References:** the machine's keys on the visitor's and how Chinese goes in, further reading, what the simulator is built on and its source, and last, folded, what it simplifies. The dock remembers its tab, its height and whether it is folded; what the machine does never switches its tab.
 
 ### U7. Programs
 
@@ -174,6 +174,7 @@ The TV takes the stage, its picture large and sharp on the tube's lit glass, its
 The page speaks 简体中文 and English (D9); v0.0.6 brings ten.
 - **What is translated:** every text of the page's own, and the parts' labels. **What is not:** the machine's own words (P5).
 - **The language button** is in the top bar's right: a translate icon and the language's short name (简, EN). Its menu lists each language as it names itself. A choice is remembered, and the page opens again in it (the machine starts again, as on any visit).
+- **Simplified Chinese is written, not translated:** it is the page's first language, the one the machine's users read. Its messages and lessons are drafted in Chinese for Chinese readers (Chinese sentence order, a named subject rather than a pronoun or an ellipsis, the terms Chinese manuals use, titles and buttons that say what they are about or do), keeping with English only the facts, placeholders, `code` and [[keys]]. The other languages (v0.0.6) may be translated from English or the Chinese (CONTRIBUTING.md).
 - **One file per language,** `js/l10n/<locale>.js`, with English's keys. `tests/l10n.test.js` fails while any message is missing, or its placeholders, its `code` or its [[keys]] differ from English's.
 
 ### U12. The instruments
@@ -186,4 +187,12 @@ The page speaks 简体中文 and English (D9); v0.0.6 brings ten.
 - **Inside** (U2) lights the chips as they work, as the TRS-80's does: the 6502 while it runs; the RAM U5, U6; U7; U35; the font ROMs U33, U34; the latch U32 as it is written; U13 while text is shown.
 - **Layout:** the cards side by side while each fits at its own width (the main card as wide as its grid, the side cards 300 px at least), else one under another; on a phone, one column, each card the pane's width, a wide grid (the page's bytes, the matrix, the dump) scrolling inside its card.
 - A tab not shown does no work; a tab shown redraws a few times a second, and its cards only when what they show changes.
+
+### U13. The lessons
+
+*(v0.0.4; design/v0.0.4.md)* A Lessons tab of the dock, before References: the first tab a visitor meets, in place of the Start tab of v0.0.1–v0.0.3. A bar of six numbered lessons (on a narrow screen, numbers only but the open one), a tick-green number for a lesson done; a lesson: "Lesson 3 of 6", its title and lead, its steps. A step: its number, title, a few sentences (`code` the machine's text), perhaps a photograph at its right, the line it types as the machine's text, its chips, and a tick at its right, green once the machine shows it done; a "Going further" aside, folded.
+- **The chips:** *Type it* (the step's keys, on the machine's own, after Ctrl-Reset where the step starts afresh); *Open* a program (its dialog, as Programs); *Show me*: a 3D view, or an instrument beside the lesson. The instrument is the one of its tab, moved, working; its tab says so, and choosing its tab takes it back. On a narrow screen it stands above the lesson.
+- **Ticks** in order, or out of it once a step's chip is used; a program's step ticks once it is typed in and started, a Show me step once shown. Remembered with the lesson open. *Next: …* at a lesson's foot opens the next lesson at its top.
+- **What a lesson types is watched on the screen:** its Type it, or a program it opens and types in, turns the 3D camera to the Screen view (2D shows the screen already).
+- **Show me always answers:** the picture's edge glows once, even when the camera is at the view already.
 
