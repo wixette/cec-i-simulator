@@ -19,6 +19,7 @@
 
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { has, t } from "../l10n/l10n.js";
 import { ghost } from "./ghost.js";
 import { KeyboardMotion } from "./keyboard-motion.js";
 import { Ribbon } from "./ribbon.js";
@@ -83,6 +84,17 @@ const GLOW = /** @type {const} */ ({
  * @property {number} drop the share of the travel Caps Lock sits down while latched
  */
 
+/**
+ * A part's label in the page's language: its message (`label.<part>`, js/l10n), a key's
+ * from its legend; the model's own English where there is none.
+ * @param {string} node the part's name in the model
+ * @param {string} en the model's English label
+ */
+export function partLabel(node, en) {
+  if (node.startsWith("key.")) return t("label.key", { name: en.replace(/^Key /, "") });
+  return has(`label.${node}`) ? t(`label.${node}`) : en;
+}
+
 export class Machine3D {
   /**
    * Loads the model and binds it.
@@ -90,12 +102,11 @@ export class Machine3D {
    * @param {System} system
    * @param {URL} model the .glb
    * @param {any} params model/params/machine.json
-   * @param {"en" | "zh"} lang the labels' language
    * @param {(f: number) => void} [progress] 0..1 while it loads
    */
-  static async load(viewer, system, model, params, lang, progress) {
+  static async load(viewer, system, model, params, progress) {
     const gltf = await new GLTFLoader().loadAsync(model.href, (e) => e.total && progress?.(e.loaded / e.total));
-    return new Machine3D(viewer, system, gltf.scene, params, lang);
+    return new Machine3D(viewer, system, gltf.scene, params);
   }
 
   /**
@@ -103,14 +114,12 @@ export class Machine3D {
    * @param {System} system
    * @param {THREE.Object3D} root
    * @param {any} params
-   * @param {"en" | "zh"} lang
    */
-  constructor(viewer, system, root, params, lang) {
+  constructor(viewer, system, root, params) {
     this.viewer = viewer;
     this.system = system;
     this.root = root;
     this.params = params;
-    this.lang = lang;
     /** @type {Events} */
     this.on = {};
     root.traverse((o) => {
@@ -484,8 +493,8 @@ export class Machine3D {
   describe(o) {
     const named = this.up(o, (x) => !!x.userData.label_en);
     if (!named) return null;
-    const label = String((this.lang === "zh" && named.userData.label_zh) || named.userData.label_en);
     const node = /** @type {string} */ (named.userData.name ?? named.name);
+    const label = partLabel(node, String(named.userData.label_en));
     const s = this.system;
     const unit = this.unitAt(o);
     /** @type {Hover["action"]} */

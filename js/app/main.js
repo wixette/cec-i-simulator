@@ -5,7 +5,7 @@
 // line, and runs them each frame. docs/ui-design.md says how they are laid out and why.
 
 import { t, useLocale } from "../l10n/l10n.js";
-import { LOCALE_STORE, pickLocale } from "../l10n/locales.js";
+import { LOCALE_STORE, LOCALE_TAGS, pickLocale } from "../l10n/locales.js";
 import { bakeKeys } from "../flat/bake-keys.js";
 import { bakeRocker } from "../flat/bake-rocker.js";
 import { Flat } from "../flat/flat.js";
@@ -65,7 +65,7 @@ const store = (key, value) => {
 // ---- the language (U11), before anything is written: the address's ?lang=, the visitor's choice, the browser's
 const lang = pickLocale({ query: new URLSearchParams(location.search).get("lang"), saved: load(LOCALE_STORE), browser: navigator.languages ?? [navigator.language] });
 await useLocale(lang);
-document.documentElement.lang = lang === "zh" ? "zh-Hans" : "en";
+document.documentElement.lang = LOCALE_TAGS[lang];
 document.title = t("app.title");
 applyIcons(document);
 applyL10n(document);
@@ -228,7 +228,7 @@ topBar.applyFinish();
 // ---- the 3D model, loaded in the background ---------------------------------------------------------
 if (viewer) {
   stage.progress(0);
-  Machine3D.load(viewer, system, asset("model/cec-i.glb"), machineParams, lang, (f) => stage.progress(f))
+  Machine3D.load(viewer, system, asset("model/cec-i.glb"), machineParams, (f) => stage.progress(f))
     .then((m) => {
       model = m;
       stage.bindModel(m);

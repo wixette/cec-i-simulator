@@ -58,3 +58,9 @@
   --status-h: 30px;
   --ease: cubic-bezier(0.2, 0, 0, 1);
 }
+
+/* the page in Traditional Chinese, Japanese or Korean: their own fonts first, so that their
+   Han characters take their own shapes (the machine's own Chinese is drawn from its ROMs) */
+:root:lang(zh-Hant) { --font: "Roboto Flex", system-ui, -apple-system, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", "Source Han Sans TC", sans-serif; }
+:root:lang(ja) { --font: "Roboto Flex", system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif; }
+:root:lang(ko) { --font: "Roboto Flex", system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans CJK KR", sans-serif; }

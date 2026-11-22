@@ -48,7 +48,7 @@ Type in (and Open a BASIC file) types text on the machine's keys, as a person wo
 
 ## D9. 简体中文 when nothing else decides
 
-The page speaks 简体中文 and English. A visit uses the language of the address (`?lang=`), else the visitor's choice, else the first of the browser's languages that is here, else 简体中文: most of the machine's users read Chinese.
+The page speaks ten languages *(v0.0.6)*: 简体中文 first, then English, 繁體中文, 日本語, 한국어, Español, Français, Deutsch, Italiano and Português (Brasil). A visit uses the language of the address (`?lang=`), else the visitor's choice, else the first of the browser's languages that is here, else 简体中文: most of the machine's users read Chinese.
 
 ## D10. The machine's memory is not kept
 

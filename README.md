@@ -6,13 +6,13 @@
 
 **在浏览器里 3D 再现 1987 年的 CEC-I 中华学习机。** 你可以开机、编写 BASIC 程序、输入汉字，还可以把机器拆开，看看一台 8 位电脑是怎样显示成千上万个汉字的。
 
-**[▶ 在线试用](https://wixette.github.io/cec-i-simulator/)**：无需安装，电脑和手机上都能用，界面有简体中文和英文两种。
+**[▶ 在线试用](https://wixette.github.io/cec-i-simulator/)**：无需安装，电脑和手机上都能用，界面有简体中文、繁體中文、English、日本語、한국어、Español、Français、Deutsch、Italiano 和 Português 十种语言。
 
 > **English:** The CEC-I 中华学习机 (China Educational Computer, 1987) was China's school computer: an Apple IIe compatible with the whole GB 2312 Chinese character set in two font chips on its main board. This simulator runs its own ROMs in your browser, in 3D, with its TV and its keyboard. **[Read the English README](README.en.md).**
 
 ![模拟器：中华学习机和它的电视机，屏幕上是一段汉字 BASIC 程序的运行结果，下方是课程面板](screenshots/app.jpg)
 
-> 这是预发布版（v0.0.5），已经有六节简短的课程、“程序”菜单里的十六个示例程序（游戏、汉字、音乐、LOGO 等）、机器下方演示工作原理的四个仪表，还有一台软盘驱动器，可以运行你自己找来的 Apple II 磁盘。更多语言将在以后的版本中加入（见[路线图](design/roadmap.md)）。
+> 这是预发布版（v0.0.6），已经有六节简短的课程、“程序”菜单里的十六个示例程序（游戏、汉字、音乐、LOGO 等）、机器下方演示工作原理的四个仪表，还有一台软盘驱动器，可以运行你自己找来的 Apple II 磁盘。1.0 版之前还会全面检查一遍（见[路线图](design/roadmap.md)）。
 
 ## 中华学习机是什么？
 

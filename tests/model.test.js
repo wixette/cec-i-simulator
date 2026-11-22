@@ -12,6 +12,7 @@ import { describe, it } from "node:test";
 import { NO_CODE } from "../js/sim/keyboard.js";
 import { nodesByName, readGlb } from "./glb.js";
 import { MATRIX } from "./boot.js";
+import en from "../js/l10n/en.js";
 
 const GLB = new URL("../model/cec-i.glb", import.meta.url);
 const glb = readGlb(GLB);
@@ -29,6 +30,19 @@ describe("the model", () => {
     const listed = ["tv", "tv.screen", "tv.screen_rim", "tv.power", "tv.knob.brightness", "tv.knob.colour", "tv.lamp", "case.lid", "keyboard", "board.main", "case.base"];
     assert.ok(asked.length >= 8, `${asked.length} names found`);
     assert.deepEqual([...asked, ...listed].filter((n) => !nodes.has(n)), []);
+  });
+
+  it("every labelled part has its label as a message (label.<part>), a key's from its legend; and no message for a part the model has not", () => {
+    /** @type {Record<string, string>} */
+    const msgs = en;
+    const labelled = [...nodes].filter(([, n]) => n.node.extras?.label_en).map(([name, n]) => ({ name, en: String(n.node.extras?.label_en) }));
+    assert.ok(labelled.length > 100, `${labelled.length} labelled`);
+    for (const p of labelled) {
+      if (p.name.startsWith("key.")) assert.match(p.en, /^Key /, p.name);
+      else assert.ok(`label.${p.name}` in msgs, p.name);
+    }
+    const names = new Set(labelled.map((p) => p.name));
+    assert.deepEqual(Object.keys(msgs).filter((k) => /^label\.(part|board|cable|case|switch|keyboard|led|psu|speaker|tv)\b/.test(k) && !names.has(k.slice(6))), []);
   });
 
   it("the stage's views frame parts the model has", () => {

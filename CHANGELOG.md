@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.0.6 (pre-release)
+
+Ten languages ([design/v0.0.6.md](design/v0.0.6.md)).
+
+- The page, the lessons and the parts' labels in **ten languages**: 简体中文, English, 繁體中文, 日本語, 한국어, Español, Français, Deutsch, Italiano and Português (Brasil). Chosen from the browser's languages on a first visit, else 简体中文; the language menu names each as it names itself.
+- The parts' labels move from the 3D model into the messages, so that every language has them; the Chinese ones written again from the parts' markings.
+- Traditional Chinese, Japanese and Korean pages use their own fonts for Han characters.
+
 ## v0.0.5 (pre-release)
 
 Disks and files ([design/v0.0.5.md](design/v0.0.5.md)).

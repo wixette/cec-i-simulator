@@ -20,7 +20,7 @@ const walk = (dir) =>
   readdirSync(join(ROOT, dir), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}/${e.name}`) : e.name.endsWith(".js") ? [`${dir}/${e.name}`] : []));
 
 /** The keys built at run time, by the prefix the code builds them from. */
-const FAMILIES = [/^lesson\./, /^sample\./, /^programs\.(learn|chinese|games|utilities|music|logo)$/, /^program\.mode\./, /^cpu\.follow\./, /^region\./, /^flag\./, /^screen\.(shows|kind)\./, /^view\.[a-z]+$/, /^stage\.(2d|3d)\.tip$/, /^unit\./, /^knob\.(brightness|colour)$/, /^knob\.colourNone\./, /^display\.(colour|bw|green)$/, /^menu\.display\.(colour|bw|green)$/, /^refs\.chinese\.\d$/];
+const FAMILIES = [/^lesson\./, /^sample\./, /^programs\.(learn|chinese|games|utilities|music|logo)$/, /^program\.mode\./, /^cpu\.follow\./, /^region\./, /^flag\./, /^screen\.(shows|kind)\./, /^view\.[a-z]+$/, /^stage\.(2d|3d)\.tip$/, /^unit\./, /^knob\.(brightness|colour)$/, /^knob\.colourNone\./, /^display\.(colour|bw|green)$/, /^menu\.display\.(colour|bw|green)$/, /^refs\.chinese\.\d$/, /^label\.(key|part|board|cable|case|switch|keyboard|led|psu|speaker|tv)\b/];
 
 describe("every text is a message", () => {
   const code = [...walk("js"), "index.html"].filter((f) => !f.startsWith("js/l10n/")).map((f) => readFileSync(join(ROOT, f), "utf8")).join("\n");
@@ -59,9 +59,15 @@ describe("the page's languages (U11)", () => {
     assert.equal(pickLocale({ query: "en", saved: "zh", browser: ["zh-CN"] }), "en");
     assert.equal(pickLocale({ query: null, saved: "en", browser: ["zh"] }), "en");
     assert.equal(pickLocale({ browser: ["sv-SE", "en-GB"] }), "en");
-    assert.equal(pickLocale({ browser: ["sv-SE", "ja-JP"] }), "zh");
+    assert.equal(pickLocale({ browser: ["sv-SE", "ja-JP"] }), "ja");
+    assert.equal(pickLocale({ browser: ["sv-SE", "fi"] }), "zh");
     assert.equal(pickLocale({}), "zh");
-    assert.equal(matchLocale("zh-Hant-TW"), "zh");
+    assert.equal(matchLocale("zh-Hant-TW"), "zh-TW");
+    assert.equal(matchLocale("zh-HK"), "zh-TW");
+    assert.equal(matchLocale("zh-Hans-HK"), "zh");
+    assert.equal(matchLocale("zh-SG"), "zh");
+    assert.equal(matchLocale("pt-PT"), "pt-BR");
+    assert.equal(matchLocale("fr-CA"), "fr");
     assert.equal(matchLocale("EN_us"), "en");
     assert.equal(matchLocale("xx"), null);
   });
