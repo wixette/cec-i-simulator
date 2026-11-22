@@ -33,7 +33,7 @@ import { el, icon, setTip, showMenu } from "../ui/components.js";
  * metres, for before the model is in.
  * @type {Record<ViewName, { dir: Vec, nodes: string[], fill: number, back?: number, pos: Vec, target: Vec }>}
  */
-export const VIEWS = {
+const VIEWS = {
   // the way in: straight on from the front, 32 degrees above, the TV and the computer framed
   // together, the whole screen over the computer, ready to type
   front: { dir: [0, 0.53, 0.85], nodes: ["tv", "case.base", "case.lid"], fill: 0.94, pos: [0, 0.5, 0.78], target: [0, 0.13, -0.1] },

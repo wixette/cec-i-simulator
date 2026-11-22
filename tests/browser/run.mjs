@@ -7,8 +7,9 @@
 //     pnpm test:browser boot disk         just these
 //     pnpm test:browser --coverage        and what of the page's code they reach
 //
-// They need Chrome (or CHROME set to its path); CI runs them in a job of their own
-// (docs/development.md). Each check gets a fresh browser profile. As the TRS-80 simulator's.
+// They need Chrome (or CHROME set to its path) and take several minutes, so they are run on a
+// developer's machine before each release, not in CI, which stays fast (docs/development.md).
+// Each check gets a fresh browser profile. As the TRS-80 simulator's.
 
 import { existsSync } from "node:fs";
 import { hasCoverage, printCoverage } from "./coverage.mjs";

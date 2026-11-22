@@ -48,11 +48,31 @@ reuse lint          # every file's licence is declared (REUSE.toml, LICENSES/)
 ### The browser checks
 
 ```
-pnpm test:browser              # every check, a few minutes
-pnpm test:browser boot keys    # just these
+pnpm test:browser                 # every check, about six minutes
+pnpm test:browser boot keys       # just these
+pnpm test:browser --coverage      # and what of the page's code they reach, file by file
 ```
 
-`tests/browser/` drives the page itself in a headless Chrome, with real mouse and key events: switching on and typing, the visitor's keys as the machine's (中文, Ctrl-F12, Caps Lock), Type in with Chinese, the 3D views and taking it apart, the 2D view and its drawer, the layout at desktop and phone sizes, the menus and dialogs, and the languages. They need Chrome and take a few minutes, so they are run by hand before a release, not in CI.
+`tests/browser/` drives the page itself in a headless Chrome, with real mouse and key events. Its checks, in the order they run (`tests/browser/run.mjs`):
+
+| Check | What it drives |
+|---|---|
+| `boot` | a first visit on a live machine, typing, the strip's switches, what stays off, the page's own self-test, the ROMs missing |
+| `keys` | the visitor's keys as the machine's (中文, Ctrl-F12, Caps Lock, Ctrl-V), after a click on the 3D view too |
+| `typein` | Type in, with Chinese through 区位; a character the machine has not; Save offered |
+| `views` | the 3D views, taking it apart and putting it back, Display |
+| `labels` | the parts' labels under a resting mouse, quiet between the keys |
+| `flat` | the 2D view, its keyboard drawer, the TV's button and knobs |
+| `programs` | our programs, typed in from any state |
+| `lessons` | the lessons: Type it, Show me, the ticks, a program's step |
+| `disk` | the disk drive: a disk dropped and booted, saved, ejected; files opened and saved |
+| `tools` | the four instruments |
+| `layout` | desktop, laptop and phone sizes, upright and on its side: the page fits, the stage keeps its room |
+| `dialogs` | About, References, Display's choices, the dock folding |
+| `access` | the keyboard alone, names on a phone, selection and dragging |
+| `lang` | the ten languages |
+
+They need Chrome (`CHROME` names it if it is not found). On a Mac they use its GPU; elsewhere Chrome's software one, much slower. They take several minutes, so they are run locally: the checks a change touches as it is made, every check before each release. CI stays fast and does not run them.
 
 ## The 3D model
 

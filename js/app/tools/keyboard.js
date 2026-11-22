@@ -19,7 +19,7 @@ import { el } from "../../ui/components.js";
 const Y_LINES = 9;
 
 /** A code as it shows: the character, or ^X for a control code. @param {number} code */
-export const showCode = (code) => (code < 32 ? `^${String.fromCharCode(code + 64)}` : code === 127 ? "DEL" : code === 32 ? "␠" : String.fromCharCode(code));
+const showCode = (code) => (code < 32 ? `^${String.fromCharCode(code + 64)}` : code === 127 ? "DEL" : code === 32 ? "␠" : String.fromCharCode(code));
 
 export class KeyboardTool {
   /**

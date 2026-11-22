@@ -31,8 +31,8 @@ const FRAME_BUDGET_MS = 12;
 /** The machine runs in slices this long, cycles, with the keyboard and the typist ticked between. */
 const SLICE = Math.round(CLOCK_HZ / 1000);
 /** Seconds a unit takes to come out; to go back with the rest, after Put it all back. */
-export const OUT_S = 1.1;
-export const BACK_S = 0.25;
+const OUT_S = 1.1;
+const BACK_S = 0.25;
 /** How long a key typed by the typist shows down, ms. */
 const TYPED_MS = 90;
 /** LOGO's own output routine, where CSW ($36) points while LOGO runs (what it prints goes through it). */

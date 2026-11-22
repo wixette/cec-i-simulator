@@ -136,7 +136,7 @@ export function setTip(e, text) {
 let openMenu = null;
 
 /** Close the open menu, if any. */
-export function closeMenu() {
+function closeMenu() {
   if (!openMenu) return;
   const { box, anchor, sub } = openMenu;
   openMenu = null;

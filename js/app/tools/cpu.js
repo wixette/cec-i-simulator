@@ -16,7 +16,7 @@ import { el, icon, setTip } from "../../ui/components.js";
 /** @typedef {import("../../sim/system.js").System} System */
 
 /** The speeds offered: the real machine, and slower. */
-export const SPEEDS = [1, 0.1, 0.01, 0.001];
+const SPEEDS = [1, 0.1, 0.01, 0.001];
 /** The flags, from bit 7 down (bit 5 is always 1, and not shown). */
 const FLAGS = /** @type {[string, number][]} */ ([
   ["N", 7],
