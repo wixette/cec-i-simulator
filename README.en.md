@@ -55,7 +55,7 @@ This simulator is that machine, part for part:
 
 Ctrl-Reset is Ctrl-F12. On a phone, switch to 2D and type on the drawn keyboard.
 
-**Disks:** Programs ▸ Disk inserts a `.dsk`, `.do`, `.po`, `.nib` or `.woz` disk image (or drop the file on the page), and the machine starts from it as it did: DOS 3.3, ProDOS, games. What is written to the disk can be saved as a file again. Bring your own disks: none are hosted here. Programs ▸ Save the program saves a BASIC program, or LOGO's procedures while LOGO runs, with a name.
+**Disks:** Programs ▸ Disk inserts a `.dsk`, `.do`, `.po`, `.nib` or `.woz` disk image (or drop the file on the page), and the machine starts from it as it did: DOS 3.3, ProDOS, games. What is written to the disk can be saved as a file again. Bring your own disks: none are hosted here. With DOS 3.3 started, the Text editor saves its text on the disk and loads it back. Programs ▸ Save the program saves a BASIC program, or LOGO's procedures while LOGO runs, with a name.
 
 The machine's four books are transcribed (in Chinese) in the [cec-i-docs](https://github.com/wixette/cec-i-docs) project.
 

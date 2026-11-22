@@ -411,7 +411,7 @@ export default {
   "sample.idioms.title": "Idiom quiz",
   "sample.idioms.about": "Ten idioms, each with a character missing: choose it from three. In the Chinese system, its text in Chinese.",
   "sample.editor.title": "Text editor",
-  "sample.editor.about": "A whole-screen editor in the manner of WordStar, in machine code so that every key shows at once: the arrows go anywhere in the text, F2 deletes the character before the cursor, Return starts a new line, Quit ends. Lines of 40 wrap; a status line counts lines, columns and characters. It does not save its text.",
+  "sample.editor.about": "A whole-screen editor in the manner of WordStar, in machine code so that every key shows at once: the arrows go anywhere in the text, F2 deletes the character before the cursor, Return starts a new line, Quit ends. Lines of 40 wrap; a status line counts lines, columns and characters. With DOS 3.3 started from a disk, it saves its text on the disk and loads it back, with DOS's own BSAVE and BLOAD.",
   "sample.numread.title": "Reading numbers",
   "sample.numread.about": "Type a number, such as 12345 or 123.45, and see it read in Chinese: 一万二千三百四十五, 一百二十三点四五. Digits and a point only, up to twelve digits before the point and eight after; 万 and 亿, 零 and 十 as they are said.",
 };
