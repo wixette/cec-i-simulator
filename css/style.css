@@ -151,7 +151,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 #helper-strip.folded .strip-body { display: none; }
 /* the disk drive's button (v0.0.5): the disk's name, and the drive's red lamp, lit while the motor turns */
 .strip-body .drive .strip-label { max-width: 16ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.drive-lamp { flex: none; width: 8px; height: 8px; margin-left: 2px; border-radius: 50%; background: var(--md-outline-variant); }
+.drive-lamp { flex: none; width: 8px; height: 8px; margin-left: 2px; border-radius: 50%; background: #6b2a28; }
 .drive-lamp.on { background: #e53935; box-shadow: 0 0 6px 1px rgba(229, 57, 53, 0.8); }
 .name-box { display: block; width: 100%; margin: 6px 0 0; padding: 8px 10px; border: 1px solid var(--md-outline); border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface); font-family: var(--mono); font-size: 14px; user-select: text; -webkit-user-select: text; }
 .name-box:focus { outline: 2px solid var(--md-primary); outline-offset: -1px; }

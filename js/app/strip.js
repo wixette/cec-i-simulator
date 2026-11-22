@@ -3,9 +3,9 @@
 // The helper strip (docs/ui-design.md, U4): the controls that are hard to reach on the machine
 // itself, as large buttons in one strip at the stage's foot, centred, in 2D and in 3D: the
 // computer's power switch (a rocker on its left side), Ctrl-Reset (two keys at once, at the
-// keyboard's two ends), and the TV's power button; and, once a disk is in the drive, the
-// drive (design/v0.0.5.md): its disk's name and its lamp, lit while the motor turns, a click
-// its menu (the drive is behind the machine, out of the picture). They are not parts of the machine, so they
+// keyboard's two ends), the TV's power button, and the disk drive (design/v0.0.5.md): always
+// there, its disk's name (or none), its lamp lit while the motor turns, a click its menu (the
+// drive is behind the machine, out of the picture). They are not parts of the machine, so they
 // speak in the instrument's voice (P5). Each is the same operation as the control on the
 // machine (P2), and one that cannot act now is greyed and still answers, saying why (P6). A tab
 // on the strip's top edge folds it away, and the choice is remembered. As the TRS-80
@@ -45,7 +45,7 @@ export class HelperStrip {
     this.driveBtn = button("save", "", t("strip.drive.tip"), () => this.diskMenu(this.driveBtn));
     this.driveBtn.classList.add("drive");
     this.driveBtn.append(this.lamp);
-    this.driveGroup = el("div", { class: "strip-group", hidden: true }, [this.driveBtn]);
+    this.driveGroup = el("div", { class: "strip-group" }, [this.driveBtn]);
     this.body = el("div", { class: "strip-body", id: "strip-body", role: "group", "aria-label": t("strip.label") }, [
       el("div", { class: "strip-group" }, [this.powerBtn, this.resetBtn]),
       el("div", { class: "strip-group" }, [this.tvBtn]),
@@ -87,7 +87,7 @@ export class HelperStrip {
   refresh() {
     const s = this.system;
     const disk = s.disk;
-    const spinning = !!disk && s.driveSpinning;
+    const spinning = s.machine.powered && s.driveSpinning;
     const key = `${s.machine.powered}${s.tv.on}${disk?.name ?? ""}${spinning}`;
     if (key === this.shownKey) return;
     this.shownKey = key;
@@ -96,8 +96,7 @@ export class HelperStrip {
     this.tvBtn.classList.toggle("lit", s.tv.on);
     this.tvBtn.setAttribute("aria-pressed", String(s.tv.on));
     this.resetBtn.setAttribute("aria-disabled", String(!s.machine.powered));
-    this.driveGroup.hidden = !disk;
-    /** @type {HTMLElement} */ (this.driveBtn.querySelector(".strip-label")).textContent = disk?.name ?? "";
+    /** @type {HTMLElement} */ (this.driveBtn.querySelector(".strip-label")).textContent = disk?.name ?? t("strip.noDisk");
     this.lamp.classList.toggle("on", spinning);
   }
 }

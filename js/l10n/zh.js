@@ -230,6 +230,7 @@ export default {
   "save.title": "保存程序",
   "save.name": "文件名",
   "save.go": "保存",
+  "strip.noDisk": "无磁盘",
   "strip.drive.tip": "磁盘驱动器：磁盘转动时指示灯亮。点击打开磁盘菜单。",
   "sound.on": "声音已开。",
   "sound.off": "声音已关。",

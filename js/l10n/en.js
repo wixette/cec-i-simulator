@@ -230,6 +230,7 @@ export default {
   "save.title": "Save the program",
   "save.name": "The file's name",
   "save.go": "Save",
+  "strip.noDisk": "No disk",
   "strip.drive.tip": "The disk drive: its lamp is lit while the disk turns. Click for the disk's menu.",
   "sound.on": "Sound on.",
   "sound.off": "Sound off.",

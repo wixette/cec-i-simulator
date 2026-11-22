@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // The disk drive and saving (design/v0.0.5.md): a disk image of our own dropped on the page
-// is inserted, the dialog offers to start from it, and it boots (the drive's lamp on the
-// strip lit while it reads); Save the disk image is offered; Eject empties the drive; a blank
+// is inserted, the dialog offers to start from it, and it boots (the drive on the strip,
+// always there, its lamp lit while it reads); Save the disk image is offered; Eject empties the drive; a blank
 // disk goes in without starting; Save the program asks for a name, its first REM line's.
 
 import { bootDisk } from "../disks.js";
@@ -12,7 +12,8 @@ export default async function (h) {
   await h.viewport(1440, 900);
   await h.open();
   await h.until("cec.machine.screenText().some((l) => l.startsWith(']'))", 20000);
-  h.verify("no disk: no drive on the strip", await h.js("document.querySelector('.strip-body .drive').closest('.strip-group').hidden"));
+  h.verify("the drive is on the strip with no disk in it, and its button opens the Disk menu", (await h.js("!document.querySelector('.strip-body .drive').closest('.strip-group').hidden && document.querySelector('.strip-body .drive').textContent.includes('No disk')")) && (await h.js("(document.querySelector('.strip-body .drive').click(), true)")) && (await h.until("[...document.querySelectorAll('.menu [role^=menuitem]')].some((b) => b.textContent.startsWith('Insert a disk image'))", 1000)));
+  await h.key("Escape");
   // a disk dropped on the page
   await h.js(`(() => {
     const f = new File([new Uint8Array(${JSON.stringify([...bootDisk()])})], "ours.dsk");
@@ -33,7 +34,7 @@ export default async function (h) {
   await h.key("Escape");
   await h.key("Escape");
   await h.choose("#programs", "Disk ▸ Eject");
-  h.verify("Eject empties the drive, and the strip's drive goes", (await h.until("cec.disk === null", 1000)) && (await h.until("document.querySelector('.strip-body .drive').closest('.strip-group').hidden", 1000)));
+  h.verify("Eject empties the drive, and the strip's drive says so", (await h.until("cec.disk === null", 1000)) && (await h.until("document.querySelector('.strip-body .drive').textContent.includes('No disk')", 1000)));
   // a blank disk, the machine left as it is
   await h.choose("#programs", "Disk ▸ Insert a blank disk");
   await h.until("document.querySelector('dialog[open]') !== null", 2000);
