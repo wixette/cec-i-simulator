@@ -4,12 +4,60 @@
 // C1): the dock's tabs by the arrows, Home and End; its handle by the arrows, and dragged; a
 // submenu on a phone taking its menu's place, with a row going back; every strip button and
 // compact lesson tab keeping its name when a narrow window hides its words; in a dialog, the
-// words selectable but never its buttons; nothing of the page dragged off.
+// words selectable but never its buttons; nothing of the page dragged off; and in each tab, at
+// both sizes, every control named, every picture described, and every text at WCAG AA contrast
+// (4.5:1, 3:1 for large text).
+
+// the page read in place: unnamed controls, pictures with no alt, the 3D picture's name, and
+// text below AA contrast against the background it stands on
+const AUDIT = `(() => {
+  const vis = (e) => { const r = e.getBoundingClientRect(); const s = getComputedStyle(e); return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && s.display !== 'none'; };
+  const name = (e) => (e.getAttribute('aria-label') || e.getAttribute('aria-labelledby') && document.getElementById(e.getAttribute('aria-labelledby'))?.textContent || e.textContent || e.getAttribute('title') || '').trim();
+  const unnamed = [...document.querySelectorAll('button, [role=tab], [role^=menuitem], a, input, select, textarea, [role=slider], [role=switch]')].filter(vis).filter((e) => !name(e) && !(e.labels && e.labels.length)).map((e) => e.outerHTML.slice(0, 120));
+  const noAlt = [...document.querySelectorAll('img')].filter((e) => !e.hasAttribute('alt')).map((e) => e.src);
+  const canvases = [...document.querySelectorAll('canvas')].filter(vis).map((c) => ({ id: c.id || c.parentElement.id, label: c.getAttribute('aria-label') || c.parentElement.getAttribute('aria-label'), role: c.getAttribute('role') || c.parentElement.getAttribute('role') }));
+  const rgb = (s) => (s.match(/[\\d.]+/g) || []).map(Number);
+  const lum = ([r, g, b]) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
+  const bgOf = (e) => { for (let n = e; n; n = n.parentElement) { const c = rgb(getComputedStyle(n).backgroundColor); if (c.length >= 3 && (c.length < 4 || c[3] > 0.9)) return c; } return [20, 20, 20]; };
+  const low = [];
+  const seen = new Set();
+  for (const e of document.querySelectorAll('body *')) {
+    if (!vis(e) || e.closest('canvas, svg')) continue;
+    const own = [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+    if (!own) continue;
+    const s = getComputedStyle(e); const fg = rgb(s.color); const bg = bgOf(e);
+    const a = fg.length > 3 ? fg[3] : 1; const mix = fg.slice(0, 3).map((v, i) => v * a + bg[i] * (1 - a));
+    const L1 = lum(mix), L2 = lum(bg); const ratio = (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
+    const big = parseFloat(s.fontSize) >= 24 || (parseFloat(s.fontSize) >= 18.66 && +s.fontWeight >= 700);
+    const need = big ? 3 : 4.5;
+    if (ratio < need) { const key = e.className + '|' + s.color + '|' + bg; if (!seen.has(key)) { seen.add(key); low.push({ cls: (e.className && e.className.baseVal === undefined ? e.className : e.tagName) + '', text: e.textContent.trim().slice(0, 30), ratio: +ratio.toFixed(2), color: s.color, bg: 'rgb(' + bg.join(',') + ')', size: s.fontSize }); } }
+  }
+  return { unnamed, noAlt, canvases, low };
+})()`;
+
+/**
+ * Every tab audited, at the size the page is at.
+ * @param {import("./harness.mjs").Harness} h
+ * @param {string} size
+ */
+async function audit(h, size) {
+  await h.until("app.model() !== null || !app.viewer", 30000);
+  const found = [];
+  for (const tab of ["lessons", "cpu", "screen", "hanzi", "keyboard", "refs"]) {
+    await h.js(`app.dock.show("${tab}")`);
+    await h.sleep(400);
+    const r = await h.js(AUDIT);
+    if (r.unnamed.length || r.noAlt.length || r.low.length) found.push({ tab, ...r, canvases: undefined });
+    if (tab === "lessons") h.verify(`${size}: the 3D picture is named, as a picture`, r.canvases.every((/** @type {{ id: string, label: string, role: string }} */ c) => c.id !== "view3d" || (c.label && c.role === "img")), r.canvases);
+  }
+  h.verify(`${size}: in every tab, every control named, every picture described, every text at AA contrast`, found.length === 0, found);
+}
 
 /** @param {import("./harness.mjs").Harness} h */
 export default async function (h) {
   await h.viewport(1440, 900);
   await h.open();
+  await audit(h, "desktop");
   // the dock's tabs: the arrows move and choose, Home and End go to the ends
   await h.js("document.getElementById('tab-cpu').focus()");
   await h.keyCode("ArrowRight");
@@ -59,4 +107,5 @@ export default async function (h) {
   h.verify("on a phone, every strip button keeps its name, its words hidden", names.length >= 4 && names.every((/** @type {{ name: string, shown: boolean }} */ n) => n.name && !n.shown), names);
   const tabs = await h.js("[...document.querySelectorAll('.lesson-tab')].map((b) => b.getAttribute('aria-label'))");
   h.verify("… and every lesson tab its title, though only its number shows", tabs.length === 6 && tabs.every((/** @type {string} */ n) => /^\d .{3,}/.test(n)), tabs);
+  await audit(h, "phone");
 }

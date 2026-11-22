@@ -404,5 +404,5 @@ function stickerTint(pair) {
   return `#${[16, 8, 0].map((s) => Math.min(255, Math.round((255 * ch(b, s)) / ch(a, s))).toString(16).padStart(2, "0")).join("")}`;
 }
 
-if (new URLSearchParams(location.search).has("debug")) Object.assign(window, { cec: system, app: { stage, dock, flat, viewer, model: () => model } });
+if (new URLSearchParams(location.search).has("debug")) Object.assign(window, { cec: system, app: { stage, dock, flat, viewer, lessons, topBar, model: () => model } });
 if (new URLSearchParams(location.search).has("selftest")) import("./selftest.js").then((m) => m.selftest(system));

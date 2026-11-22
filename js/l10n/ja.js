@@ -120,7 +120,6 @@ export default {
   "about.title": "このサイトについて",
   "about.version": "バージョン {version}",
   "about.what": "1987 年の中国の教育用コンピューター CEC-I「中华学习机」を 3D で再現。エミュレートした 6502 で本物の ROM を動かし、中国語システム、キーボード、当時のテレビまでそろえています。",
-  "about.prerelease": "プレリリース版です。バージョン 1.0 の前に全体の見直しを行います。",
   "about.source": "GitHub のソースコード",
   "about.issues": "問題を報告",
   "about.licences": "ライセンス",

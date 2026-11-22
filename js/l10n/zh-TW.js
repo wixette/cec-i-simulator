@@ -121,7 +121,6 @@ export default {
   "about.title": "關於",
   "about.version": "版本 {version}",
   "about.what": "在瀏覽器裡以 3D 重現 1987 年的 CEC-I 中華學習機：模擬的 6502 處理器執行它自己的 ROM，漢字系統、鍵盤和一台那個年代的電視機一應俱全。",
-  "about.prerelease": "這是預先發行版：1.0 版之前還會再全面檢查一遍。",
   "about.source": "GitHub 上的原始碼",
   "about.issues": "回報問題",
   "about.licences": "授權條款",

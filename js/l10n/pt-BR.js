@@ -120,7 +120,6 @@ export default {
   "about.title": "Sobre",
   "about.version": "Versão {version}",
   "about.what": "O CEC-I 中华学习机 (computador educacional chinês, 1987) em 3D, rodando as próprias ROMs num 6502 emulado, com seu sistema chinês, seu teclado e uma TV da época.",
-  "about.prerelease": "Uma versão preliminar: uma revisão completa vem antes da versão 1.0.",
   "about.source": "Código-fonte no GitHub",
   "about.issues": "Relatar um problema",
   "about.licences": "Licenças",

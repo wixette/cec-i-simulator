@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// The page's link format (docs/ui-design.md, P8, U1): `#view=3d` or `#view=2d`. It may still
-// change before 1.0.0; from then on a field is never renamed, dropped or read differently.
-// Nothing of the page is in here, so tests/link.test.js can pin it down.
+// The page's link format (docs/ui-design.md, P8, U1; docs/stability.md): `#view=3d` or
+// `#view=2d`. Frozen at 1.0.0: a field is never renamed, dropped or read differently; new
+// fields may be added, and a field this version does not know is ignored. Nothing of the page
+// is in here, so tests/link.test.js can pin it down.
 
 /** @typedef {{ view?: "2d" | "3d" }} Link */
 

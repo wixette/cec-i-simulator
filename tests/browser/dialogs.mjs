@@ -3,12 +3,18 @@
 // The menus and dialogs (P10, U8, U9): About opens with the version and closes on Escape;
 // References opens the tab; Display chooses the set, remembered; the dock folds and opens.
 
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { ROOT } from "./harness.mjs";
+
+const VERSION = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8")).version;
+
 /** @param {import("./harness.mjs").Harness} h */
 export default async function (h) {
   await h.viewport(1440, 900);
   await h.open();
   await h.press("#about");
-  h.verify("About opens with the version", await h.until("/0\\.0\\.\\d/.test(document.querySelector('dialog[open] .version')?.textContent ?? '')", 3000));
+  h.verify("About opens with the version", await h.until(`(document.querySelector("dialog[open] .version")?.textContent ?? "").includes(${JSON.stringify(VERSION)})`, 3000));
   await h.key("Escape");
   h.verify("Escape closes it", await h.until("!document.querySelector('dialog[open]')", 1000));
   await h.press("#about");

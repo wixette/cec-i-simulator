@@ -136,7 +136,8 @@ export class LessonsTool {
       text.innerHTML = markup(t(`${key}.text`));
       const body = el("div", { class: "step-body" }, [el("h4", { text: t(`${key}.title`) })]);
       if (st.photo) {
-        const src = new URL(`../../images/photos/${st.photo}`, import.meta.url);
+        // the web copy: a few hundred pixels across in the lesson, sharp on a phone
+        const src = new URL(`../../images/photos/web/${st.photo}`, import.meta.url);
         src.search = new URL(import.meta.url).search;
         body.append(el("figure", { class: "photo" }, [el("img", { src: src.href, alt: t(`${key}.title`), loading: "lazy" })]));
       }

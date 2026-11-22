@@ -26,7 +26,7 @@ SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 # The photographs of the machine (images/photos/CREDITS.md).
 [[annotations]]
-path = "images/photos/*.jpg"
+path = ["images/photos/*.jpg", "images/photos/web/*.jpg"]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 wixette"
 SPDX-License-Identifier = "CC-BY-SA-4.0"

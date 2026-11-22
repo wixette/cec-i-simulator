@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.0.0
+
+The first release that is not a pre-release: reviewed, and frozen ([design/v1.0.0.md](design/v1.0.0.md); the review in [design/v1.0.0-review.md](design/v1.0.0-review.md)).
+
+- **What 1.0 promises** ([docs/stability.md](docs/stability.md)): links (`#view=`, `?lang=`) and the files the page writes and reads (`.bas`, `.logo`, disk images) keep working in every later 1.x; versions follow Semantic Versioning from here.
+- **The README in full,** in Chinese and in English: newcomers first, with pictures of what the simulator does, then developers.
+- **Accessibility:** every text at WCAG AA contrast (the instruments' addresses, bytes and labels were too dim); the 3D view named for a screen reader; the strip's buttons and the lesson tabs keep their names when a narrow window hides their words; the dock's tabs and handle work from the keyboard.
+- **Selecting and dragging:** a dialog's words, the references, a lesson and the status line can be selected, and a button, tab, menu item or icon never is; pictures and icons are not dragged off the page.
+- **Lighter first visit:** the lessons' photographs are web copies (1,200 pixels wide, under 250 KB each); a test keeps what a first visit fetches within a budget.
+- **`pnpm shots` and `pnpm video`:** the README's pictures, shots for posts, the GitHub page's preview, and short clips with the machine's own sound, in any of the ten languages.
+- **Checked:** the full 6502 suite (1.51 million cases) passes; more unit tests (the game port, the speaker, files, the link) and browser checks (keyboard use, names, contrast, files opened and saved); the page checked in Safari (macOS and iPhone) and Firefox.
+- The About dialog no longer says it is a pre-release.
+
 ## v0.0.6 (pre-release)
 
 Ten languages ([design/v0.0.6.md](design/v0.0.6.md)).
