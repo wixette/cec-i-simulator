@@ -65,7 +65,7 @@ Same regions, same order: the stage across the width, the dock below, the top ba
 ### P10. One component for each kind of thing
 
 Each kind of control is one component, used the same way everywhere (`js/ui/components.js`):
-- **Menu:** choosing one thing. Items only; one open at a time; an item that cannot be used is greyed, with why at its right.
+- **Menu:** choosing one thing. Items only; one open at a time; an item that cannot be used is greyed, with why at its right when the why is not plain ("switch on first"); where it is (*Save the program* with none in memory, *Eject* with no disk), greyed alone, so the menu stays narrow.
 - **Dialog:** anything that needs explaining. A title band with its close button, then the body, then the actions at the bottom right, the one it is for filled.
 - **Icon button:** always with a tooltip and a screen-reader name.
 - **Tabs:** the dock's. They follow the WAI-ARIA tabs pattern.
@@ -148,8 +148,8 @@ The instruments first (U12): the CPU, the two of the picture (Screen, Chinese), 
 
 **Programs** in the top bar holds our own programs first (*(v0.0.3)* design/v0.0.3.md, P1), a submenu for each section: Learn, Chinese, Games, Utilities, Music, LOGO. A program's dialog says what it does and the mode it runs in (Western BASIC, the Chinese system, LOGO), shows its listing, and *Type it in* types it on the machine's keys from whatever the machine is doing (D14), and runs it. Then, under a line, the visitor's own (D8):
 - **Type in…** opens a dialog with a text box: what is written or pasted there is typed on the machine's keys when *Type it in* is pressed.
-- **Open a file…** types a text file (UTF-8, or GB 2312/GBK) in: a BASIC listing after `NEW`; a `.logo` file's procedures into LOGO's editor, LOGO started first *(v0.0.5)*.
-- **Save the program as a file** asks for a name (the first `REM` line's, else PROGRAM) and hands over the BASIC program in memory as `<name>.bas`; while LOGO runs, its procedures as `<name>.logo`, read as LOGO prints them with `PO ALL` *(v0.0.5)*. Greyed, with why, when there is neither.
+- **Open a program file…** types a text file (UTF-8, or GB 2312/GBK) in: a BASIC listing after `NEW`; a `.logo` file's procedures into LOGO's editor, LOGO started first *(v0.0.5)*.
+- **Save the program as a file** asks for a name (the first `REM` line's, else PROGRAM) and hands over the BASIC program in memory as `<name>.bas`; while LOGO runs, its procedures as `<name>.logo`, read as LOGO prints them with `PO ALL` *(v0.0.5)*. Greyed when there is neither: plain enough that no reason is shown beside it; choosing it says so.
 - **Disk** *(v0.0.5, U14)*.
 The first three need the computer on, and say so. A file dropped on the page is opened, or inserted if it is a disk image.
 

@@ -145,7 +145,7 @@ export function setTip(e, text) {
  * @property {boolean} [toggle] the check is a setting on or off, not a choice among several
  * @property {IconName} [icon] shown before the label
  * @property {string | true} [divider] a line before the item, headed by the text if one is given
- * @property {string} [disabled] greyed, with this reason at its right; choosing it still runs it, which says why (P6)
+ * @property {string | true} [disabled] greyed, with this reason at its right (true: none shown, the reason being plain); choosing it still runs it, which says why (P6)
  */
 
 /** @type {{ box: HTMLElement; anchor: HTMLElement; sub: HTMLElement | null } | null} */
@@ -235,7 +235,7 @@ export function showMenu(anchor, items) {
       if (it.divider) into.appendChild(el("div", { class: "menu-divider", role: "separator" }, [typeof it.divider === "string" ? el("span", { text: it.divider }) : null]));
       const role = it.checked === undefined ? "menuitem" : it.toggle ? "menuitemcheckbox" : "menuitemradio";
       const mark = it.checked === undefined ? null : it.checked ? icon("check") : el("span", { class: "check" });
-      const b = /** @type {HTMLButtonElement} */ (el("button", { role, tabindex: "-1" }, [mark, it.icon ? icon(it.icon) : null, el("span", { text: it.label }), it.disabled ? el("small", { class: "why", text: it.disabled }) : null, it.items ? icon("chevron_right") : null]));
+      const b = /** @type {HTMLButtonElement} */ (el("button", { role, tabindex: "-1" }, [mark, it.icon ? icon(it.icon) : null, el("span", { text: it.label }), typeof it.disabled === "string" ? el("small", { class: "why", text: it.disabled }) : null, it.items ? icon("chevron_right") : null]));
       if (it.checked !== undefined) b.setAttribute("aria-checked", String(it.checked));
       if (it.disabled) b.setAttribute("aria-disabled", "true");
       if (it.items) {

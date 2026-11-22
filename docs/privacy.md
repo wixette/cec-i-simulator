@@ -2,7 +2,7 @@
 
 The simulator runs entirely in your browser. It has no server of its own beyond the files it is served from, no account, no analytics and no cookies.
 
-**What it sends:** nothing. Text you type in or paste, and a BASIC file you open, are read in the page and never uploaded. A program you save is made in the page and handed to your browser as a download.
+**What it sends:** nothing. Text you type in or paste, and a program file or disk image you open, are read in the page and never uploaded. A program you save is made in the page and handed to your browser as a download.
 
 **What it keeps,** in your browser's local storage for this site, so that the page opens as you left it:
 

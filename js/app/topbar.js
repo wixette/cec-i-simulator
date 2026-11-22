@@ -217,7 +217,7 @@ export class TopBar {
       ...ours,
       { label: t("programs.typein"), icon: "content_paste", divider: ours.length ? true : undefined, disabled: off, run: () => this.typeInDialog() },
       { label: t("programs.open"), icon: "upload_file", disabled: off, run: () => (s.machine.powered ? this.file.click() : s.say({ key: "type.off" })) },
-      { label: t("programs.save"), icon: "download", disabled: off ?? (program || s.logoRunning ? undefined : t("programs.save.none")), run: () => this.save() },
+      { label: t("programs.save"), icon: "download", disabled: off ?? (program || s.logoRunning ? undefined : true), run: () => this.save() },
       { label: t("programs.disk"), icon: "save", divider: true, items: this.diskItems() },
     ];
   }
@@ -225,12 +225,13 @@ export class TopBar {
   /** The disk drive's menu (Programs ▸ Disk, and the drive's button on the strip). @returns {import("../ui/components.js").MenuItem[]} */
   diskItems() {
     const s = this.system;
-    const none = s.disk ? undefined : t("disk.none");
+    // with no disk, greyed: plain enough to need no reason beside it (choosing one says it)
+    const none = s.disk ? undefined : /** @type {true} */ (true);
     return [
       { label: t("disk.insert"), icon: "upload_file", run: () => this.diskFile.click() },
       { label: t("disk.blank"), icon: "note_add", run: () => this.insert(blankDisk(t("disk.blankName"))) },
       { label: t("disk.save"), icon: "download", divider: true, disabled: none, run: () => this.saveDisk() },
-      { label: t("disk.eject"), icon: "eject", disabled: none, run: () => s.insertDisk(null) },
+      { label: t("disk.eject"), icon: "eject", disabled: none, run: () => (s.disk ? s.insertDisk(null) : s.say({ key: "disk.none" })) },
     ];
   }
 
@@ -268,7 +269,7 @@ export class TopBar {
   saveDisk() {
     const s = this.system;
     const disk = s.disk;
-    if (!disk) return;
+    if (!disk) return void s.say({ key: "disk.none" });
     const { bytes, extension } = writeDisk(disk);
     const name = `${disk.name.replace(/\.(dsk|do|po|nib|woz)$/i, "")}.${extension}`;
     download(bytes, name);
