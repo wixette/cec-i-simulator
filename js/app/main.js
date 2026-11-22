@@ -222,6 +222,7 @@ const setFinish = (found) => {
   if (model) flat.setKeyArt(bakeKeys(model.keyboard, c.flat_key.v[i]));
 };
 const topBar = new TopBar(system, { about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound: speaker, finish: setFinish, showComputer: () => stage.showComputer() });
+strip.diskMenu = (anchor) => topBar.showDiskMenu(anchor);
 topBar.applyFinish();
 
 // ---- the 3D model, loaded in the background ---------------------------------------------------------

@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.0.5 (pre-release)
+
+Disks and files ([design/v0.0.5.md](design/v0.0.5.md)).
+
+- A **disk drive** on the CEC-I's own floppy interface (slot 6), with no model in the 3D view. **Programs ▸ Disk** inserts a disk image (`.dsk`, `.do`, `.po`, `.nib`, `.woz`; or drop it on the page) and starts from it, as the machine did: the system ROM looks for a disk at power-on and boots it. DOS 3.3, ProDOS and games run; what they write can be saved as a disk image again. A blank disk, to `INIT`. The drive's lamp shows on the helper strip.
+- **Save the program** asks for a name, the first `REM` line's to start with.
+- **LOGO procedures** to and from files: *Open* types a `.logo` file's procedures into LOGO; *Save* reads them as LOGO prints them (`PO ALL`).
+- The cassette recorder is no longer planned.
+
 ## v0.0.4 (pre-release)
 
 The lessons ([design/v0.0.4.md](design/v0.0.4.md)).

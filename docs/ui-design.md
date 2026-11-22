@@ -8,7 +8,7 @@ This document holds the principles the simulator's page is laid out by, and the 
 
 The machine's own decisions (D1, D2, …) are in [../design/decisions.md](../design/decisions.md).
 
-**Status:** as built for v0.0.4 (first written for v0.0.1).
+**Status:** as built for v0.0.5 (first written for v0.0.1).
 
 ## Part 1. Principles
 
@@ -131,7 +131,7 @@ With the computer off, a click on the lid, the keyboard or the main board takes 
 
 ### U4. The helper strip
 
-A strip of its own, centred at the stage's foot, just above the dock: *Computer* (the power switch, lit green while on), *Ctrl-Reset* (Ctrl and RESET held together a moment, then let go), *TV* (its power, lit green while on). The machine's own controls stay clickable where they are too: the rocker on the computer's left side, the TV's button and knobs (a drag sideways or the wheel turns a knob, a double-click puts it back). A tab on the strip's top edge folds it away; the choice is remembered, and in a short window (a phone on its side) it starts folded. In a narrow window the buttons keep their icons and lose their names.
+A strip of its own, centred at the stage's foot, just above the dock: *Computer* (the power switch, lit green while on), *Ctrl-Reset* (Ctrl and RESET held together a moment, then let go), *TV* (its power, lit green while on); and, once a disk is in the drive *(v0.0.5)*, the drive: the disk's name and the drive's red lamp, lit while its motor turns, a click the Disk menu (the drive is behind the machine, out of the picture, U14). The machine's own controls stay clickable where they are too: the rocker on the computer's left side, the TV's button and knobs (a drag sideways or the wheel turns a knob, a double-click puts it back). A tab on the strip's top edge folds it away; the choice is remembered, and in a short window (a phone on its side) it starts folded. In a narrow window the buttons keep their icons and lose their names.
 
 ### U5. Typing
 
@@ -148,9 +148,10 @@ The instruments first (U12): the CPU, the two of the picture (Screen, Chinese), 
 
 **Programs** in the top bar holds our own programs first (*(v0.0.3)* design/v0.0.3.md, P1), a submenu for each section: Learn, Chinese, Games, Utilities, Music, LOGO. A program's dialog says what it does and the mode it runs in (Western BASIC, the Chinese system, LOGO), shows its listing, and *Type it in* types it on the machine's keys from whatever the machine is doing (D14), and runs it. Then, under a line, the visitor's own (D8):
 - **Type in…** opens a dialog with a text box: what is written or pasted there is typed on the machine's keys when *Type it in* is pressed.
-- **Open a BASIC file…** types a text file (UTF-8, or GB 2312/GBK) in, after `NEW`.
-- **Save the program as a file** hands over the BASIC program in memory as `program.bas`; greyed, with why, when there is none.
-All three need the computer on, and say so.
+- **Open a file…** types a text file (UTF-8, or GB 2312/GBK) in: a BASIC listing after `NEW`; a `.logo` file's procedures into LOGO's editor, LOGO started first *(v0.0.5)*.
+- **Save the program as a file** asks for a name (the first `REM` line's, else PROGRAM) and hands over the BASIC program in memory as `<name>.bas`; while LOGO runs, its procedures as `<name>.logo`, read as LOGO prints them with `PO ALL` *(v0.0.5)*. Greyed, with why, when there is neither.
+- **Disk** *(v0.0.5, U14)*.
+The first three need the computer on, and say so. A file dropped on the page is opened, or inserted if it is a disk image.
 
 ### U8. The top bar
 
@@ -195,4 +196,8 @@ The page speaks 简体中文 and English (D9); v0.0.6 brings ten.
 - **Ticks** in order, or out of it once a step's chip is used; a program's step ticks once it is typed in and started, a Show me step once shown. Remembered with the lesson open. *Next: …* at a lesson's foot opens the next lesson at its top.
 - **What a lesson types is watched on the screen:** its Type it, or a program it opens and types in, turns the 3D camera to the Screen view (2D shows the screen already).
 - **Show me always answers:** the picture's edge glows once, even when the camera is at the view already.
+
+### U14. The disk drive
+
+*(v0.0.5; design/v0.0.5.md)* One 5.25-inch drive on the CEC-I's own floppy interface (slot 6), with no model in the 3D view: it is behind the machine, on J4. **Programs ▸ Disk:** *Insert a disk image…* (`.dsk`, `.do`, `.po`, `.nib`, `.woz`), *Insert a blank disk*, *Save the disk image* (what was loaded, with what was written), *Eject*. With the computer on, a disk inserted asks: *Start from the disk* (the computer switched off and on, as the manual starts a disk: what is in memory is lost) or *Just insert it* (for `PR#6`, `CATALOG` and the like). The dialog says what will not run: software for 128 KB, 80 columns or double hi-res. Once a disk is in, the helper strip shows the drive (U4). No disk software is hosted.
 

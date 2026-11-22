@@ -4,9 +4,9 @@
    status line. The page never scrolls. Every colour, corner and state is a token
    (css/theme.css, P11). */
 
-@import url("theme.css?v=0.0.4");
-@import url("fonts.css?v=0.0.4");
-@import url("flat.css?v=0.0.4");
+@import url("theme.css?v=0.0.5");
+@import url("fonts.css?v=0.0.5");
+@import url("flat.css?v=0.0.5");
 
 :root {
   font-family: var(--font);
@@ -149,6 +149,12 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 #helper-strip.folded .strip-tab { border-bottom: 1px solid var(--md-outline-variant); border-radius: var(--radius-s); }
 #helper-strip.folded .strip-tab .icon { transform: rotate(180deg); }
 #helper-strip.folded .strip-body { display: none; }
+/* the disk drive's button (v0.0.5): the disk's name, and the drive's red lamp, lit while the motor turns */
+.strip-body .drive .strip-label { max-width: 16ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.drive-lamp { flex: none; width: 8px; height: 8px; margin-left: 2px; border-radius: 50%; background: var(--md-outline-variant); }
+.drive-lamp.on { background: #e53935; box-shadow: 0 0 6px 1px rgba(229, 57, 53, 0.8); }
+.name-box { display: block; width: 100%; margin: 6px 0 0; padding: 8px 10px; border: 1px solid var(--md-outline); border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-on-surface); font-family: var(--mono); font-size: 14px; user-select: text; -webkit-user-select: text; }
+.name-box:focus { outline: 2px solid var(--md-primary); outline-offset: -1px; }
 .strip-body { display: flex; align-items: center; gap: 12px; max-width: 100%; padding: 6px 10px; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--md-outline-variant); border-radius: var(--radius-l); background: var(--md-surface-mid); }
 .strip-body::-webkit-scrollbar { display: none; }
 /* a group: Material's connected buttons, round at the ends, nearly square where they meet */

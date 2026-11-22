@@ -10,11 +10,11 @@
 
 ![The simulator: the CEC-I and its TV in 3D, the screen showing a BASIC program's Chinese output, the lessons below](screenshots/app.jpg)
 
-> A pre-release (v0.0.4). Six short lessons, sixteen programs of our own in Programs (games, Chinese, music, LOGO and more), and four instruments below the machine that show how it works. The cassette recorder is still to come ([roadmap](design/roadmap.md)).
+> A pre-release (v0.0.5). Six short lessons, sixteen programs of our own in Programs (games, Chinese, music, LOGO and more), four instruments below the machine that show how it works, and a disk drive for the Apple II disks you bring. More languages are still to come ([roadmap](design/roadmap.md)).
 
 ## What was the CEC-I?
 
-In 1984 Deng Xiaoping said that the popularisation of computers should start with children. In answer, a design group led by Tsinghua University made the **CEC-I**, the China Educational Computer, launched in 1987: an Apple IIe compatible built into one box with its keyboard, using a home TV as its screen and a cassette recorder to keep programs, for about 960 yuan. In school computer rooms across China, students wrote their first programs on it.
+In 1984 Deng Xiaoping said that the popularisation of computers should start with children. In answer, a design group led by Tsinghua University made the **CEC-I**, the China Educational Computer, launched in 1987: an Apple IIe compatible built into one box with its keyboard, using a home TV as its screen, and a disk drive or a cassette recorder to keep programs if one was plugged in, for about 960 yuan. In school computer rooms across China, students wrote their first programs on it.
 
 Its own idea is Chinese. A computer of the time knew 96 letters and signs; the CEC-I carries the whole national character set, GB 2312's 7,445 characters, as 16 × 16 dots in two font chips on its main board, and a Chinese system that starts at the press of a key, with no disk.
 
@@ -28,7 +28,8 @@ This simulator is that machine, part for part:
 | Chinese | all 7,445 characters of GB 2312; pinyin and 区位 (quwei) input | the same, its own Chinese system running |
 | Display | a TV or a monitor: 40 × 24 text, lo-res and hi-res colour graphics | a colour TV of the 1980s; or a black-and-white TV, or a green monitor |
 | Sound | a speaker, the `MUSIC` command | the same |
-| Not here yet | the cassette recorder, disk drive and printer | |
+| Storage | a 5.25-inch disk drive (Disk II compatible, slot 6), or a cassette recorder | the disk drive, with `.dsk`, `.do`, `.po`, `.nib` and `.woz` disk images; no recorder |
+| Not here | the printer | |
 
 ## Your first minutes
 
@@ -53,6 +54,8 @@ This simulator is that machine, part for part:
 | ◁ | Backspace | ← |
 
 Ctrl-Reset is Ctrl-F12. On a phone, switch to 2D and type on the drawn keyboard.
+
+**Disks:** Programs ▸ Disk inserts a `.dsk`, `.do`, `.po`, `.nib` or `.woz` disk image (or drop the file on the page), and the machine starts from it as it did: DOS 3.3, ProDOS, games. What is written to the disk can be saved as a file again. Bring your own disks: none are hosted here. Programs ▸ Save the program saves a BASIC program, or LOGO's procedures while LOGO runs, with a name.
 
 The machine's four books are transcribed (in Chinese) in the [cec-i-docs](https://github.com/wixette/cec-i-docs) project.
 
