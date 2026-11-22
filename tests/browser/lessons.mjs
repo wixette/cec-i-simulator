@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// The lessons (U13): Start's button opens them; a step's Type it types on the machine and the
+// The lessons (U13): the dock's first tab on a first visit; a step's Type it types on the machine and the
 // step ticks; Show me puts an instrument beside the lesson, and its own tab takes it back;
 // Show me for a view moves the camera; the next lesson's button.
 
@@ -10,10 +10,7 @@ export default async function (h) {
   await h.open();
   await h.until("cec.machine.screenText().some((l) => l.startsWith(']'))", 20000);
   await h.js("app.dock.choose(640)");
-  await h.press("#tab-start");
-  await h.js("document.querySelector('.start-lessons').scrollIntoView({ block: 'center' })");
-  await h.pressText("#pane-start button", "Begin the lessons");
-  h.verify("Start's button opens the lessons", await h.until("app.dock.current === 'lessons'", 1000));
+  h.verify("the lessons are the dock's tab on a first visit", await h.until("app.dock.current === 'lessons'", 1000));
   await h.press("#lesson-tab-basic");
   await h.js("document.querySelector('#pane-lessons .chip.type-it').click()");
   await h.typed(20000);

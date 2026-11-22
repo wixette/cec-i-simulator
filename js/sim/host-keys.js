@@ -44,7 +44,7 @@ export function hostKeyId(e) {
 }
 
 /**
- * The legend the page shows (the Start tab, the status line): each of the machine's own keys
+ * The legend the page shows (References, the status line): each of the machine's own keys
  * and the host keys that reach it. The names are the keys' own legends (docs/ui-design.md, P5).
  */
 export const LEGEND = /** @type {const} */ ([

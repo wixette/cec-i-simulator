@@ -74,7 +74,7 @@ export const LESSONS = [
     id: "meet",
     steps: [
       { id: "machine", photo: "cec-i-front-right.jpg", show: { mode: "3d", view: "front" }, more: true },
-      { id: "on", type: "{reset}", done: (s) => shows(s, /^\]/) },
+      { id: "on", type: "{reset}", done: (s) => shows(s, /^\]/), more: true },
       { id: "tv", show: { mode: "3d", view: "screen" } },
       { id: "inside", photo: "mainboard-top.jpg", show: { mode: "3d", view: "inside" }, more: true },
       { id: "play", program: "snake" },

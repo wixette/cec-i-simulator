@@ -23,7 +23,6 @@ import { LessonsTool } from "./lessons.js";
 import { readLink, writeLink } from "./link.js";
 import { ReferencesTool } from "./references.js";
 import { Stage } from "./stage.js";
-import { StartTool } from "./start.js";
 import { CpuTool } from "./tools/cpu.js";
 import { HanziTool } from "./tools/hanzi.js";
 import { KeyboardTool } from "./tools/keyboard.js";
@@ -167,7 +166,6 @@ if (viewer) viewer.jumpTo(stage.framed("front"));
 // strip take some of it and the drawings need the rest
 const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.round(window.innerHeight * 0.55) : window.innerHeight <= 520 ? Math.round(window.innerHeight * 0.65) : 300));
 dock.onResize = fitStatus;
-new StartTool($("pane-start"), () => dock.show("lessons"));
 new ReferencesTool($("pane-refs"));
 const cpuTool = new CpuTool($("pane-cpu"), system);
 const screenTool = new ScreenTool($("pane-screen"), system);

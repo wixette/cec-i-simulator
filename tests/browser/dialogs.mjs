@@ -25,6 +25,6 @@ export default async function (h) {
   h.verify("As new is said", /off-white/.test(await h.status()), await h.status());
   await h.press("#dock-fold");
   h.verify("the dock folds", await h.js("app.dock.folded"));
-  await h.press("#tab-start");
+  await h.press("#tab-refs");
   h.verify("a tab opens it again", !(await h.js("app.dock.folded")));
 }

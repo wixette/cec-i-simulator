@@ -8,7 +8,7 @@
 
 **[▶ Try it online](https://wixette.github.io/cec-i-simulator/)**: nothing to install, on a computer or a phone, in English and Simplified Chinese. ([中文说明](README.md))
 
-![The simulator: the CEC-I and its TV in 3D, the screen showing a BASIC program's Chinese output, the Start tab below](screenshots/app.jpg)
+![The simulator: the CEC-I and its TV in 3D, the screen showing a BASIC program's Chinese output, the lessons below](screenshots/app.jpg)
 
 > A pre-release (v0.0.4). Six short lessons, sixteen programs of our own in Programs (games, Chinese, music, LOGO and more), and four instruments below the machine that show how it works. The cassette recorder is still to come ([roadmap](design/roadmap.md)).
 

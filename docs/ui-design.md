@@ -26,7 +26,7 @@ If a control is wanted somewhere else, move it, or make both places visible at o
 
 ### P3. Tools live in one dock, one at a time
 
-The four instruments (CPU & Memory, Screen, Chinese, Keyboard), Start and References, and the lessons as they come, share one dock under the stage. You choose which one it shows, how big it is, and whether it is open at all.
+The four instruments (CPU & Memory, Screen, Chinese, Keyboard), the Lessons and References share one dock under the stage. You choose which one it shows, how big it is, and whether it is open at all.
 
 ### P4. Occasional actions go in menus and dialogs
 
@@ -97,7 +97,7 @@ Every control takes its colours, corners, type and states from one set of design
 │ ╰─────────────────────────────────────────────────────────────────────────────────────╯ │
 │                          [⏻ Computer | ↺ Ctrl-Reset] [▭ TV]                               │  helper strip
 ├══════════════════════════════════════ drag ═════════════════════════════════════════════┤
-│ CPU & Memory  Screen  Chinese  Keyboard   Start  References                            ▾ │  dock
+│ CPU & Memory  Screen  Chinese  Keyboard   Lessons  References                          ▾ │  dock
 │ …                                                                                       │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
 │ Ready. Type on your keyboard: Enter is Return, Page Up 中文, Page Down 西文 …             │  status line
@@ -138,11 +138,11 @@ A strip of its own, centred at the stage's foot, just above the dock: *Computer*
 - **The machine starts switched on,** the computer and the TV, at `ZHONG HUA XUE XI JI` and BASIC's prompt: a first visit opens on a live machine. After that both are as the visitor left them.
 - **The visitor's keyboard is the CEC-I's** whenever no menu, dialog or text box has it (D7). A held key holds the machine's key; the machine repeats it, as its own keyboard does.
 - **The machine's keys** can be clicked or tapped, in 3D and in 2D. Ctrl, Shift and TEST clicked stay down for the next key, so that Ctrl-Reset and Ctrl-Reset-TEST can be clicked.
-- **The keys' legend** is in the Start tab and in the first status message.
+- **The keys' legend** is in References and in the first status message.
 
 ### U6. The dock's tabs
 
-The instruments first (U12): the CPU, the two of the picture (Screen, Chinese), the keyboard; then the reading: **Start** (the default on a first visit): what the machine is, a first few minutes, the machine's keys on the visitor's, and how Chinese goes in; **References:** further reading first, then what the simulator is built on and its source, and last, folded, what it simplifies. The lessons (v0.0.4) will join the reading. The dock remembers its tab, its height and whether it is folded; what the machine does never switches its tab.
+The instruments first (U12): the CPU, the two of the picture (Screen, Chinese), the keyboard; then the reading: the **Lessons** (U13; the default on a first visit), whose first lesson is what the machine is and a first few minutes with it; **References:** the machine's keys on the visitor's and how Chinese goes in, further reading, what the simulator is built on and its source, and last, folded, what it simplifies. The dock remembers its tab, its height and whether it is folded; what the machine does never switches its tab.
 
 ### U7. Programs
 
@@ -189,7 +189,7 @@ The page speaks 简体中文 and English (D9); v0.0.6 brings ten.
 
 ### U13. The lessons
 
-*(v0.0.4; design/v0.0.4.md)* A Lessons tab of the dock, after Start, which opens it with *Begin the lessons*. A bar of six numbered lessons (on a narrow screen, numbers only but the open one), a tick-green number for a lesson done; a lesson: "Lesson 3 of 6", its title and lead, its steps. A step: its number, title, a few sentences (`code` the machine's text), perhaps a photograph at its right, the line it types as the machine's text, its chips, and a tick at its right, green once the machine shows it done; a "Going further" aside, folded.
+*(v0.0.4; design/v0.0.4.md)* A Lessons tab of the dock, before References: the first tab a visitor meets, in place of the Start tab of v0.0.1–v0.0.3. A bar of six numbered lessons (on a narrow screen, numbers only but the open one), a tick-green number for a lesson done; a lesson: "Lesson 3 of 6", its title and lead, its steps. A step: its number, title, a few sentences (`code` the machine's text), perhaps a photograph at its right, the line it types as the machine's text, its chips, and a tick at its right, green once the machine shows it done; a "Going further" aside, folded.
 - **The chips:** *Type it* (the step's keys, on the machine's own, after Ctrl-Reset where the step starts afresh); *Open* a program (its dialog, as Programs); *Show me*: a 3D view, or an instrument beside the lesson. The instrument is the one of its tab, moved, working; its tab says so, and choosing its tab takes it back. On a narrow screen it stands above the lesson.
 - **Ticks** in order, remembered with the lesson open. *Next: …* at a lesson's foot.
 

@@ -10,7 +10,7 @@
 
 > **English:** The CEC-I 中华学习机 (China Educational Computer, 1987) was China's school computer: an Apple IIe compatible with the whole GB 2312 Chinese character set in two font chips on its main board. This simulator runs its own ROMs in your browser, in 3D, with its TV and its keyboard. **[Read the English README](README.en.md).**
 
-![模拟器：中华学习机和它的电视机，屏幕上是一段汉字 BASIC 程序的运行结果，下方是“入门”面板](screenshots/app.jpg)
+![模拟器：中华学习机和它的电视机，屏幕上是一段汉字 BASIC 程序的运行结果，下方是课程面板](screenshots/app.jpg)
 
 > 这是预发布版（v0.0.4）。有六节简短的课程，“程序”菜单里有我们自己写的十六个程序（游戏、汉字、音乐、LOGO 等），机器下方的四个仪表演示它的工作原理。录音机将在后续版本中加入（[路线图](design/roadmap.md)）。
 
