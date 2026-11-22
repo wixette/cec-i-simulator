@@ -201,7 +201,7 @@ export class Ribbon {
     mesh.receiveShadow = true;
     mesh.frustumCulled = false;
     mesh.userData.label_en = this.cable.userData.label_en;
-    mesh.userData.label_zh = this.cable.userData.label_zh;
+    mesh.userData.name = this.cable.userData.name ?? this.cable.name;
     this.root.add(mesh);
     return mesh;
   }

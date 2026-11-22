@@ -4,9 +4,9 @@
    status line. The page never scrolls. Every colour, corner and state is a token
    (css/theme.css, P11). */
 
-@import url("theme.css?v=0.0.5");
-@import url("fonts.css?v=0.0.5");
-@import url("flat.css?v=0.0.5");
+@import url("theme.css?v=0.0.6");
+@import url("fonts.css?v=0.0.6");
+@import url("flat.css?v=0.0.6");
 
 :root {
   font-family: var(--font);

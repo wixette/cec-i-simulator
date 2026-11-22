@@ -8,7 +8,7 @@ This document holds the principles the simulator's page is laid out by, and the 
 
 The machine's own decisions (D1, D2, …) are in [../design/decisions.md](../design/decisions.md).
 
-**Status:** as built for v0.0.5 (first written for v0.0.1).
+**Status:** as built for v0.0.6 (first written for v0.0.1).
 
 ## Part 1. Principles
 
@@ -170,10 +170,10 @@ A short dialog: the logo, the version and what the simulator is (and, before 1.0
 
 The TV takes the stage, its picture large and sharp on the tube's lit glass, its knobs, button and lamp working. The computer, its keys drawn from the 3D model's own (`js/flat/bake-keys.js`) and its power rocker at its left, is a drawer under the TV, opened by *Keyboard* on the band: closed, the picture gets the stage. It is open at first, so that the keys are at hand, and then remembered.
 
-### U11. Two languages
+### U11. Ten languages
 
-The page speaks 简体中文 and English (D9); v0.0.6 brings ten.
-- **What is translated:** every text of the page's own, and the parts' labels. **What is not:** the machine's own words (P5).
+The page speaks ten languages (D9; *v0.0.6*): 简体中文, English, 繁體中文, 日本語, 한국어, Español, Français, Deutsch, Italiano, Português (Brasil). Chinese by script and region: zh-Hant, zh-TW, zh-HK and zh-MO are 繁體中文, any other Chinese 简体中文; pt-PT is Brazil's Portuguese. Traditional Chinese, Japanese and Korean pages put their own fonts first, so that their Han characters take their own shapes; what the machine types or shows stays in its simplified characters, as GB 2312 has them.
+- **What is translated:** every text of the page's own, the lessons, and the parts' labels (messages `label.<part>`, by the part's name in the model; a key's from its legend). **What is not:** the machine's own words (P5).
 - **The language button** is in the top bar's right: a translate icon and the language's short name (简, EN). Its menu lists each language as it names itself. A choice is remembered, and the page opens again in it (the machine starts again, as on any visit).
 - **Simplified Chinese is written, not translated:** it is the page's first language, the one the machine's users read. Its messages and lessons are drafted in Chinese for Chinese readers (Chinese sentence order, a named subject rather than a pronoun or an ellipsis, the terms Chinese manuals use, titles and buttons that say what they are about or do), keeping with English only the facts, placeholders, `code` and [[keys]]. The other languages (v0.0.6) may be translated from English or the Chinese (CONTRIBUTING.md).
 - **One file per language,** `js/l10n/<locale>.js`, with English's keys. `tests/l10n.test.js` fails while any message is missing, or its placeholders, its `code` or its [[keys]] differ from English's.

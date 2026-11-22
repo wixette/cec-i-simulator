@@ -6,11 +6,11 @@
 
 **The CEC-I 中华学习机 (China Educational Computer) of 1987, in 3D, in your browser.** Switch it on, write BASIC, type Chinese, and open it up to see how an 8-bit computer shows thousands of Chinese characters.
 
-**[▶ Try it online](https://wixette.github.io/cec-i-simulator/)**: nothing to install, on a computer or a phone, in English and Simplified Chinese. ([中文说明](README.md))
+**[▶ Try it online](https://wixette.github.io/cec-i-simulator/)**: nothing to install, on a computer or a phone, in ten languages. ([中文说明](README.md))
 
 ![The simulator: the CEC-I and its TV in 3D, the screen showing a BASIC program's Chinese output, the lessons below](screenshots/app.jpg)
 
-> A pre-release (v0.0.5). Six short lessons, sixteen programs of our own in Programs (games, Chinese, music, LOGO and more), four instruments below the machine that show how it works, and a disk drive for the Apple II disks you bring. More languages are still to come ([roadmap](design/roadmap.md)).
+> A pre-release (v0.0.6). Six short lessons, sixteen programs of our own in Programs (games, Chinese, music, LOGO and more), four instruments below the machine that show how it works, and a disk drive for the Apple II disks you bring. A thorough review comes before version 1.0 ([roadmap](design/roadmap.md)).
 
 ## What was the CEC-I?
 

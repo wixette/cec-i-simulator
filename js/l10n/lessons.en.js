@@ -7,7 +7,7 @@
 export default {
   "lesson.meet.title": "Meet the CEC-I",
   "lesson.meet.lead": "A computer from 1987, made for China's classrooms. Five minutes to get to know it.",
-  "lesson.meet.machine.title": "One box, and a TV",
+  "lesson.meet.machine.title": "Computer and keyboard in one",
   "lesson.meet.machine.text": "The CEC-I (中华学习机), the China Educational Computer, is a whole computer in one box with its keyboard. There is no screen: you plug it into a home TV. Its languages and its Chinese system are in its chips, so it starts with no disk; a disk drive could be plugged in at the back.",
   "lesson.meet.machine.more": "In 1984 Deng Xiaoping said that computers should start with children. A design group led by Tsinghua University answered with the CEC-I, launched in 1987 for about 960 yuan, a few months' pay. Schools bought it by the roomful: for many Chinese students it was the first computer they touched. It is an Apple IIe compatible, and this simulator runs its own ROMs, from a working machine.",
   "lesson.meet.on.title": "Switch on",
@@ -18,7 +18,7 @@ export default {
   "lesson.meet.inside.title": "Look inside",
   "lesson.meet.inside.text": "One board does everything. The chips **light up** as they work: the 6502 processor, the memory, and two big **font chips** holding every Chinese character the computer can show.",
   "lesson.meet.inside.more": "The 6502 is the same kind of processor as in the Apple II and early game consoles. It does about a million simple steps a second; your phone does billions. Switch the computer off and choose **Taken apart** from the views: the lid, the keyboard and the main board come out in the real order.",
-  "lesson.meet.play.title": "Play first",
+  "lesson.meet.play.title": "Play Snake",
   "lesson.meet.play.text": "Programs were typed in from magazines and books. Let the simulator type one for you, and play: steer with the arrows.",
 
   "lesson.basic.title": "Talk to BASIC",
@@ -34,7 +34,7 @@ export default {
   "lesson.basic.guess.title": "A real game",
   "lesson.basic.guess.text": "Guess my number puts it all together: a loop, a question, choices, and `RND` for the secret number. Open it, read its lines, and play.",
 
-  "lesson.chinese.title": "Chinese inside",
+  "lesson.chinese.title": "Chinese built in",
   "lesson.chinese.lead": "Computers of the time knew 96 letters and signs. The CEC-I knows 7,445 Chinese characters, built in. That is what made it special.",
   "lesson.chinese.key.title": "The 中文 key",
   "lesson.chinese.key.text": "Press **中文** (Page Up on your keyboard). The Chinese system starts: no disk, it is in the machine's own chips. 西文 (Page Down) goes back.",
