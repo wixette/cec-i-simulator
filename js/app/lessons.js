@@ -49,9 +49,11 @@ export class LessonsTool {
    * @param {System} system
    * @param {(show: Show) => void} show what Show me does: the page points at it
    * @param {(id: string) => void} program opens one of our programs' dialogs (Programs)
+   * @param {() => void} typing what to do as a step's Type it starts (the page turns to the screen)
    */
-  constructor(host, system, show, program) {
+  constructor(host, system, show, program, typing) {
     this.system = system;
+    this.typing = typing;
     this.host = host;
     /** The open lesson's steps whose chips were used: they are checked out of order. @type {Set<string>} */
     this.touched = new Set();
@@ -118,6 +120,7 @@ export class LessonsTool {
             if (st.type !== undefined) s.type(st.type);
             else s.typeIn(/** @type {string} */ (st.text));
             s.say({ key: "lessons.typing" });
+            this.typing();
           }),
         );
       }

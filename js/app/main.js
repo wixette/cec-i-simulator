@@ -201,8 +201,13 @@ const lessons = new LessonsTool(
       });
     }
   },
-  (id) => topBar.openProgram(id),
+  (id) => topBar.openProgram(id, toScreen),
+  toScreen,
 );
+/** What a lesson types is watched on the screen: in 3D, the camera turns to it (in 2D it is always in view). */
+function toScreen() {
+  if (stage.mode === "3d" && stage.view !== "screen") stage.goTo("screen");
+}
 dock.start();
 
 // ---- the helper strip (U4) and the top bar (U8) -----------------------------------------------------

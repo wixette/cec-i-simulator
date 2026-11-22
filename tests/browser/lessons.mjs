@@ -3,7 +3,8 @@
 // The lessons (U13): the dock's first tab on a first visit; a step's Type it types on the machine and the
 // step ticks; Show me puts an instrument beside the lesson, and its own tab takes it back;
 // Show me for a view moves the camera, the stage answers, and a step that only shows ticks; the
-// next lesson's button, which opens it at its top.
+// program typed in from a lesson, watched on the screen, ticks its step; the next lesson's
+// button, which opens it at its top.
 
 /** @param {import("./harness.mjs").Harness} h */
 export default async function (h) {
@@ -33,6 +34,12 @@ export default async function (h) {
   h.verify("Show me answers on the stage, and a step that only shows ticks", (await h.js("document.getElementById('stage-view').classList.contains('pointed')")) && (await h.until("document.querySelector('#pane-lessons .step[data-step=\"machine\"]').classList.contains('done')", 1000)));
   await h.js("document.querySelector('#pane-lessons .step[data-step=\"inside\"] .chip.show-me').click()");
   h.verify("Show me for a view: Inside", await h.until("app.stage.view === 'inside'", 3000));
+  await h.js("document.querySelector('#pane-lessons .step[data-step=\"play\"] .chip.open-program').click()");
+  await h.until("document.querySelector('dialog[open]') !== null", 2000);
+  await h.pressText("dialog[open] .dialog-actions button", "Type it in");
+  h.verify("a program the lesson types in turns the camera to the screen", await h.until("app.stage.view === 'screen'", 3000));
+  await h.typed(120000);
+  h.verify("… and its step ticks once it runs", await h.until("document.querySelector('#pane-lessons .step[data-step=\"play\"]').classList.contains('done')", 3000));
   await h.js("document.querySelector('#pane-lessons .next-lesson').scrollIntoView({ block: 'center' })");
   await h.pressText("#pane-lessons button", "Next: Talk to BASIC");
   h.verify("the next lesson's button", await h.until("document.querySelector('#lesson-tab-basic').getAttribute('aria-selected') === 'true'", 1000));
