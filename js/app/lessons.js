@@ -4,8 +4,10 @@
 // lessons, one shown at a time; "Lesson 3 of 6", its title and lead; then its steps, each with
 // its text, a photograph, the program it types as the machine's own text, its chips (Type it,
 // one of our programs to open, Show me), a tick once the machine shows it done, and a "Going
-// further" aside, folded. Steps tick in order: a step is checked only once the ones before it
-// that can tick have. Show me points at what a step is about and never works the machine; an
+// further" aside, folded. Steps tick in order: a step is checked once the ones before it have
+// ticked, or once one of its own chips is used, so that a step skipped never holds the rest
+// back. A step with a program ticks once it is typed in and started; one with Show me alone,
+// once it is shown. Show me points at what a step is about and never works the machine; an
 // instrument it opens goes beside the lesson, so that the lesson stays in view. The lesson open
 // and each step's tick are remembered.
 
@@ -50,6 +52,9 @@ export class LessonsTool {
    */
   constructor(host, system, show, program) {
     this.system = system;
+    this.host = host;
+    /** The open lesson's steps whose chips were used: they are checked out of order. @type {Set<string>} */
+    this.touched = new Set();
     this.showMe = show;
     this.openProgram = program;
     const saved = load();
@@ -87,13 +92,17 @@ export class LessonsTool {
     const b = el("button", { class: `chip ${cls}`, type: "button" }, [icon(ic), el("span", { text: label })]);
     b.setAttribute("data-tip-describes", "");
     setTip(b, tip);
-    b.addEventListener("click", run);
+    b.addEventListener("click", () => {
+      this.touched.add(/** @type {HTMLElement} */ (b.closest(".step")).dataset.step ?? "");
+      run();
+    });
     return b;
   }
 
   /** @private Opens a lesson. @param {string} id */
   open(id) {
     this.lessonId = id;
+    this.touched.clear();
     const i = LESSONS.findIndex((l) => l.id === id);
     const lesson = LESSONS[i];
     const s = this.system;
@@ -118,7 +127,13 @@ export class LessonsTool {
       }
       if (st.show) {
         const show = st.show;
-        chips.append(this.chip("show-me", "visibility", t("lessons.showMe"), t("lessons.showMe.tip"), () => this.showMe(show)));
+        chips.append(
+          this.chip("show-me", "visibility", t("lessons.showMe"), t("lessons.showMe.tip"), () => {
+            this.showMe(show);
+            // a step that only shows something is done once it is shown
+            if (!st.done) this.markDone(st.id);
+          }),
+        );
       }
       const text = el("div", { class: "step-text" });
       text.innerHTML = markup(t(`${key}.text`));
@@ -140,7 +155,8 @@ export class LessonsTool {
         body.append(more);
       }
       const tick = el("span", { class: "tick", "aria-hidden": "true" }, [icon("check")]);
-      return el("li", { class: `step${st.done ? "" : " no-check"}`, "data-step": st.id }, [el("span", { class: "step-n", text: String(n + 1) }), body, st.done ? tick : null]);
+      const checks = !!(st.done || st.show);
+      return el("li", { class: `step${checks ? "" : " no-check"}`, "data-step": st.id }, [el("span", { class: "step-n", text: String(n + 1) }), body, checks ? tick : null]);
     });
     const next = LESSONS[i + 1];
     const foot = next
@@ -154,7 +170,8 @@ export class LessonsTool {
       el("ol", { class: "steps" }, steps),
       foot,
     );
-    this.page.parentElement?.parentElement?.scrollTo?.({ top: 0 });
+    // a lesson opens at its top, wherever the last one was scrolled to
+    this.host.scrollTop = 0;
     this.save();
     this.paintTicks();
   }
@@ -197,12 +214,21 @@ export class LessonsTool {
     for (const li of this.page.querySelectorAll(".step")) li.classList.toggle("done", done.has(/** @type {HTMLElement} */ (li).dataset.step ?? ""));
     for (const l of LESSONS) {
       const tab = document.getElementById(`lesson-tab-${l.id}`);
-      const all = l.steps.filter((x) => x.done).every((x) => this.done[l.id].has(x.id));
+      const all = l.steps.filter((x) => x.done || x.show).every((x) => this.done[l.id].has(x.id));
       tab?.classList.toggle("complete", all);
     }
   }
 
-  /** Checks the open lesson's steps against the machine, in order; called each frame. */
+  /** @private A step of the open lesson done. @param {string} stepId */
+  markDone(stepId) {
+    const done = this.done[this.lessonId];
+    if (done.has(stepId)) return;
+    done.add(stepId);
+    this.save();
+    this.paintTicks();
+  }
+
+  /** Checks the open lesson's steps against the machine, in order (or out of it, once a step's chip is used); called each frame. */
   tick() {
     const now = performance.now();
     if (now - this.last < CHECK_MS) return;
@@ -210,15 +236,12 @@ export class LessonsTool {
     const lesson = LESSONS.find((l) => l.id === this.lessonId);
     if (!lesson || !this.system.machine.powered) return;
     const done = this.done[lesson.id];
+    // the first step not yet done is checked, and any step whose chips were used
+    let first = true;
     for (const st of lesson.steps) {
-      if (!st.done || done.has(st.id)) continue;
-      // the first step not yet done is the only one checked
-      if (st.done(this.system)) {
-        done.add(st.id);
-        this.save();
-        this.paintTicks();
-      }
-      return;
+      if (!(st.done || st.show) || done.has(st.id)) continue;
+      if (st.done && (first || this.touched.has(st.id)) && st.done(this.system)) this.markDone(st.id);
+      first = false;
     }
   }
 }

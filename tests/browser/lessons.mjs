@@ -2,7 +2,8 @@
 //
 // The lessons (U13): the dock's first tab on a first visit; a step's Type it types on the machine and the
 // step ticks; Show me puts an instrument beside the lesson, and its own tab takes it back;
-// Show me for a view moves the camera; the next lesson's button.
+// Show me for a view moves the camera, the stage answers, and a step that only shows ticks; the
+// next lesson's button, which opens it at its top.
 
 /** @param {import("./harness.mjs").Harness} h */
 export default async function (h) {
@@ -14,7 +15,7 @@ export default async function (h) {
   await h.press("#lesson-tab-basic");
   await h.js("document.querySelector('#pane-lessons .chip.type-it').click()");
   await h.typed(20000);
-  h.verify("Type it types the step's line, and the step ticks", await h.until("document.querySelector('#pane-lessons .step[data-step=\"print\"]').classList.contains('done')", 5000), await h.screen());
+  h.verify("Type it types the step's line, and the step ticks", await h.until("document.querySelector('#pane-lessons .step[data-step=\"first\"]').classList.contains('done')", 5000), await h.screen());
   await h.press("#lesson-tab-cpu");
   await h.js("document.querySelector('#pane-lessons .step[data-step=\"pause\"] .chip.show-me').click()");
   h.verify("Show me puts the CPU tab beside the lesson", await h.until("!document.querySelector('.lesson-companion').hidden && document.querySelector('.lesson-companion .cpu-tool') !== null", 2000));
@@ -28,9 +29,12 @@ export default async function (h) {
   h.verify("its own tab takes it back", await h.until("document.querySelector('#pane-cpu .cpu-tool') !== null && document.querySelector('.lesson-companion').hidden", 2000));
   await h.press("#tab-lessons");
   await h.press("#lesson-tab-meet");
+  await h.js("document.querySelector('#pane-lessons .step[data-step=\"machine\"] .chip.show-me').click()");
+  h.verify("Show me answers on the stage, and a step that only shows ticks", (await h.js("document.getElementById('stage-view').classList.contains('pointed')")) && (await h.until("document.querySelector('#pane-lessons .step[data-step=\"machine\"]').classList.contains('done')", 1000)));
   await h.js("document.querySelector('#pane-lessons .step[data-step=\"inside\"] .chip.show-me').click()");
   h.verify("Show me for a view: Inside", await h.until("app.stage.view === 'inside'", 3000));
   await h.js("document.querySelector('#pane-lessons .next-lesson').scrollIntoView({ block: 'center' })");
   await h.pressText("#pane-lessons button", "Next: Talk to BASIC");
   h.verify("the next lesson's button", await h.until("document.querySelector('#lesson-tab-basic').getAttribute('aria-selected') === 'true'", 1000));
+  h.verify("… opens it at its top", (await h.js("document.getElementById('pane-lessons').scrollTop")) === 0);
 }

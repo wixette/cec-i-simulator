@@ -25,11 +25,15 @@ const ORDER = [
 ];
 
 describe("the lessons", () => {
-  it("six, short: four or five steps each, every one ending with a program to play", () => {
+  it("six, short: four to six steps each, every one ending with a program to play, every step able to tick", () => {
     assert.equal(LESSONS.length, 6);
     for (const l of LESSONS) {
-      assert.ok(l.steps.length >= 4 && l.steps.length <= 5, l.id);
+      assert.ok(l.steps.length >= 4 && l.steps.length <= 6, l.id);
       assert.ok(l.steps.at(-1)?.program, `${l.id} ends with a program`);
+      for (const st of l.steps) {
+        assert.ok(st.done || st.show, `${l.id}.${st.id} can tick`);
+        if (st.program) assert.ok(st.done, `${l.id}.${st.id}: its program ticks it`);
+      }
     }
   });
   it("every word in both languages, every program and photograph there", () => {
@@ -58,11 +62,14 @@ describe("the lessons", () => {
         if (st.fresh) s.typeFresh();
         if (st.type !== undefined) s.type(st.type);
         if (st.text !== undefined) s.typeIn(st.text);
+        // a step's program, opened and typed in as Open does
+        if (st.program && st.type === undefined && st.text === undefined) s.typeProgram(/** @type {import("../js/sim/samples.js").Sample} */ (SAMPLES.find((x) => x.id === st.program)), "");
         for (let g = 0; s.typist.busy && g < 3000; g++) run(0.1);
         run(1);
         if (st.act) {
           st.act(s);
           run(1);
+          for (let g = 0; s.typist.busy && g < 3000; g++) run(0.1);
         }
         if (!st.done) continue;
         for (let g = 0; g < 50 && !st.done(s); g++) run(0.2);

@@ -4,8 +4,8 @@
 
 The lessons ([design/v0.0.4.md](design/v0.0.4.md)).
 
-- A **Lessons** tab: six short lessons (Meet the CEC-I, Talk to BASIC, Chinese inside, Pictures from memory, Keys and sounds, Inside the processor), four or five steps each, every one ending with a program to play.
-- A step can type its line for you, open a program, or show what it is about: a 3D view, or an instrument beside the lesson, working. A tick once the machine shows the step done.
+- A **Lessons** tab: six short lessons (Meet the CEC-I, Talk to BASIC, Chinese inside, Pictures from memory, Keys and sounds, Inside the processor), four to six steps each, every one ending with a program to play.
+- A step can type its line for you, open a program, or show what it is about: a 3D view, or an instrument beside the lesson, working. A tick once the machine shows the step done, the step's program runs, or what it shows is shown.
 - The lessons take the Start tab's place: what the machine is and its first minutes are in the first lesson; the machine's keys on yours and how Chinese goes in are in References.
 
 ## v0.0.3 (pre-release)

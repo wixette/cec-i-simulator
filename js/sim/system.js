@@ -75,6 +75,8 @@ export class System {
     this.tv = { on: false, brightness: KNOB_START.brightness, colour: KNOB_START.colour };
     /** Whether typing in runs the machine faster (FAST_TYPING). */
     this.fastTyping = true;
+    /** Our programs typed in and started this visit, by id (a lesson's step ticks on its own). @type {Set<string>} */
+    this.programsRun = new Set();
     /** The longest a frame may spend running the machine, ms (FRAME_BUDGET_MS; the tests lift it, so that they do not depend on the computer they run on). */
     this.frameBudgetMs = FRAME_BUDGET_MS;
     /** The CPU tool's clock: paused, the speed asked for (1, 0.1, 0.01, 0.001), the stops of Run to. */
@@ -336,6 +338,8 @@ export class System {
     this.typist.type(plan.before);
     this.typist.ask((m) => plan.monitor(m.screenText()));
     this.typist.type(plan.after);
+    // typed in and started: a lesson's step that opens it ticks (design/v0.0.4.md)
+    this.typist.ask(() => (this.programsRun.add(sample.id), ""));
     this.say({ key: "program.typing", params: { title } });
     return true;
   }

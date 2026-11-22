@@ -183,6 +183,10 @@ const lessons = new LessonsTool(
     if (show.view) {
       if (stage.mode !== "3d") stage.setMode("3d");
       stage.goTo(show.view);
+      // the picture's edge glows once: something answers, even when the camera is there already
+      stage.area.classList.remove("pointed");
+      void stage.area.offsetWidth;
+      stage.area.classList.add("pointed");
     }
     if (show.tool && companion !== show.tool) {
       lessons.setCompanion(null);
