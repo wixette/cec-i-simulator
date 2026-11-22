@@ -268,10 +268,13 @@ describe("our programs: Utilities", () => {
 });
 
 describe("our programs: Text editor", () => {
-  it("typing, a new line, editing in the middle; a long text wraps at 40 and scrolls; Quit back to BASIC", () => {
+  it("typing, a new line, editing in the middle; a long text wraps at 40 and scrolls; Quit back to BASIC; without DOS, no saving offered", () => {
     const p = typed("editor");
-    for (let i = 0; i < 50 && line(p.m) !== 90; i++) p.run(0.1);
-    p.keys(" ");
+    assert.ok(p.until((t) => /N: A NEW TEXT/.test(t), 30), p.screen());
+    for (let i = 0; i < 50 && line(p.m) !== 120; i++) p.run(0.1);
+    assert.match(p.screen(), /TO SAVE TEXTS ON A DISK, START DOS 3\.3/, "no DOS: it says how to save");
+    assert.doesNotMatch(p.screen(), /L: LOAD/, "and offers no disk");
+    p.keys("N");
     p.run(0.5);
     const word = (/** @type {number} */ a) => p.m.ram[a] | (p.m.ram[a + 1] << 8);
     const text = () => String.fromCharCode(...p.m.ram.subarray(0x6800, word(0x6604))).replace(/\r/g, "\n");
@@ -291,8 +294,12 @@ describe("our programs: Text editor", () => {
     assert.ok(p.m.ram[0x6680] < 23, "the cursor on the screen");
     assert.equal(p.m.screenText()[0].length, 40, "a full line of 40");
     p.keys("\x03");
-    for (let i = 0; i < 30 && line(p.m) !== 100; i++) p.run(0.1);
-    assert.equal(line(p.m), 100, "Quit: back to BASIC, which asks to edit again");
+    for (let i = 0; i < 30 && line(p.m) !== 220; i++) p.run(0.1);
+    assert.equal(line(p.m), 220, "Quit: back to BASIC, which asks what next");
+    assert.doesNotMatch(p.screen(), /S: SAVE/, "no DOS: no saving offered");
+    p.keys("E");
+    p.run(0.5);
+    assert.equal(text(), `HXLLO, CEC-I\nOK${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".repeat(40)}`, "E: the same text again");
   });
 });
 

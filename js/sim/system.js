@@ -35,6 +35,8 @@ export const OUT_S = 1.1;
 export const BACK_S = 0.25;
 /** How long a key typed by the typist shows down, ms. */
 const TYPED_MS = 90;
+/** LOGO's own output routine, where CSW ($36) points while LOGO runs (what it prints goes through it). */
+const LOGO_OUTPUT = 0x1d0f;
 /** Seconds the Chinese system takes to start, after the 中文 key, before typing goes on. */
 const CHINESE_START_S = 2.5;
 /**
@@ -77,6 +79,8 @@ export class System {
     this.fastTyping = true;
     /** Our programs typed in and started this visit, by id (a lesson's step ticks on its own). @type {Set<string>} */
     this.programsRun = new Set();
+    /** Reading what LOGO prints (logoProcedures), checked each frame till it is done. @type {(() => void) | null} */
+    this.reading = null;
     /** The longest a frame may spend running the machine, ms (FRAME_BUDGET_MS; the tests lift it, so that they do not depend on the computer they run on). */
     this.frameBudgetMs = FRAME_BUDGET_MS;
     /** The CPU tool's clock: paused, the speed asked for (1, 0.1, 0.01, 0.001), the stops of Run to. */
@@ -155,6 +159,32 @@ export class System {
     this.say({ key: on ? (this.tv.on ? "power.on" : "power.onTvOff") : "power.off" });
     this.changed();
     return true;
+  }
+
+  /** The disk in the drive, or null. */
+  get disk() {
+    return this.machine.drive.disk;
+  }
+
+  /** Whether the drive's motor turns now (its lamp). */
+  get driveSpinning() {
+    return this.machine.drive.spinning(this.machine.cycles);
+  }
+
+  /** A disk in the drive, or the drive emptied (null) (design/v0.0.5.md, P1). @param {import("./disk-image.js").Disk | null} disk */
+  insertDisk(disk) {
+    const was = this.machine.drive.disk;
+    this.machine.drive.insert(disk, this.machine.cycles);
+    if (disk) this.say({ key: "disk.in", params: { name: disk.name } });
+    else if (was) this.say({ key: "disk.out", params: { name: was.name } });
+    this.changed();
+  }
+
+  /** Start from the disk, as the manual does: the computer switched off and on, the disk in the drive. */
+  startFromDisk() {
+    if (this.machine.powered) this.power(false);
+    this.power(true);
+    this.say({ key: "disk.start" });
   }
 
   /** The TV's power button. @param {boolean} on */
@@ -505,7 +535,46 @@ export class System {
     }
     const ran = m.cycles - start;
     this.speed = want > 0 ? ran / want : 1;
+    this.reading?.();
     return ran;
+  }
+
+  /** Whether LOGO is running: what is printed goes through its own output routine. */
+  get logoRunning() {
+    const r = this.machine.ram;
+    return this.machine.powered && (r[0x36] | (r[0x37] << 8)) === LOGO_OUTPUT;
+  }
+
+  /**
+   * LOGO's procedures as text (design/v0.0.5.md, P3): `PO ALL` typed, as a LOGO user would,
+   * and what LOGO prints read as it prints it; `done` has them once it has finished (an empty
+   * text if there are none).
+   * @param {(text: string) => void} done
+   * @returns {boolean} whether LOGO is running to ask
+   */
+  logoProcedures(done) {
+    if (!this.logoRunning) return false;
+    const m = this.machine;
+    let out = "";
+    let last = m.cycles;
+    m.tap = {
+      pc: LOGO_OUTPUT,
+      fn: (a) => {
+        out += String.fromCharCode(a & 0x7f);
+        last = m.cycles;
+      },
+    };
+    this.typist.type("PO ALL\n");
+    this.reading = () => {
+      if (this.typist.busy || m.cycles - last < CLOCK_HZ / 2) return;
+      m.tap = null;
+      this.reading = null;
+      const lines = out.split("\r");
+      const from = lines.findIndex((l) => l.endsWith("PO ALL")) + 1;
+      const body = lines.slice(from).filter((l) => l !== "?" && !/^\?\s*$/.test(l));
+      done(body.join("\n").trim());
+    };
+    return true;
   }
 
   /** Whether the last frame ran at another speed than real time (no sound then). */

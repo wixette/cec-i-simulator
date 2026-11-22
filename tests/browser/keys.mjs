@@ -42,9 +42,10 @@ export default async function (h) {
   await h.send("Input.dispatchKeyEvent", { type: "keyUp", key: "CapsLock", code: "CapsLock", modifiers: 0 });
   await h.sleep(200);
   h.verify("Caps Lock toggles the machine's", (await h.js("cec.keyboard.caps")) === !caps);
-  // a click on the 3D view leaves the keys to the machine
-  const c = await h.centre("#view3d canvas");
-  await h.clickAt(c.x, c.y);
+  // a click on the 3D view leaves the keys to the machine: on its background, near a corner,
+  // not on a part (its centre can be a key, TEST among them, as the camera frames it)
+  const r = await h.js("(() => { const b = document.querySelector('#view3d canvas').getBoundingClientRect(); return { x: b.left + 24, y: b.top + 24 }; })()");
+  await h.clickAt(r.x, r.y);
   await h.typeHost("PRINT 7*6\n");
   h.verify("after a click on the 3D view, the keys still type on the machine", await h.until("cec.machine.screenText().some((l) => l.trim() === '42')", 8000), await h.screen());
 }

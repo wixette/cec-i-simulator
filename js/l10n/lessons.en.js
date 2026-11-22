@@ -8,7 +8,7 @@ export default {
   "lesson.meet.title": "Meet the CEC-I",
   "lesson.meet.lead": "A computer from 1987, made for China's classrooms. Five minutes to get to know it.",
   "lesson.meet.machine.title": "One box, and a TV",
-  "lesson.meet.machine.text": "The CEC-I (中华学习机), the China Educational Computer, is a whole computer in one box with its keyboard. There is no screen: you plug it into a home TV. There is no disk either: programs were kept on cassette tapes.",
+  "lesson.meet.machine.text": "The CEC-I (中华学习机), the China Educational Computer, is a whole computer in one box with its keyboard. There is no screen: you plug it into a home TV. Its languages and its Chinese system are in its chips, so it starts with no disk; a disk drive could be plugged in at the back.",
   "lesson.meet.machine.more": "In 1984 Deng Xiaoping said that computers should start with children. A design group led by Tsinghua University answered with the CEC-I, launched in 1987 for about 960 yuan, a few months' pay. Schools bought it by the roomful: for many Chinese students it was the first computer they touched. It is an Apple IIe compatible, and this simulator runs its own ROMs, from a working machine.",
   "lesson.meet.on.title": "Switch on",
   "lesson.meet.on.text": "Press **Ctrl-Reset** (in the strip under the machine, or Ctrl and F12; if the screen is dark, press **Computer** and **TV** there first). A beep, `ZHONG HUA XUE XI JI`, and then `]`: BASIC is waiting for you. There is no desktop and no mouse: you talk to it by typing.",

@@ -87,7 +87,7 @@ const system = new System({ roms, matrix: matrixParams.keys, takeApart: machineP
 const statusBar = $("status");
 const statusText = $("status-text");
 /** Messages that refuse something, and say why (P6). */
-const WARN = new Set(["power.apart", "reset.off", "apart.poweredOn", "type.off", "type.refused", "save.none", "open.notText", "status.otherRoms", "view.apart.on"]);
+const WARN = new Set(["power.apart", "reset.off", "apart.poweredOn", "type.off", "type.refused", "save.none", "disk.none", "open.notText", "status.otherRoms", "view.apart.on"]);
 /** Messages about a fault. */
 const ERROR = new Set(["stage.no3d", "status.noRoms", "power.noRoms"]);
 /** @param {string} key */
@@ -222,6 +222,7 @@ const setFinish = (found) => {
   if (model) flat.setKeyArt(bakeKeys(model.keyboard, c.flat_key.v[i]));
 };
 const topBar = new TopBar(system, { about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound: speaker, finish: setFinish, showComputer: () => stage.showComputer() });
+strip.diskMenu = (anchor) => topBar.showDiskMenu(anchor);
 topBar.applyFinish();
 
 // ---- the 3D model, loaded in the background ---------------------------------------------------------

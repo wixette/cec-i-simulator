@@ -12,12 +12,15 @@
 // - $C0B0-$C0BF the latch U32 (74LS174): written only; a read gives the floating bus ($BF,
 //   as the real machine reads); cleared by reset (its CLR is on RESET*);
 // - $C300 and $C600 from U35; $C100-$CFFF internal from U7's $4100-$4FFF;
+// - $C0E0-$C0EF the floppy interface in slot 6 and its one drive (js/sim/disk.js); the
+//   system ROM looks for a disk at a cold start (U7 $C800) and boots it at $C600;
 // - the frame: 312 lines of 65 cycles at 50 Hz (PAL), so $C019 counts 50 fields a second;
 //   192 of the lines carry the picture.
 //
 // No DOM: the page and the tests drive it alike.
 
 import { Cpu6502 } from "./cpu6502.js";
+import { DiskDrive } from "./disk.js";
 
 /** The CPU clock: 14.31818 MHz, 65 cycles in 912 of its ticks (one long cycle a line). */
 export const CLOCK_HZ = (14318180 * 65) / 912;
@@ -69,6 +72,10 @@ export class Machine {
      * @type {{ latch: (v: number) => void, font: (addr: number, value: number) => void } | null}
      */
     this.watch = null;
+    /** The disk drive in slot 6. */
+    this.drive = new DiskDrive();
+    /** A listener at one address: called with A each time the 6502 is about to run the instruction there (what LOGO prints, read as it prints it). @type {{ pc: number, fn: (a: number) => void } | null} */
+    this.tap = null;
     this.ram = new Uint8Array(0x10000);
     /** The language card's RAM: $D000 bank 1, $D000 bank 2, $E000-$FFFF. */
     this.lc = new Uint8Array(0x4000);
@@ -147,6 +154,7 @@ export class Machine {
 
   powerOff() {
     this.powered = false;
+    this.drive.reset(this.cpu.cycles);
   }
 
   /**
@@ -167,6 +175,7 @@ export class Machine {
   /** The reset sequence now (power-on, or the RESET line let go). The keyboard's latch is not touched, so a key held through it is still waiting. */
   reset() {
     this.resetSwitches();
+    this.drive.reset(this.cpu.cycles);
     this.cpu.reset();
   }
 
@@ -207,7 +216,14 @@ export class Machine {
         first = false;
         cpu.step();
       }
+    } else if (this.tap) {
+      const tap = this.tap;
+      while (cpu.cycles < end) {
+        if (cpu.pc === tap.pc) tap.fn(cpu.a);
+        cpu.step();
+      }
     } else while (cpu.cycles < end) cpu.step();
+    this.drive.tick(cpu.cycles);
     return cpu.cycles - c0;
   }
 
@@ -423,7 +439,7 @@ export class Machine {
         default: return bit(this.col80);
       }
     }
-    if (lo < 0x30) return 0; // the cassette output: no recorder yet
+    if (lo < 0x30) return 0; // the cassette output: no recorder (design/v0.0.5.md)
     if (lo < 0x40) {
       this.speakerLevel ^= 1;
       this.speaker.push(this.cpu.cycles);
@@ -441,7 +457,7 @@ export class Machine {
     if (lo < 0x70) {
       if (write) return 0;
       const k = lo & 7;
-      if (k === 0) return 0; // the cassette input: no recorder yet
+      if (k === 0) return 0; // the cassette input: no recorder
       if (k < 4) return this.buttons[k - 1] ? 0x80 : 0;
       // the NE558's timers: high until about 11 cycles a step of the paddle's value
       const p = this.paddles[(k - 4) & 3];
@@ -472,7 +488,8 @@ export class Machine {
       }
       return 0xbf; // written only: a read sees the floating bus
     }
-    return 0; // the empty slots and the disk controller (no drive)
+    if (lo >= 0xe0 && lo < 0xf0) return this.drive.access(lo & 0x0f, write, v, this.cpu.cycles);
+    return 0; // the empty slots
   }
 
   /**
